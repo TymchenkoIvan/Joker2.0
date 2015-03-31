@@ -1,0 +1,17 @@
+CREATE TABLE `joker`.`jokes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `date` DATE NOT NULL,
+  `likes` INT NOT NULL,
+  `dislikes` INT NOT NULL,
+  `text` MEDIUMTEXT NOT NULL,
+  PRIMARY KEY (`id`));
+
+
+CREATE TABLE `joker`.`users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `login` VARCHAR(45) NOT NULL,
+  `mail` VARCHAR(45) NOT NULL,
+  `telephone` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `mark` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
