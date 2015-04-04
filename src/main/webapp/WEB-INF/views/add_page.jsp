@@ -38,7 +38,7 @@
 
     <form role="form" class="form-horizontal" action="/com_company/add" method="post">
         <div class="form-group"><input type="text" class="form-control" name="text" placeholder="Joke"></div>
-        <div class="form-group"><input type="submit" class="btn btn-primary" value="Add joke"></div>
+        <div class="form-group"><input type="submit" class="btn btn-primary" value="new joke"></div>
     </form>
 </div>
 </body>

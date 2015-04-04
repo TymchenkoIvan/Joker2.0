@@ -32,8 +32,6 @@ public class AppConfig {
         return new UserDAOImpl();
     }
 
-
-
     @Bean
     public UrlBasedViewResolver setupViewResolver() {
         UrlBasedViewResolver resolver = new UrlBasedViewResolver();

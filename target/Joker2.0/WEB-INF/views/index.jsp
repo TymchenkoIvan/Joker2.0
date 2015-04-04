@@ -9,9 +9,12 @@
 <body>
 <div class="container">
 
+    <!-- в связи с тем, что в проекте нет Spring Security роходится обходиться данным котылем
+        Начало костыля:-->
     <c:if test="${isLogin eq 'new'}">
         <c:set var="login" scope="application" value="${userLogin}"/>
     </c:if>
+    <!-- Конец костыля:-->
 
     <table border="0" width="100%">
         <tr>

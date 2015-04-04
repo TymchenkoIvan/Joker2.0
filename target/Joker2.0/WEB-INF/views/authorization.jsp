@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Authorization</title>
+    <title>Create new user</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
@@ -18,14 +18,14 @@
                     <td align="center">
                         <table>
                             <form role="form" class="form-horizontal" action="/com_company/adduser" method="post">
-                                <div class="form-group"><h3>User authorization</h3></div>
+                                <div class="form-group"><h3>New user</h3></div>
                                 <div class="form-group"><input type="text" class="form-control" name="login" placeholder="Login *"></div>
                                 <div class="form-group"><input type="text" class="form-control" name="mail" placeholder="E-mail *"></div>
                                 <div class="form-group"><input type="text" class="form-control" name="telephone" placeholder="Telephone"></div>
                                 <div class="form-group"><input type="text" class="form-control" name="password" placeholder="Password *"></div>
                                 <div class="form-group"><input type="text" class="form-control" name="repeat_password" placeholder="Repeat password *"></div>
 
-                                <div class="form-group"><input type="submit" class="btn btn-primary" value="Authorize">
+                                <div class="form-group"><input type="submit" class="btn btn-primary" value="Create user">
                                     <a href="/com_company/">or you can Sign in</a>
                                 </div>
                             </form>

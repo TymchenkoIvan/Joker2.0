@@ -13,6 +13,10 @@ public class JokeDAOImpl implements JokeDAO {
     @Autowired
     private EntityManager entityManager;
 
+    /**
+     * Возвращается массив со всеми активными Joke, которые должны быть выведены на главной странице.
+     * @return
+     */
     @Override
     public List<Joke> list() {
         Query query = entityManager.createQuery("SELECT j FROM Joke j WHERE j.mark = :mark", Joke.class);
@@ -22,6 +26,10 @@ public class JokeDAOImpl implements JokeDAO {
         return list;
     }
 
+    /**
+     * Возвращается массив со всеми неудачными Joke, которые должны быть выведены на странице архива.
+     * @return
+     */
     @Override
     public List<Joke> listArchive() {
         Query query = entityManager.createQuery("SELECT j FROM Joke j WHERE j.mark = :mark", Joke.class);
@@ -31,6 +39,10 @@ public class JokeDAOImpl implements JokeDAO {
         return list;
     }
 
+    /**
+     * Метод добавляет переданную Joke.
+     * @param joke
+     */
     @Override
     public void add(Joke joke) {
         try {
@@ -43,6 +55,10 @@ public class JokeDAOImpl implements JokeDAO {
         }
     }
 
+    /**
+     * Метод удаляет Joke из "архива" по переданному id.
+     * @param id
+     */
     @Override
     public void delete(int id) {
         try {
@@ -56,6 +72,13 @@ public class JokeDAOImpl implements JokeDAO {
         }
     }
 
+    /**
+     * Метод восстанавливает Joke из "архива" по переданному id.
+     * На деле старая Joke просто удаляется, а из ее текста создается новая.
+     * Так сделано для того что бы обновить likes, dislikes и date у Joke. Помимо всего прочего голосования User-ов
+     * завязаны на joke.id и так сделать проще.
+     * @param id
+     */
     @Override
     public void recover(int id) {
         try {
@@ -71,6 +94,10 @@ public class JokeDAOImpl implements JokeDAO {
         }
     }
 
+    /**
+     * Метод добавляет один like к Joke, которая ищется по переданному id.
+     * @param id
+     */
     @Override
     public void like(int id){
         try {
@@ -85,6 +112,12 @@ public class JokeDAOImpl implements JokeDAO {
         }
     }
 
+    /**
+     * Метод добавляет один dislike к Joke, которая ищется по переданному id.
+     * Ежели шутка после этого становится негодной для показа на главной, ей добавляется пометка на перемещение в "архив".
+     * Напомню логику и условия: шутка плохая если: (likes + dislikes >= 10) && (dislikes > likes)
+     * @param id
+     */
     @Override
     public void dislike(int id){
         try {

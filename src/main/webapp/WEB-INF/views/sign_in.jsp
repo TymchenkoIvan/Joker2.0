@@ -44,7 +44,7 @@
                         </tr>
                         <tr></tr>
                         <tr>
-                            <td colspan="2" align="right"><a href="/com_company/authorization">or you can authorize</a></td>
+                            <td colspan="2" align="right"><a href="/com_company/authorization">you can create new user</a></td>
                     </table>
                 </td>
             </tr>

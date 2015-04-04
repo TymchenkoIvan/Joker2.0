@@ -11,9 +11,12 @@
 
 <div class="container">
 
+    <!-- в связи с тем, что в проекте нет Spring Security роходится обходиться данным котылем
+    Начало костыля:-->
     <c:if test="${isLogin eq 'remove'}">
         <c:remove var="login" />
     </c:if>
+    <!-- Конец костыля:-->
 
     <p><img height="200" width="200" src="http://fs199.www.ex.ua/show/46462669/46462669.jpg?1600"></p>
 
@@ -41,7 +44,7 @@
                         </tr>
                         <tr></tr>
                         <tr>
-                            <td colspan="2" align="right"><a href="/com_company/authorization">or you can authorize</a></td>
+                            <td colspan="2" align="right"><a href="/com_company/authorization">you can create new user</a></td>
                     </table>
                 </td>
             </tr>
