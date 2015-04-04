@@ -68,7 +68,7 @@ public class UserDAOImpl implements UserDAO{
         try {
             entityManager.getTransaction().begin();
             Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
-            query.setParameter("login", "anna");
+            query.setParameter("login", login);
             User user = (User)query.getSingleResult();
             Joke joke = entityManager.find(Joke.class, jokeId);
 
