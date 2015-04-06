@@ -9,38 +9,21 @@
 <body>
 <div class="container">
 
-    <!-- в связи с тем, что в проекте нет Spring Security роходится обходиться данным котылем
+    <!-- в связи с тем, что в проекте нет Spring Security приходится обходиться данным котылем
         Начало костыля:-->
     <c:if test="${isLogin eq 'new'}">
         <c:set var="login" scope="application" value="${userLogin}"/>
     </c:if>
     <!-- Конец костыля:-->
 
-    <table border="0" width="100%">
-        <tr>
-            <td valign="top" align="center">
-                <form class="form-inline" role="form" action="/com_company/index" method="post">
-                    <input type="submit" class="btn btn-primary" value="Main">
-                </form>
-                <form class="form-inline" role="form" action="/com_company/add_page" method="post">
-                    <input type="submit" class="btn btn-default" value="Add joke">
-                </form>
-                <form class="form-inline" role="form" action="/com_company/archive" method="post">
-                    <button type="submit" class="btn btn-default">Archive</button>
-                </form>
-                <form class="form-inline" role="form" action="/com_company/faq" method="post">
-                    <button type="submit" class="btn btn-default">FAQ</button>
-                </form>
-            </td>
-            <td align="center"><p><img height="200" width="200" src="http://fs199.www.ex.ua/show/46462669/46462669.jpg?1600"></p></td>
-            <td>
-                <right>
-                    <b>Hello, ${login}</b>
-                    <form class="form-inline" role="form" action="/com_company/sign_out" method="post">
-                        <button type="submit" class="btn btn-default">Sign out</button>
-                    </form>
-                </right>
-            </td>
+    <table border="0" width="80%" align="center">
+        <tr align="center">
+            <td>Hello, ${login}!  <a href="/com_company/sign_out" method="post"><b>sign out</b></a></td>
+            <td><img height="100" width="150" src="http://fc06.deviantart.net/fs70/i/2011/110/8/a/a_joker_smiles_by_leehi-d2pnjx2.png"></td>
+            <td><h4><a href="/com_company/index" method="post"><b>MAIN</b></a></h4></td>
+            <td><h4><a href="/com_company/add_page" method="post"><b>ADD</b></a></h4></td>
+            <td><h4><a href="/com_company/archive" method="post"><b>ARCHIVE</b></a></h4></td>
+            <td><h4><a href="/com_company/faq" method="post"><b>FAQ</b></a></h4></td>
         </tr>
     </table>
 

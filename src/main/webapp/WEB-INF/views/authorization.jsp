@@ -9,30 +9,26 @@
 
 <body>
     <div class="container">
-        <p><img height="200" width="200" src="http://fs199.www.ex.ua/show/46462669/46462669.jpg?1600"></p>
+        <table border="0" align="center">
+            <td align="center">
+                <table>
+                    <form role="form" class="form-horizontal" action="/com_company/adduser" method="post">
+                        <div><img height="200" width="200" src="http://fs199.www.ex.ua/show/46462669/46462669.jpg?1600"></div>
+                        <div><h3>New user</h3></div>
+                        <div><p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p></div>
+                        <div class="form-group"><input type="text" class="form-control" name="login" placeholder="Login *"></div>
+                        <div class="form-group"><input type="text" class="form-control" name="mail" placeholder="E-mail *"></div>
+                        <div class="form-group"><input type="text" class="form-control" name="telephone" placeholder="Telephone"></div>
+                        <div class="form-group"><input type="text" class="form-control" name="password" placeholder="Password *"></div>
+                        <div class="form-group"><input type="text" class="form-control" name="repeat_password" placeholder="Repeat password *"></div>
 
-        <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p>
-
-            <table border="0" width="100%">
-                <tr>
-                    <td align="center">
-                        <table>
-                            <form role="form" class="form-horizontal" action="/com_company/adduser" method="post">
-                                <div class="form-group"><h3>New user</h3></div>
-                                <div class="form-group"><input type="text" class="form-control" name="login" placeholder="Login *"></div>
-                                <div class="form-group"><input type="text" class="form-control" name="mail" placeholder="E-mail *"></div>
-                                <div class="form-group"><input type="text" class="form-control" name="telephone" placeholder="Telephone"></div>
-                                <div class="form-group"><input type="text" class="form-control" name="password" placeholder="Password *"></div>
-                                <div class="form-group"><input type="text" class="form-control" name="repeat_password" placeholder="Repeat password *"></div>
-
-                                <div class="form-group"><input type="submit" class="btn btn-primary" value="Create user">
-                                    <a href="/com_company/">or you can Sign in</a>
-                                </div>
-                            </form>
-                        </table>
-                    </td>
-                </tr>
-            </table>
+                        <div class="form-group"><input type="submit" class="btn btn-primary" value="Create user">
+                            <a href="/com_company/">or you can Sign in</a>
+                        </div>
+                    </form>
+                </table>
+            </td>
+        </table>
     </div>
 </body>
 </html>

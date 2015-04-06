@@ -53,7 +53,7 @@ public class MainController {
     /**
      * Переход на страницу добавления новой шутки.
      */
-	@RequestMapping(value = "/add_page", method = RequestMethod.POST)
+	@RequestMapping(value = "/add_page")
 	public String addPage(Model model) {
 		return "add_page";
 	}

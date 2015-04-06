@@ -11,46 +11,30 @@
 
 <div class="container">
 
-    <!-- в связи с тем, что в проекте нет Spring Security роходится обходиться данным котылем
+    <!-- в связи с тем, что в проекте нет Spring Security приходится обходиться данным котылем
     Начало костыля:-->
     <c:if test="${isLogin eq 'remove'}">
         <c:remove var="login" />
     </c:if>
     <!-- Конец костыля:-->
 
-    <p><img height="200" width="200" src="http://fs199.www.ex.ua/show/46462669/46462669.jpg?1600"></p>
+    <table border="0" align="center">
+        <td align="center">
+            <table>
+                <form action="/com_company/sign_in/sign_in" method="post">
+                    <div><img height="200" width="200" src="http://fs199.www.ex.ua/show/46462669/46462669.jpg?1600"></div>
+                    <div><h3>New user</h3></div>
+                    <div><p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p></div>
+                    <div class="form-group"><input type="text" class="form-control" name="login" placeholder="Login *"></div>
+                    <div class="form-group"><input  type=password class="form-control" name="password" placeholder="Password *"></div>
 
-    <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p>
-
-    <form action="/com_company/sign_in/sign_in" method="post">
-        <table border="0" width="100%">
-            <tr>
-                <td align="center">
-                    <table>
-                        <tr>
-                            <td align="right"><b>Login: </b></td>
-                            <td align="center">
-                                <input type="text" name="login" size="24" maxlength="256" />
-                            </td>
-                        </tr>
-                        <tr></tr>
-                        <tr>
-                            <td align="right"><b>Password: </b></td>
-                            <td align="center"><input type=password name="password" size="24" maxlength="256"/></td>
-                        </tr>
-                        <tr></tr>
-                        <tr>
-                            <td colspan="2" align="right"><input type="submit" class="btn btn-primary" value="Sign in"></td>
-                        </tr>
-                        <tr></tr>
-                        <tr>
-                            <td colspan="2" align="right"><a href="/com_company/authorization">you can create new user</a></td>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </form>
-
+                    <div class="form-group"><input type="submit" class="btn btn-primary" value="Sign in">
+                        <a href="/com_company/authorization">you can create new user</a>
+                    </div>
+                </form>
+            </table>
+        </td>
+    </table>
 </div>
 </body>
 </html>
