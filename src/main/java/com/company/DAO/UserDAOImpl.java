@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserDAOImpl implements UserDAO{
 
@@ -23,6 +25,19 @@ public class UserDAOImpl implements UserDAO{
         query.setParameter("login", login);
 
         return query.getResultList().size() > 0 ? false : true;
+    }
+
+    /**
+     * Метод проверяет реален переданный e-mail или нет.
+     * @param mail
+     * @return
+     */
+    @Override
+    public boolean isMailReal(String mail) {
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(mail);
+
+        return matcher.matches();
     }
 
     /**
