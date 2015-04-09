@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -146,11 +148,10 @@ public class MainController {
     }
 
     /**
-     * Тут мв получаем пару логин/пароль.
+     * Тут мы получаем пару логин/пароль.
      * Проверяем введенную инцу на адекватность, и если нет, то возвращаем на прежнюю страницу и выводим
      * сообщение о неправильности ввода данных.
-     * Если все ок, то возвращаем главную страницу и необходимые переменные для создания переменной "userLogin"
-     * на уровне приложения.
+     * Если все ок, то добавляем cookie и возвращаем главную страницу.
      * (Этот костыль существует так как у приложения не реализована "Безопасная Весна")
      */
     @RequestMapping("/sign_in/sign_in")
@@ -159,10 +160,13 @@ public class MainController {
                                HttpServletRequest request,
                                HttpServletResponse response) {
         if(userDAO.isSignInOk(login, password)){
+            Cookie cookie = new Cookie("jokerUser", login);
+            cookie.setMaxAge(365*24*60*60);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+
             Map<String, Object> model = new HashMap<String, Object>();
             model.put("jokes", jokeDAO.list());
-            model.put("userLogin", login);
-            model.put("isLogin", "new");
             return new ModelAndView("index", model);
         }
         else
@@ -170,12 +174,17 @@ public class MainController {
     }
 
     /**
-     * Этим вызовом мы обнуляем переменную "userLogin" с помощью команды-переменной и возвращаем страницу входа.
-     * (Этот костыль существует так как у приложения не реализована "Безопасная Весна")
+     * Этим вызовом мы удаляем cookie(созданием нового с нулевой продолжительностью) и возвращаем страницу входа.
      */
     @RequestMapping("/sign_out")
-    public ModelAndView signOut() {
-        return new ModelAndView("sign_in", "isLogin", "remove");
+    public ModelAndView signOut(HttpServletRequest request,
+                                HttpServletResponse response) {
+        response.setContentType("text/html");
+        Cookie cookie = new Cookie("jokerUser", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return new ModelAndView("sign_in");
     }
 
     /**

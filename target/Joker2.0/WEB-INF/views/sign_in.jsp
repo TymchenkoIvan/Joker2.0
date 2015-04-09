@@ -10,20 +10,22 @@
 <body>
 
 <div class="container">
+    <%String userName = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null)
+            for (Cookie cookie : cookies)
+                if (cookie.getName().equals("jokerUser"))
+                    userName = cookie.getValue();
 
-    <!-- в связи с тем, что в проекте нет Spring Security приходится обходиться данным котылем
-    Начало костыля:-->
-    <c:if test="${isLogin eq 'remove'}">
-        <c:remove var="login" />
-    </c:if>
-    <!-- Конец костыля:-->
+        if (userName != null)
+            response.sendRedirect("/com_company/index");%>
 
     <table border="0" align="center">
         <td align="center">
             <table>
                 <form action="/com_company/sign_in/sign_in" method="post">
                     <div><img height="200" width="200" src="http://fs199.www.ex.ua/show/46462669/46462669.jpg?1600"></div>
-                    <div><h3>Please, sign in.</h3></div>
+                    <div><h3>Sign in</h3></div>
                     <div><p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p></div>
                     <div class="form-group"><input type="text" class="form-control" name="login" placeholder="Login *"></div>
                     <div class="form-group"><input  type=password class="form-control" name="password" placeholder="Password *"></div>

@@ -9,9 +9,19 @@
 <body>
 <div class="container">
 
+    <%  String userName = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null)
+            for (Cookie cookie : cookies)
+                if (cookie.getName().equals("jokerUser"))
+                    userName = cookie.getValue();
+
+        if (userName == null)
+            response.sendRedirect("/com_company/");  %>
+
     <table border="0" width="80%" align="center">
         <tr align="center">
-            <td>Hello, ${login}!  <a href="/com_company/sign_out" method="post"><b>sign out</b></a></td>
+            <td>Hello, <%=userName%>!  <a href="/com_company/sign_out" method="post"><b>sign out</b></a></td>
             <td><img height="100" width="150" src="http://fc06.deviantart.net/fs70/i/2011/110/8/a/a_joker_smiles_by_leehi-d2pnjx2.png"></td>
             <td><h4><a href="/com_company/index" method="post"><b>MAIN</b></a></h4></td>
             <td><h4><a href="/com_company/add_page" method="post"><b>ADD</b></a></h4></td>
