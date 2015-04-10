@@ -28,6 +28,7 @@ public class MainController {
     private final String MAIL_NOT_UNIQUE = "ERROR: Mail is not unique, try again";
     private final String MAIL_NOT_REAL = "ERROR: Mail is not real, try again";
     private final String PASSWORD_ERROR = "ERROR: Password repeat is wrong, try again";
+    private final String IS_ADMIN_ERROR = "ERROR: Only admin can delete/recover jokes";
     private final String VOTE_ERROR = "ERROR: You can't rate one joke twice";
 
 	@Autowired
@@ -129,22 +130,45 @@ public class MainController {
 
 
     /**
-     * Принимается id шутки и она восставливается из архива.
-     * На самом деле создается новая шутка со старым текстом, а старая удаляется.
+     * Принимается id шутки и логин пользователя.
+     * Проверятся админ это или нет.
+     * Если да, то шутка восстанавливается. На самом деле создается новая шутка со старым текстом, а старая удаляется.
+     * В противном случае восстановление глушится и пользователю выводится страница архива с
+     * соответствущим объяснением недоразумения.
      */
     @RequestMapping("/archive/recover")
-    public ModelAndView recover(@RequestParam(value="id") int id) {
-        jokeDAO.recover(id);
-        return new ModelAndView("archive", "jokes", jokeDAO.listArchive());
+    public ModelAndView recover(@RequestParam(value="jokeId") int jokeId,
+                                @RequestParam(value="login") String login) {
+        Map<String, Object> model = new HashMap<String, Object>();
+        if(userDAO.isUserAdmin(login)) {
+            jokeDAO.recover(jokeId);
+            model.put("jokes", jokeDAO.listArchive());
+            return new ModelAndView("archive", model);
+        }
+        model.put("jokes", jokeDAO.listArchive());
+        model.put("error", IS_ADMIN_ERROR);
+        return new ModelAndView("archive", model);
     }
 
     /**
-     * Принимается id шутки и она полностью удаляется из БД.
+     * Принимается id шутки и логин пользователя.
+     * Проверятся админ это или нет.
+     * Если да, то шутка удаляется из БД.
+     * В противном случае удаление глушится и пользователю выводится страница архива с
+     * соответствущим объяснением недоразумения.
      */
     @RequestMapping("/archive/delete")
-    public ModelAndView delete(@RequestParam(value="id") int id) {
-        jokeDAO.delete(id);
-        return new ModelAndView("archive", "jokes", jokeDAO.listArchive());
+    public ModelAndView delete(@RequestParam(value="jokeId") int jokeId,
+                               @RequestParam(value="login") String login) {
+        Map<String, Object> model = new HashMap<String, Object>();
+        if(userDAO.isUserAdmin(login)) {
+            jokeDAO.delete(jokeId);
+            model.put("jokes", jokeDAO.listArchive());
+            return new ModelAndView("archive", model);
+        }
+        model.put("jokes", jokeDAO.listArchive());
+        model.put("error", IS_ADMIN_ERROR);
+        return new ModelAndView("archive", model);
     }
 
     /**

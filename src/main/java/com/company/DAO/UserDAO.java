@@ -10,5 +10,6 @@ public interface UserDAO {
     boolean isMailReal(String mail);
     boolean isSignInOk(String login, String password);
     boolean isCorrectAction(int jokeId, String login);
+    boolean isUserAdmin(String login);
     void addUser(User user);
 }

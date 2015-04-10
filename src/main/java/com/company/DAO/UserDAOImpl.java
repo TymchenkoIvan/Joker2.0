@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO{
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
         query.setParameter("login", login);
 
-        return query.getResultList().size() > 0 ? false : true;
+        return query.getResultList().size() > 0;
     }
 
     /**
@@ -50,7 +50,7 @@ public class UserDAOImpl implements UserDAO{
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.mail = :mail", User.class);
         query.setParameter("mail", mail);
 
-        return query.getResultList().size() > 0 ? false : true;
+        return query.getResultList().size() > 0;
     }
 
     /**
@@ -96,6 +96,15 @@ public class UserDAOImpl implements UserDAO{
             ex.printStackTrace();
         }
         return isCorrect;
+    }
+
+    @Override
+    public boolean isUserAdmin(String login) {
+        Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
+        query.setParameter("login", login);
+        User user = (User)query.getSingleResult();
+
+        return user.getMark()!=null && user.getMark().equals("admin");
     }
 
     /**

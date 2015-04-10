@@ -10,7 +10,7 @@
 <body>
 
 <div class="container">
-    <%String userName = null;
+    <%  String userName = null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null)
             for (Cookie cookie : cookies)
@@ -18,7 +18,7 @@
                     userName = cookie.getValue();
 
         if (userName != null)
-            response.sendRedirect("/com_company/index");%>
+            response.sendRedirect("/com_company/index");  %>
 
     <table border="0" align="center">
         <td align="center">

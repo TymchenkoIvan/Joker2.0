@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
-    <%String userName = null;
+    <%  String userName = null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null)
             for (Cookie cookie : cookies)
@@ -16,7 +16,7 @@
                     userName = cookie.getValue();
 
         if (userName == null)
-            response.sendRedirect("/com_company/");%>
+            response.sendRedirect("/com_company/");  %>
 
     <table border="0" width="80%" align="center">
         <tr align="center">
@@ -28,6 +28,8 @@
             <td><h4><a href="/com_company/faq" method="post"><b>FAQ</b></a></h4></td>
         </tr>
     </table>
+
+    <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p>
 
     <tr> <center><h3>Archive:</h3></center></tr>
     <table class="table table-striped">
@@ -47,8 +49,8 @@
                 <td><center><b>${joke.likes}</b></center></td>
                 <td><center>${joke.dislikes}</center></td>
                 <td>${joke.text}</td>
-                <td><center><a href="/com_company/archive/delete?id=${joke.id}"><b>delete</b></a></center></td>
-                <td><center><a href="/com_company/archive/recover?id=${joke.id}"><b>recover</b></a></center></td>
+                <td><center><a href="/com_company/archive/delete?jokeId=${joke.id}&login=<%=userName%>"><b>delete</b></a></center></td>
+                <td><center><a href="/com_company/archive/recover?jokeId=${joke.id}&login=<%=userName%>"><b>recover</b></a></center></td>
             </tr>
         </c:forEach>
     </table>

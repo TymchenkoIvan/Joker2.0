@@ -29,6 +29,8 @@
         </tr>
     </table>
 
+    <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p>
+
     <tr> <center><h3>Archive:</h3></center></tr>
     <table class="table table-striped">
         <thead>
@@ -47,8 +49,8 @@
                 <td><center><b>${joke.likes}</b></center></td>
                 <td><center>${joke.dislikes}</center></td>
                 <td>${joke.text}</td>
-                <td><center><a href="/com_company/archive/delete?id=${joke.id}"><b>delete</b></a></center></td>
-                <td><center><a href="/com_company/archive/recover?id=${joke.id}"><b>recover</b></a></center></td>
+                <td><center><a href="/com_company/archive/delete?jokeId=${joke.id}&login=<%=userName%>"><b>delete</b></a></center></td>
+                <td><center><a href="/com_company/archive/recover?jokeId=${joke.id}&login=<%=userName%>"><b>recover</b></a></center></td>
             </tr>
         </c:forEach>
     </table>
