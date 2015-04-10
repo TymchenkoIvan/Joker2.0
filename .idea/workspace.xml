@@ -30,8 +30,8 @@
       <file leaf-file-name="UserDAOImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/company/DAO/UserDAOImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.1128205" vertical-offset="743" max-vertical-offset="1802">
-              <caret line="104" column="50" selection-start-line="104" selection-start-column="50" selection-end-line="104" selection-end-column="50" />
+            <state vertical-scroll-proportion="-0.5692308" vertical-offset="1217" max-vertical-offset="1802">
+              <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
               <folding>
                 <element signature="docComment;method#isMailUnique#0;class#UserDAOImpl#0" expanded="false" />
                 <element signature="docComment;method#isSignInOk#0;class#UserDAOImpl#0" expanded="false" />
@@ -941,12 +941,12 @@
       <workItem from="1428506748567" duration="103000" />
       <workItem from="1428533081822" duration="7442000" />
       <workItem from="1428576774305" duration="6519000" />
-      <workItem from="1428698247504" duration="581000" />
+      <workItem from="1428698247504" duration="791000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91935000" />
+    <option name="totallyTimeSpent" value="92145000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -1432,8 +1432,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/company/DAO/UserDAOImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1128205" vertical-offset="743" max-vertical-offset="1802">
-          <caret line="104" column="50" selection-start-line="104" selection-start-column="50" selection-end-line="104" selection-end-column="50" />
+        <state vertical-scroll-proportion="-0.5692308" vertical-offset="1217" max-vertical-offset="1802">
+          <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
           <folding>
             <element signature="docComment;method#isMailUnique#0;class#UserDAOImpl#0" expanded="false" />
             <element signature="docComment;method#isSignInOk#0;class#UserDAOImpl#0" expanded="false" />
