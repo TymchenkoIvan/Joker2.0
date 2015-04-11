@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO{
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
         query.setParameter("login", login);
 
-        return query.getResultList().size() > 0;
+        return query.getResultList().size() == 0;
     }
 
     /**
@@ -50,7 +50,7 @@ public class UserDAOImpl implements UserDAO{
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.mail = :mail", User.class);
         query.setParameter("mail", mail);
 
-        return query.getResultList().size() > 0;
+        return query.getResultList().size() == 0;
     }
 
     /**
