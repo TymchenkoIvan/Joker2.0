@@ -56,7 +56,7 @@ public class JokeDAOImpl implements JokeDAO {
     }
 
     /**
-     * Метод удаляет Joke из "архива" по переданному id.
+     * Метод cтавит пометку deleted для joke, по выбраному joke.id.
      * @param id
      */
     @Override
@@ -64,7 +64,7 @@ public class JokeDAOImpl implements JokeDAO {
         try {
             entityManager.getTransaction().begin();
             Joke joke = entityManager.find(Joke.class, id);
-            entityManager.remove(joke);
+            joke.setMark("deleted");
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
@@ -74,7 +74,7 @@ public class JokeDAOImpl implements JokeDAO {
 
     /**
      * Метод восстанавливает Joke из "архива" по переданному id.
-     * На деле старая Joke просто удаляется, а из ее текста создается новая.
+     * На деле старая Joke помечается как deleted.
      * Так сделано для того что бы обновить likes, dislikes и date у Joke. Помимо всего прочего голосования User-ов
      * завязаны на joke.id и так сделать проще.
      * @param id
@@ -84,9 +84,9 @@ public class JokeDAOImpl implements JokeDAO {
         try {
             entityManager.getTransaction().begin();
             Joke joke = entityManager.find(Joke.class, id);
+            joke.setMark("deleted");
             Joke newJoke = new Joke(joke.getText());
             entityManager.persist(newJoke);
-            entityManager.remove(joke);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
