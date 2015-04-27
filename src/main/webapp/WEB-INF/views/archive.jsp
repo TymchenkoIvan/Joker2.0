@@ -49,8 +49,6 @@
                 <td><center><b>${joke.likes}</b></center></td>
                 <td><center>${joke.dislikes}</center></td>
                 <td>${joke.text}</td>
-                <td><center><a href="/com_company/archive/delete?jokeId=${joke.id}&login=<%=userName%>"><b>delete</b></a></center></td>
-                <td><center><a href="/com_company/archive/recover?jokeId=${joke.id}&login=<%=userName%>"><b>recover</b></a></center></td>
             </tr>
         </c:forEach>
     </table>

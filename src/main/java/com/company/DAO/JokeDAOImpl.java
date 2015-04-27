@@ -13,6 +13,7 @@ public class JokeDAOImpl implements JokeDAO {
     @Autowired
     private EntityManager entityManager;
 
+
     /**
      * Возвращается массив со всеми активными Joke, которые должны быть выведены на главной странице.
      * @return
@@ -26,6 +27,7 @@ public class JokeDAOImpl implements JokeDAO {
         return list;
     }
 
+
     /**
      * Возвращается массив со всеми неудачными Joke, которые должны быть выведены на странице архива.
      * @return
@@ -38,6 +40,21 @@ public class JokeDAOImpl implements JokeDAO {
         Collections.reverse(list);
         return list;
     }
+
+
+    /**
+     * Возвращается массив со всеми удаленными Joke, которые должны быть выведены на странице архива.
+     * @return
+     */
+    @Override
+    public List<Joke> listDeleted() {
+        Query query = entityManager.createQuery("SELECT j FROM Joke j WHERE j.mark = :mark", Joke.class);
+        query.setParameter("mark", "deleted");
+        List<Joke> list = (List<Joke>) query.getResultList();
+        Collections.reverse(list);
+        return list;
+    }
+
 
     /**
      * Метод добавляет переданную Joke.
@@ -55,6 +72,7 @@ public class JokeDAOImpl implements JokeDAO {
         }
     }
 
+
     /**
      * Метод cтавит пометку deleted для joke, по выбраному joke.id.
      * @param id
@@ -71,6 +89,7 @@ public class JokeDAOImpl implements JokeDAO {
             ex.printStackTrace();
         }
     }
+
 
     /**
      * Метод восстанавливает Joke из "архива" по переданному id.
@@ -94,6 +113,7 @@ public class JokeDAOImpl implements JokeDAO {
         }
     }
 
+
     /**
      * Метод добавляет один like к Joke, которая ищется по переданному id.
      * @param id
@@ -111,6 +131,7 @@ public class JokeDAOImpl implements JokeDAO {
             ex.printStackTrace();
         }
     }
+
 
     /**
      * Метод добавляет один dislike к Joke, которая ищется по переданному id.
@@ -130,6 +151,24 @@ public class JokeDAOImpl implements JokeDAO {
             else
                 joke.setDislikes(buff);
 
+            entityManager.getTransaction().commit();
+        } catch (Exception ex) {
+            entityManager.getTransaction().rollback();
+            ex.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Метод помечает joke как archive.
+     * @param id
+     */
+    @Override
+    public void toArchive(int id){
+        try {
+            entityManager.getTransaction().begin();
+            Joke joke = entityManager.find(Joke.class, id);
+            joke.setMark("archive");
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();

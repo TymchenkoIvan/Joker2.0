@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +15,19 @@ public class UserDAOImpl implements UserDAO{
 
     @Autowired
     private EntityManager entityManager;
+
+
+    /**
+     * Метод создает список всех user и возвращеат его.
+     * @return
+     */
+    @Override
+    public List<User> list() {
+        Query query = entityManager.createQuery("SELECT u FROM User u", User.class);
+        List<User> list = (List<User>) query.getResultList();
+        return list;
+    }
+
 
     /**
      * Метод проверяет уникален переданный login или нет.
@@ -27,6 +42,7 @@ public class UserDAOImpl implements UserDAO{
         return query.getResultList().size() == 0;
     }
 
+
     /**
      * Метод проверяет реален переданный e-mail или нет.
      * @param mail
@@ -39,6 +55,7 @@ public class UserDAOImpl implements UserDAO{
 
         return matcher.matches();
     }
+
 
     /**
      * Метод проверяет уникален переданный e-mail или нет.
@@ -70,6 +87,7 @@ public class UserDAOImpl implements UserDAO{
         return true;
     }
 
+
     /**
      * Метод проверяет может User(ищет по логину) голосовать за Joke(поиск по id).
      * Напоминаю, User может голосовать за каждую Joke один раз.
@@ -98,6 +116,12 @@ public class UserDAOImpl implements UserDAO{
         return isCorrect;
     }
 
+
+    /**
+     * Метод проверяет администратор этот user, или нет.
+     * @param login
+     * @return
+     */
     @Override
     public boolean isUserAdmin(String login) {
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
@@ -106,6 +130,7 @@ public class UserDAOImpl implements UserDAO{
 
         return user.getMark()!=null && user.getMark().equals("admin");
     }
+
 
     /**
      * Добавляется переданный User.
