@@ -16,7 +16,7 @@
                         if (cookie.getName().equals("jokerAdmin"))
                             adminName = cookie.getValue();
 
-                if (adminName == null)
+                if (adminName != null)
                     response.sendRedirect("/com_company/admin/jokes");  %>
 
             <tr> <center><b>Welcome in admin control panel, please sign in:</b></center></tr>

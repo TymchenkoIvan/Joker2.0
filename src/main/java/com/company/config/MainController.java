@@ -284,7 +284,7 @@ public class MainController {
     /**
      * Это первая(корневая) страница приложения, на которой пользователь может ввести свой логин/пароль.
      */
-    @RequestMapping("/admin/")
+    @RequestMapping("/admin")
     public ModelAndView adminSignInPage() {
         return new ModelAndView("admin/admin");
     }
