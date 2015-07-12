@@ -2,6 +2,7 @@ package com.company.config;
 
 import com.company.DAO.JokeDAO;
 import com.company.DAO.UserDAO;
+import com.company.Exceptions.JokerAppException;
 import com.company.entity.Joke;
 import com.company.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class MainController {
 
     @RequestMapping("/")
     public ModelAndView signInPage() {
-        return new ModelAndView(Constants.PAGE_INDEX);
+        return new ModelAndView(Constants.PAGE_SIGN);
     }
 
 
@@ -61,16 +62,17 @@ public class MainController {
 			Joke joke = new Joke(user, text);
             jokeDAO.add(joke);
 			return new ModelAndView(Constants.PAGE_INDEX, Constants.VAR_JOKES_LIST, jokeDAO.list());
-		} catch (Exception ex) {
+        }catch (JokerAppException ex){
+            return new ModelAndView(Constants.PAGE_ADD, Constants.VAR_ERROR, ex.getMessage());
+        } catch (Exception ex) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            System.out.println(ex.getMessage());
 			return null;
 		}
 	}
 
 
     @RequestMapping("/like")
-    public ModelAndView like(@RequestParam(value="jokeId") int jokeId,
+    public ModelAndView like(@RequestParam(value=Constants.VAR_JOKE_ID) int jokeId,
                              @RequestParam(value=Constants.VAR_LOGIN) String login) {
         Map<String, Object> model = new HashMap<>();
         if(userDAO.isCorrectAction(jokeId, login)){
@@ -85,7 +87,7 @@ public class MainController {
 
 
     @RequestMapping("/dislike")
-     public ModelAndView dislike(@RequestParam(value="jokeId") int jokeId,
+     public ModelAndView dislike(@RequestParam(value=Constants.VAR_JOKE_ID) int jokeId,
                                  @RequestParam(value=Constants.VAR_LOGIN) String login) {
         Map<String, Object> model = new HashMap<>();
         if(userDAO.isCorrectAction(jokeId, login)) {
@@ -101,21 +103,28 @@ public class MainController {
 
     @RequestMapping("/sign_in/sign_in")
     public ModelAndView signIn(@RequestParam(value=Constants.VAR_LOGIN) String login,
-                               @RequestParam(value="password") String password,
+                               @RequestParam(value=Constants.VAR_PASSWORD) String password,
                                HttpServletRequest request,
                                HttpServletResponse response) {
-        if(userDAO.isSignInOk(login, password)){
+        try{
+            if(userDAO.isSignInOk(login, password)){
+                throw new JokerAppException(Constants.ERROR_SIGN_IN);
+            }
+
             Cookie cookie = new Cookie(Constants.VAR_COOKIE, login);
             cookie.setMaxAge(365*24*60*60);
             cookie.setPath("/");
             response.addCookie(cookie);
 
-            Map<String, Object> model = new HashMap<String, Object>();
+            Map<String, Object> model = new HashMap<>();
             model.put(Constants.VAR_JOKES_LIST, jokeDAO.list());
             return new ModelAndView(Constants.PAGE_INDEX, model);
+        }catch (JokerAppException ex){
+            return new ModelAndView(Constants.PAGE_SIGN, Constants.VAR_ERROR, ex.getMessage());
+        } catch (Exception ex) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
         }
-        else
-            return new ModelAndView(Constants.PAGE_SIGN, Constants.VAR_ERROR, Constants.ERROR_SIGN_IN);
     }
 
 
@@ -145,29 +154,24 @@ public class MainController {
 
     @RequestMapping("/adduser")
     public ModelAndView addUser(@RequestParam(value=Constants.VAR_LOGIN) String login,
-                                @RequestParam(value="mail") String mail,
-                                @RequestParam(value="telephone") String telephone,
-                                @RequestParam(value="password") String password,
-                                @RequestParam(value="repeat_password") String repeat_password,
+                                @RequestParam(value=Constants.VAR_MAIL) String mail,
+                                @RequestParam(value=Constants.VAR_TELEPHONE) String telephone,
+                                @RequestParam(value=Constants.VAR_PASSWORD) String password,
+                                @RequestParam(value=Constants.VAR_PASSWORD_REPEAT) String repeat_password,
                                 HttpServletRequest request,
                                 HttpServletResponse response) {
         try {
-            if(!userDAO.isLoginUnique(login))
-                return new ModelAndView(Constants.PAGE_AUTO, Constants.VAR_ERROR, Constants.ERROR_LOGIN);
-            if(!userDAO.isMailReal(mail))
-                return new ModelAndView(Constants.PAGE_AUTO, Constants.VAR_ERROR, Constants.ERROR_MAIL_NOT_REAL);
-            if(!userDAO.isMailUnique(mail))
-                return new ModelAndView(Constants.PAGE_AUTO, Constants.VAR_ERROR, Constants.ERROR_MAIL_NOT_UNIQUE);
-            if(!password.equals(repeat_password))
-                return new ModelAndView(Constants.PAGE_AUTO, Constants.VAR_ERROR, Constants.ERROR_PASSWORD);
-
-            User user = new User(login, mail, password);
+            if(!password.equals(repeat_password)){
+                throw new JokerAppException(Constants.ERROR_PASSWORD);
+            }
+            User user = userDAO.createUser(login, mail, telephone, password);
             userDAO.addUser(user);
             return new ModelAndView(Constants.PAGE_AUTO);
+        } catch (JokerAppException ex) {
+            return new ModelAndView(Constants.PAGE_AUTO, Constants.VAR_ERROR, ex.getMessage());
         } catch (Exception ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return null;
         }
     }
-
 }

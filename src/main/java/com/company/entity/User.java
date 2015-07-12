@@ -28,9 +28,6 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "mark")
-    private String mark;
-
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Joke> writedJokes = new ArrayList<>();
 
@@ -45,13 +42,14 @@ public class User {
     public User() {
     }
 
-    public User(String login, String mail, String password) {
+    public User(String login, String mail, String telephone, String password) {
         this.login = login;
         this.role = Roles.USER.getRole();
         this.mail = mail;
-        this.telephone = null;
+        if(!telephone.equals(null)) {
+            this.telephone = telephone;
+        }
         this.password = password;
-        this.mark = null;
     }
 
     public void addRatedJoke(Joke joke) {
@@ -114,14 +112,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getMark() {
-        return mark;
-    }
-
-    public void setMark(String mark) {
-        this.mark = mark;
     }
 
     public String getRole() {

@@ -1,5 +1,6 @@
 package com.company.DAO;
 
+import com.company.Exceptions.JokerDBException;
 import com.company.entity.Joke;
 import com.company.enums.Statuses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,14 @@ public class JokeDAOImpl implements JokeDAO {
 
 
     @Override
-    public void add(Joke joke) {
+    public void add(Joke joke) throws JokerDBException {
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(joke);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
-            ex.printStackTrace();
+            throw new JokerDBException(ex.getMessage());
         }
     }
 

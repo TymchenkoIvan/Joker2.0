@@ -1,5 +1,8 @@
 package com.company.DAO;
 
+import com.company.Exceptions.JokerAppException;
+import com.company.Exceptions.JokerDBException;
+import com.company.config.Constants;
 import com.company.entity.Joke;
 import com.company.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,30 +18,44 @@ public class UserDAOImpl implements UserDAO{
     private EntityManager entityManager;
 
 
-
-    @Override
-    public boolean isLoginUnique(String login) {
+    private boolean isLoginOk(String login) {
+        if(login.equals(null) || login.length() > Constants.SQL_LENGTH_LOGIN){
+            return false;
+        }
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
         query.setParameter("login", login);
 
         return query.getResultList().size() == 0;
     }
 
+    private boolean isTelepfoneOk(String telephone) {
+        if(!telephone.equals(null) && telephone.length() > Constants.SQL_LENGTH_TELEPHONE){
+            return false;
+        }
 
-    @Override
-    public boolean isMailReal(String mail) {
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(mail);
-
-        return matcher.matches();
+        return true;
     }
 
+    private boolean isPasswordOk(String password) {
+        if(password.equals(null) || password.length() > Constants.SQL_LENGTH_PASSWORD){
+            return false;
+        }
+        return true;
+    }
 
-    @Override
-    public boolean isMailUnique(String mail) {
+    private boolean isMailOk(String mail) {
+        if(mail.equals(null) || mail.length() > Constants.SQL_LENGTH_MAIL){
+            return false;
+        }
+
+        Pattern pattern = Pattern.compile(Constants.EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(mail);
+        if(!matcher.matches()){
+            return false;
+        }
+
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.mail = :mail", User.class);
         query.setParameter("mail", mail);
-
         return query.getResultList().size() == 0;
     }
 
@@ -53,8 +70,6 @@ public class UserDAOImpl implements UserDAO{
 
         return true;
     }
-
-
 
     @Override
     public boolean isCorrectAction(int jokeId, String login) {
@@ -84,17 +99,37 @@ public class UserDAOImpl implements UserDAO{
         query.setParameter("login", login);
         User user = (User)query.getSingleResult();
 
-        return user.getMark()!=null && user.getMark().equals("admin");
+        return user.getRole()!=null && user.getRole().equals("admin");
     }
 
     @Override
-    public User getUserByLogin(String login) {
-        Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
-        query.setParameter("login", login);
-        User user = (User)query.getSingleResult();
-        return user;
+    public User createUser(String login, String mail, String telephone, String password) throws JokerAppException {
+        if(!isLoginOk(login)){
+            throw new JokerAppException(Constants.ERROR_LOGIN);
+        }
+        if(!isMailOk(mail)){
+            throw new JokerAppException(Constants.ERROR_MAIL);
+        }
+        if(!isTelepfoneOk(telephone)){
+            throw new JokerAppException(Constants.ERROR_TELEPHONE);
+        }
+        if(!isTelepfoneOk(password)){
+            throw new JokerAppException(Constants.ERROR_PASSWORD);
+        }
+        return new User(login, mail, telephone, password);
     }
 
+    @Override
+    public User getUserByLogin(String login) throws JokerDBException {
+        try {
+            Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
+            query.setParameter("login", login);
+            User user = (User) query.getSingleResult();
+            return user;
+        } catch (Exception ex){
+            throw new JokerDBException(ex.getMessage());
+        }
+    }
 
     @Override
     public void addUser(User user) {
