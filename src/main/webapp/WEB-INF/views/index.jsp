@@ -17,16 +17,16 @@
                     userName = cookie.getValue();
 
         if (userName == null)
-            response.sendRedirect("/com_company/");  %>
+            response.sendRedirect("/");  %>
 
     <table border="0" width="80%" align="center">
         <tr align="center">
-            <td>Hello, <%=userName%>!  <a href="/com_company/sign_out" method="post"><b>sign out</b></a></td>
+            <td>Hello, <%=userName%>!  <a href="../sign_out" method="post"><b>sign out</b></a></td>
             <td><img height="100" width="150" src="http://fc06.deviantart.net/fs70/i/2011/110/8/a/a_joker_smiles_by_leehi-d2pnjx2.png"></td>
-            <td><h4><a href="/com_company/index" method="post"><b>MAIN</b></a></h4></td>
-            <td><h4><a href="/com_company/add_page" method="post"><b>ADD</b></a></h4></td>
-            <td><h4><a href="/com_company/archive" method="post"><b>ARCHIVE</b></a></h4></td>
-            <td><h4><a href="/com_company/faq" method="post"><b>FAQ</b></a></h4></td>
+            <td><h4><a href="../index" method="post"><b>MAIN</b></a></h4></td>
+            <td><h4><a href="../add_page" method="post"><b>ADD</b></a></h4></td>
+            <td><h4><a href="../archive" method="post"><b>ARCHIVE</b></a></h4></td>
+            <td><h4><a href="../faq" method="post"><b>FAQ</b></a></h4></td>
         </tr>
     </table>
 
@@ -36,8 +36,7 @@
         <thead>
         <tr>
             <td></td>
-            <td><center><b>Likes</b></center></td>
-            <td><center><b>Dislikes</b></center></td>
+            <td></td>
             <td><center><b>Joke</b></center></td>
         </tr>
         </thead>
@@ -45,12 +44,22 @@
             <tr>
                 <jsp:useBean id="beanNow" class="java.util.Date" />
                 <fmt:formatDate value="${joke.date}" var="s_now" pattern="dd.MM.YYYY" />
-                <td>${s_now}</td>
-                <td><center><b>${joke.likes}</b></center></td>
-                <td><center>${joke.dislikes}</center></td>
-                <td>${joke.text}</td>
-                <td><a href="/com_company/like?jokeId=${joke.id}&login=<%=userName%>"><b>Like!</b></a></td>
-                <td><a href="/com_company/dislike?jokeId=${joke.id}&login=<%=userName%>"><b>Dislike</b></a></td>
+                <td><center><b>+${joke.likes}</b></center></td>
+                <td><center>-${joke.dislikes}</center></td>
+                <td>${joke.text}
+                    <br/><br/>
+                    <p style="font-size:14px; font-style:italic;">author:<b>${joke.user.login}</b>   added:${s_now}</p>
+                </td>
+                <td>
+                    <a title="Cool!" href="../like?jokeId=${joke.id}&login=<%=userName%>">
+                        <img src="http://www.clker.com/cliparts/2/5/4/b/12456961341644183975Anselmus_Green_Checkmark_and_Red_Minus.svg.thumb.png" width="30">
+                    </a>
+                </td>
+                <td>
+                    <a title="Crap" href="../dislike?jokeId=${joke.id}&login=<%=userName%>">
+                        <img src="http://www.clker.com/cliparts/7/e/a/2/12456961561981398760Anselmus_Green_Checkmark_and_Red_Minus_1.svg.thumb.png" width="30">
+                    </a>
+                </td>
             </tr>
         </c:forEach>
     </table>

@@ -1,6 +1,7 @@
 package com.company.DAO;
 
 import com.company.entity.Joke;
+import com.company.enums.Statuses;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -14,52 +15,26 @@ public class JokeDAOImpl implements JokeDAO {
     private EntityManager entityManager;
 
 
-    /**
-     * Возвращается массив со всеми активными Joke, которые должны быть выведены на главной странице.
-     * @return
-     */
     @Override
     public List<Joke> list() {
-        Query query = entityManager.createQuery("SELECT j FROM Joke j WHERE j.mark = :mark", Joke.class);
-        query.setParameter("mark", "new");
+        Query query = entityManager.createQuery("SELECT j FROM Joke j WHERE j.status = :status", Joke.class);
+        query.setParameter("status", Statuses.NEW.getStatus());
         List<Joke> list = (List<Joke>) query.getResultList();
         Collections.reverse(list);
         return list;
     }
 
 
-    /**
-     * Возвращается массив со всеми неудачными Joke, которые должны быть выведены на странице архива.
-     * @return
-     */
     @Override
     public List<Joke> listArchive() {
-        Query query = entityManager.createQuery("SELECT j FROM Joke j WHERE j.mark = :mark", Joke.class);
-        query.setParameter("mark", "archive");
+        Query query = entityManager.createQuery("SELECT j FROM Joke j WHERE j.status = :status", Joke.class);
+        query.setParameter("status", Statuses.ARCHIVE.getStatus());
         List<Joke> list = (List<Joke>) query.getResultList();
         Collections.reverse(list);
         return list;
     }
 
 
-    /**
-     * Возвращается массив со всеми удаленными Joke, которые должны быть выведены на странице архива.
-     * @return
-     */
-    @Override
-    public List<Joke> listDeleted() {
-        Query query = entityManager.createQuery("SELECT j FROM Joke j WHERE j.mark = :mark", Joke.class);
-        query.setParameter("mark", "deleted");
-        List<Joke> list = (List<Joke>) query.getResultList();
-        Collections.reverse(list);
-        return list;
-    }
-
-
-    /**
-     * Метод добавляет переданную Joke.
-     * @param joke
-     */
     @Override
     public void add(Joke joke) {
         try {
@@ -73,16 +48,12 @@ public class JokeDAOImpl implements JokeDAO {
     }
 
 
-    /**
-     * Метод cтавит пометку deleted для joke, по выбраному joke.id.
-     * @param id
-     */
     @Override
     public void delete(int id) {
         try {
             entityManager.getTransaction().begin();
             Joke joke = entityManager.find(Joke.class, id);
-            joke.setMark("deleted");
+            joke.setStatus(Statuses.DELETED.getStatus());
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
@@ -91,20 +62,14 @@ public class JokeDAOImpl implements JokeDAO {
     }
 
 
-    /**
-     * Метод восстанавливает Joke из "архива" по переданному id.
-     * На деле старая Joke помечается как deleted.
-     * Так сделано для того что бы обновить likes, dislikes и date у Joke. Помимо всего прочего голосования User-ов
-     * завязаны на joke.id и так сделать проще.
-     * @param id
-     */
+
     @Override
     public void recover(int id) {
         try {
             entityManager.getTransaction().begin();
             Joke joke = entityManager.find(Joke.class, id);
-            joke.setMark("deleted");
-            Joke newJoke = new Joke(joke.getText());
+            joke.setStatus(Statuses.DELETED.getStatus());
+            Joke newJoke = new Joke(joke.getUser(), joke.getText());
             entityManager.persist(newJoke);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
@@ -114,10 +79,6 @@ public class JokeDAOImpl implements JokeDAO {
     }
 
 
-    /**
-     * Метод добавляет один like к Joke, которая ищется по переданному id.
-     * @param id
-     */
     @Override
     public void like(int id){
         try {
@@ -133,12 +94,6 @@ public class JokeDAOImpl implements JokeDAO {
     }
 
 
-    /**
-     * Метод добавляет один dislike к Joke, которая ищется по переданному id.
-     * Ежели шутка после этого становится негодной для показа на главной, ей добавляется пометка на перемещение в "архив".
-     * Напомню логику и условия: шутка плохая если: (likes + dislikes >= 10) && (dislikes > likes)
-     * @param id
-     */
     @Override
     public void dislike(int id){
         try {
@@ -147,28 +102,10 @@ public class JokeDAOImpl implements JokeDAO {
             int buff = joke.getDislikes()+1;
 
             if((joke.getLikes() + joke.getDislikes()) >= 10 && joke.getDislikes() > joke.getLikes())
-                joke.setMark("archive");
+                joke.setStatus(Statuses.ARCHIVE.getStatus());
             else
                 joke.setDislikes(buff);
 
-            entityManager.getTransaction().commit();
-        } catch (Exception ex) {
-            entityManager.getTransaction().rollback();
-            ex.printStackTrace();
-        }
-    }
-
-
-    /**
-     * Метод помечает joke как archive.
-     * @param id
-     */
-    @Override
-    public void toArchive(int id){
-        try {
-            entityManager.getTransaction().begin();
-            Joke joke = entityManager.find(Joke.class, id);
-            joke.setMark("archive");
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();

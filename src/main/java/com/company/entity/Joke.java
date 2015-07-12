@@ -1,5 +1,7 @@
 package com.company.entity;
 
+import com.company.enums.Statuses;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -10,6 +12,13 @@ public class Joke {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
     private int id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user", nullable = false)
+    private User user;
+
+    @Column(name = "status", nullable = false)
+    private String status;
 
     @Column(name = "date", nullable = false)
     private Date date;
@@ -23,35 +32,17 @@ public class Joke {
     @Column(name = "text", nullable = false)
     private String text;
 
-    @Column(name = "mark", nullable = false)
-    private String mark;
-
-    @ManyToMany(mappedBy="jokes")
-    private List<User> users = new ArrayList<User>();
+    @ManyToMany(mappedBy= "ratedJokes")
+    private List<User> usersRates = new ArrayList<>();
 
     public Joke() {}
 
-    public Joke(String text) {
+    public Joke(User user, String text) {
+        this.user = user;
+        this.status = Statuses.NEW.getStatus();
         this.date = new Date();
         this.likes = 0;
         this.dislikes = 0;
-        this.text = text;
-        this.mark = "new";
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
         this.text = text;
     }
 
@@ -61,6 +52,22 @@ public class Joke {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Date getDate() {
@@ -87,11 +94,51 @@ public class Joke {
         this.dislikes = dislikes;
     }
 
-    public String getMark() {
-        return mark;
+    public String getText() {
+        return text;
     }
 
-    public void setMark(String mark) {
-        this.mark = mark;
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public List<User> getUsersRates() {
+        return usersRates;
+    }
+
+    public void setUsersRates(List<User> usersRates) {
+        this.usersRates = usersRates;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Joke)) return false;
+
+        Joke joke = (Joke) o;
+
+        if (dislikes != joke.dislikes) return false;
+        if (id != joke.id) return false;
+        if (likes != joke.likes) return false;
+        if (!date.equals(joke.date)) return false;
+        if (!status.equals(joke.status)) return false;
+        if (!text.equals(joke.text)) return false;
+        if (!user.equals(joke.user)) return false;
+        if (usersRates != null ? !usersRates.equals(joke.usersRates) : joke.usersRates != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + user.hashCode();
+        result = 31 * result + status.hashCode();
+        result = 31 * result + date.hashCode();
+        result = 31 * result + likes;
+        result = 31 * result + dislikes;
+        result = 31 * result + text.hashCode();
+        result = 31 * result + (usersRates != null ? usersRates.hashCode() : 0);
+        return result;
     }
 }

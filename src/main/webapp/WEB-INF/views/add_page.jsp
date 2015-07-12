@@ -17,22 +17,22 @@
                     userName = cookie.getValue();
 
         if (userName == null)
-            response.sendRedirect("/com_company/");  %>
+            response.sendRedirect("/");  %>
 
     <table border="0" width="80%" align="center">
         <tr align="center">
-            <td>Hello, <%=userName%>!  <a href="/com_company/sign_out" method="post"><b>sign out</b></a></td>
+            <td>Hello, <%=userName%>!  <a href="/sign_out" method="post"><b>sign out</b></a></td>
             <td><img height="100" width="150" src="http://fc06.deviantart.net/fs70/i/2011/110/8/a/a_joker_smiles_by_leehi-d2pnjx2.png"></td>
-            <td><h4><a href="/com_company/index" method="post"><b>MAIN</b></a></h4></td>
-            <td><h4><a href="/com_company/add_page" method="post"><b>ADD</b></a></h4></td>
-            <td><h4><a href="/com_company/archive" method="post"><b>ARCHIVE</b></a></h4></td>
-            <td><h4><a href="/com_company/faq" method="post"><b>FAQ</b></a></h4></td>
+            <td><h4><a href="/index" method="post"><b>MAIN</b></a></h4></td>
+            <td><h4><a href="/add_page" method="post"><b>ADD</b></a></h4></td>
+            <td><h4><a href="/archive" method="post"><b>ARCHIVE</b></a></h4></td>
+            <td><h4><a href="/faq" method="post"><b>FAQ</b></a></h4></td>
         </tr>
     </table>
 
     <tr> <center><h3>New joke:</h3></center></tr>
-    <form role="form" class="form-horizontal" action="/com_company/add" method="post">
-       <!-- <div class="form-group"><input type="text" class="form-control" name="text" placeholder="Joke"></div>-->
+    <form role="form" class="form-horizontal" action="/add" method="post">
+        <input type="hidden" name="login" value=<%=userName%>>
         <div class="form-group"><textarea class="form-control" rows="15" cols="50" name="text" id="comment"></textarea></div>
         <div class="form-group"><input type="submit" class="btn btn-primary" value="new joke"></div>
     </form>

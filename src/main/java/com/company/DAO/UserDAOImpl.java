@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.Collections;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,23 +15,7 @@ public class UserDAOImpl implements UserDAO{
     private EntityManager entityManager;
 
 
-    /**
-     * Метод создает список всех user и возвращеат его.
-     * @return
-     */
-    @Override
-    public List<User> list() {
-        Query query = entityManager.createQuery("SELECT u FROM User u", User.class);
-        List<User> list = (List<User>) query.getResultList();
-        return list;
-    }
 
-
-    /**
-     * Метод проверяет уникален переданный login или нет.
-     * @param login
-     * @return
-     */
     @Override
     public boolean isLoginUnique(String login) {
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
@@ -43,11 +25,6 @@ public class UserDAOImpl implements UserDAO{
     }
 
 
-    /**
-     * Метод проверяет реален переданный e-mail или нет.
-     * @param mail
-     * @return
-     */
     @Override
     public boolean isMailReal(String mail) {
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
@@ -57,11 +34,6 @@ public class UserDAOImpl implements UserDAO{
     }
 
 
-    /**
-     * Метод проверяет уникален переданный e-mail или нет.
-     * @param mail
-     * @return
-     */
     @Override
     public boolean isMailUnique(String mail) {
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.mail = :mail", User.class);
@@ -70,12 +42,7 @@ public class UserDAOImpl implements UserDAO{
         return query.getResultList().size() == 0;
     }
 
-    /**
-     * Метод проверяет правильно ли введена пара login/password.
-     * @param login
-     * @param password
-     * @return
-     */
+
     @Override
     public boolean isSignInOk(String login, String password) {
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login AND u.password = :password", User.class);
@@ -88,13 +55,7 @@ public class UserDAOImpl implements UserDAO{
     }
 
 
-    /**
-     * Метод проверяет может User(ищет по логину) голосовать за Joke(поиск по id).
-     * Напоминаю, User может голосовать за каждую Joke один раз.
-     * @param jokeId
-     * @param login
-     * @return
-     */
+
     @Override
     public boolean isCorrectAction(int jokeId, String login) {
         boolean isCorrect = false;
@@ -105,8 +66,8 @@ public class UserDAOImpl implements UserDAO{
             User user = (User)query.getSingleResult();
             Joke joke = entityManager.find(Joke.class, jokeId);
 
-            if(isCorrect = !user.getJokes().contains(joke))
-                user.addJoke(joke);
+            if(isCorrect = !user.getRatedJokes().contains(joke))
+                user.addRatedJoke(joke);
 
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
@@ -117,11 +78,6 @@ public class UserDAOImpl implements UserDAO{
     }
 
 
-    /**
-     * Метод проверяет администратор этот user, или нет.
-     * @param login
-     * @return
-     */
     @Override
     public boolean isUserAdmin(String login) {
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
@@ -131,11 +87,15 @@ public class UserDAOImpl implements UserDAO{
         return user.getMark()!=null && user.getMark().equals("admin");
     }
 
+    @Override
+    public User getUserByLogin(String login) {
+        Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
+        query.setParameter("login", login);
+        User user = (User)query.getSingleResult();
+        return user;
+    }
 
-    /**
-     * Добавляется переданный User.
-     * @param user
-     */
+
     @Override
     public void addUser(User user) {
         try {
