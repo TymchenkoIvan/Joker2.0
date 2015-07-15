@@ -22,7 +22,7 @@
         <tr align="center">
             <td>Hello, <%=userName%>!  <a href="/sign_out" method="post"><b>sign out</b></a></td>
             <td><img height="100" width="150" src="http://fc06.deviantart.net/fs70/i/2011/110/8/a/a_joker_smiles_by_leehi-d2pnjx2.png"></td>
-            <td><h4><a href="/index" method="post"><b>MAIN</b></a></h4></td>
+            <td><h4><a href="/" method="post"><b>MAIN</b></a></h4></td>
             <td><h4><a href="/add_page" method="post"><b>ADD</b></a></h4></td>
             <td><h4><a href="/archive" method="post"><b>ARCHIVE</b></a></h4></td>
             <td><h4><a href="/faq" method="post"><b>FAQ</b></a></h4></td>

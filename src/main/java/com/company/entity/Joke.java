@@ -1,35 +1,36 @@
 package com.company.entity;
 
+import com.company.config.Constants;
 import com.company.enums.Statuses;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "jokes")
+@Table(name = Constants.SQL_TABLE_JOKES)
 public class Joke {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id")
+    @Column()
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user", nullable = false)
     private User user;
 
-    @Column(name = "status", nullable = false)
+    @Column(nullable = false)
     private String status;
 
-    @Column(name = "date", nullable = false)
+    @Column(nullable = false)
     private Date date;
 
-    @Column(name = "likes", nullable = false)
+    @Column(nullable = false)
     private int likes;
 
-    @Column(name = "dislikes", nullable = false)
+    @Column(nullable = false)
     private int dislikes;
 
-    @Column(name = "text", nullable = false)
+    @Column(nullable = false)
     private String text;
 
     @ManyToMany(mappedBy= "ratedJokes")

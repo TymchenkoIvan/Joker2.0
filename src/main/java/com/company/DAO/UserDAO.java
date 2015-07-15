@@ -7,9 +7,9 @@ import com.company.entity.User;
 public interface UserDAO {
 
     boolean isSignInOk(String login, String password);
-    boolean isCorrectAction(int jokeId, String login);
+    boolean isCorrectAction(int jokeId, String login) throws JokerDBException;
     boolean isUserAdmin(String login);
     User createUser(String login, String mail, String telephone, String password) throws JokerAppException;
     User getUserByLogin(String login) throws JokerDBException;
-    void addUser(User user);
+    void addUser(User user) throws JokerDBException;
 }

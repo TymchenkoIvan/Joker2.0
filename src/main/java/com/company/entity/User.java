@@ -1,5 +1,6 @@
 package com.company.entity;
 
+import com.company.config.Constants;
 import com.company.enums.Roles;
 
 import javax.persistence.*;
@@ -7,25 +8,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = Constants.SQL_TABLE_USERS)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id")
+    @Column()
     private int id;
 
-    @Column(name = "role", nullable = false)
+    @Column(nullable = false)
     private String role;
 
-    @Column(name = "login", nullable = false)
+    @Column(nullable = false)
     private String login;
 
-    @Column(name = "mail", nullable = false)
+    @Column(nullable = false)
     private String mail;
 
     private String telephone;
 
-    @Column(name = "password", nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -33,7 +34,7 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name="votes",
+            name=Constants.SQL_TABLE_VOTES,
             joinColumns = {@JoinColumn(name = "id_user", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "id_joke", referencedColumnName = "id")}
     )

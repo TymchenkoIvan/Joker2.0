@@ -1,12 +1,15 @@
 package com.company.DAO;
 
+import com.company.Exceptions.JokerAppException;
 import com.company.Exceptions.JokerDBException;
+import com.company.config.Constants;
 import com.company.entity.Joke;
 import com.company.enums.Statuses;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,14 +18,15 @@ public class JokeDAOImpl implements JokeDAO {
     @Autowired
     private EntityManager entityManager;
 
-
     @Override
-    public List<Joke> list() {
-        Query query = entityManager.createQuery("SELECT j FROM Joke j WHERE j.status = :status", Joke.class);
-        query.setParameter("status", Statuses.NEW.getStatus());
-        List<Joke> list = (List<Joke>) query.getResultList();
-        Collections.reverse(list);
-        return list;
+    public List<Joke> list(Statuses status, int page) {
+        Query query = entityManager.createNativeQuery(
+                "SElECT * FROM jokes " +
+                        "WHERE status ='"+status.getStatus()+"'" +
+                        "ORDER BY date DESC " +
+                        "LIMIT "+ (page-1)* Constants.MAX_JOKES_ON_PAGE+","+Constants.MAX_JOKES_ON_PAGE,
+                Joke.class);
+        return (List<Joke>) query.getResultList();
     }
 
 
@@ -37,8 +41,11 @@ public class JokeDAOImpl implements JokeDAO {
 
 
     @Override
-    public void add(Joke joke) throws JokerDBException {
-        try {
+    public void add(Joke joke) throws JokerAppException {
+        if(joke.getText() == null) {
+            throw new JokerAppException("Joke text can't be empty!!");
+        }
+            try {
             entityManager.getTransaction().begin();
             entityManager.persist(joke);
             entityManager.getTransaction().commit();
@@ -50,7 +57,7 @@ public class JokeDAOImpl implements JokeDAO {
 
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws JokerDBException {
         try {
             entityManager.getTransaction().begin();
             Joke joke = entityManager.find(Joke.class, id);
@@ -58,14 +65,13 @@ public class JokeDAOImpl implements JokeDAO {
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
-            ex.printStackTrace();
+            throw new JokerDBException(ex.getMessage());
         }
     }
 
 
-
     @Override
-    public void recover(int id) {
+    public void recover(int id) throws JokerDBException {
         try {
             entityManager.getTransaction().begin();
             Joke joke = entityManager.find(Joke.class, id);
@@ -75,13 +81,13 @@ public class JokeDAOImpl implements JokeDAO {
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
-            ex.printStackTrace();
+            throw new JokerDBException(ex.getMessage());
         }
     }
 
 
     @Override
-    public void like(int id){
+    public void like(int id) throws JokerDBException {
         try {
             entityManager.getTransaction().begin();
             Joke joke = entityManager.find(Joke.class, id);
@@ -90,13 +96,13 @@ public class JokeDAOImpl implements JokeDAO {
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
-            ex.printStackTrace();
+            throw new JokerDBException(ex.getMessage());
         }
     }
 
 
     @Override
-    public void dislike(int id){
+    public void dislike(int id) throws JokerDBException {
         try {
             entityManager.getTransaction().begin();
             Joke joke = entityManager.find(Joke.class, id);
@@ -110,7 +116,14 @@ public class JokeDAOImpl implements JokeDAO {
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
-            ex.printStackTrace();
+            throw new JokerDBException(ex.getMessage());
         }
+    }
+
+    @Override
+    public int jokesCountByStatus(Statuses status){
+        Query query = entityManager.createNativeQuery(
+                "SELECT count(*) FROM jokes WHERE status = '"+status.getStatus()+"';");
+        return ((BigInteger) query.getSingleResult()).intValue();
     }
 }

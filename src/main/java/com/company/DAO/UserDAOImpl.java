@@ -28,11 +28,10 @@ public class UserDAOImpl implements UserDAO{
         return query.getResultList().size() == 0;
     }
 
-    private boolean isTelepfoneOk(String telephone) {
+    private boolean isTelephoneOk(String telephone) {
         if(!telephone.equals(null) && telephone.length() > Constants.SQL_LENGTH_TELEPHONE){
             return false;
         }
-
         return true;
     }
 
@@ -59,7 +58,6 @@ public class UserDAOImpl implements UserDAO{
         return query.getResultList().size() == 0;
     }
 
-
     @Override
     public boolean isSignInOk(String login, String password) {
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login AND u.password = :password", User.class);
@@ -67,15 +65,13 @@ public class UserDAOImpl implements UserDAO{
         query.setParameter("password", password);
         if(query.getResultList().size() != 1)
             return false;
-
         return true;
     }
 
     @Override
-    public boolean isCorrectAction(int jokeId, String login) {
+    public boolean isCorrectAction(int jokeId, String login) throws JokerDBException {
         boolean isCorrect = false;
         try {
-            entityManager.getTransaction().begin();
             Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
             query.setParameter("login", login);
             User user = (User)query.getSingleResult();
@@ -84,14 +80,11 @@ public class UserDAOImpl implements UserDAO{
             if(isCorrect = !user.getRatedJokes().contains(joke))
                 user.addRatedJoke(joke);
 
-            entityManager.getTransaction().commit();
         } catch (Exception ex) {
-            entityManager.getTransaction().rollback();
-            ex.printStackTrace();
+            throw new JokerDBException(ex.getMessage());
         }
         return isCorrect;
     }
-
 
     @Override
     public boolean isUserAdmin(String login) {
@@ -110,10 +103,10 @@ public class UserDAOImpl implements UserDAO{
         if(!isMailOk(mail)){
             throw new JokerAppException(Constants.ERROR_MAIL);
         }
-        if(!isTelepfoneOk(telephone)){
+        if(!isTelephoneOk(telephone)){
             throw new JokerAppException(Constants.ERROR_TELEPHONE);
         }
-        if(!isTelepfoneOk(password)){
+        if(!isPasswordOk(password)){
             throw new JokerAppException(Constants.ERROR_PASSWORD);
         }
         return new User(login, mail, telephone, password);
@@ -132,14 +125,14 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
-    public void addUser(User user) {
+    public void addUser(User user) throws JokerDBException {
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(user);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
-            ex.printStackTrace();
+            throw new JokerDBException(ex.getMessage());
         }
     }
 }

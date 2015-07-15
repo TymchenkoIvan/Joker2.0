@@ -1,11 +1,18 @@
 package com.company.config;
 
+/**
+ * Class contains all constants that app use on server and client side.
+ */
 public class Constants {
 
     // App constants
     public static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    public static final int MAX_JOKES_ON_PAGE = 5;
 
     // SQL constants
+    public static final String SQL_TABLE_USERS = "users";
+    public static final String SQL_TABLE_JOKES = "jokes";
+    public static final String SQL_TABLE_VOTES = "votes";
     public static final int SQL_LENGTH_MAIL = 25;
     public static final int SQL_LENGTH_LOGIN = 20;
     public static final int SQL_LENGTH_PASSWORD = 20;
@@ -21,8 +28,11 @@ public class Constants {
     public static final String VAR_MAIL = "mail";
     public static final String VAR_TELEPHONE = "telephone";
     public static final String VAR_PASSWORD = "password";
+    public static final String VAR_ROLE = "role";
     public static final String VAR_PASSWORD_REPEAT = "repeat_password";
     public static final String VAR_JOKE_ID = "jokeId";
+    public static final String VAR_PAGER_COUNT = "pages";
+    public static final String VAR_PAGE_COUNT = "page";
 
     // Page constants
     public static final String PAGE_INDEX = "index";
