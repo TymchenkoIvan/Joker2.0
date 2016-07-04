@@ -23,7 +23,7 @@
                         <div class="form-group"><input type="text" class="form-control" name="repeat_password" placeholder="Repeat password *"></div>
 
                         <div class="form-group"><input type="submit" class="btn btn-primary" value="Create user">
-                            <a href="/com_company/">or you can Sign in</a>
+                            <a href="./">or you can Sign in</a>
                         </div>
                     </form>
                 </table>

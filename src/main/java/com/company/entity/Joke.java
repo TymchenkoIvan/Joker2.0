@@ -27,7 +27,7 @@ public class Joke {
     private String mark;
 
     @ManyToMany(mappedBy="jokes")
-    private List<User> users = new ArrayList<User>();
+    private List<User> users = new ArrayList<>();
 
     public Joke() {}
 

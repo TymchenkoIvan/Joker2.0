@@ -32,7 +32,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "id_user", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "id_joke", referencedColumnName = "id")}
     )
-    private List<Joke> jokes = new ArrayList<Joke>();
+    private List<Joke> jokes = new ArrayList<>();
 
     public User() {
     }

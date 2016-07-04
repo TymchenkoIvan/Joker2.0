@@ -9,26 +9,7 @@
 <body>
 <div class="container">
 
-    <%  String userName = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null)
-            for (Cookie cookie : cookies)
-                if (cookie.getName().equals("jokerUser"))
-                    userName = cookie.getValue();
-
-        if (userName == null)
-            response.sendRedirect("/com_company/");  %>
-
-    <table border="0" width="80%" align="center">
-        <tr align="center">
-            <td>Hello, <%=userName%>!  <a href="/com_company/sign_out" method="post"><b>sign out</b></a></td>
-            <td><img height="100" width="150" src="http://fc06.deviantart.net/fs70/i/2011/110/8/a/a_joker_smiles_by_leehi-d2pnjx2.png"></td>
-            <td><h4><a href="/com_company/index" method="post"><b>MAIN</b></a></h4></td>
-            <td><h4><a href="/com_company/add_page" method="post"><b>ADD</b></a></h4></td>
-            <td><h4><a href="/com_company/archive" method="post"><b>ARCHIVE</b></a></h4></td>
-            <td><h4><a href="/com_company/faq" method="post"><b>FAQ</b></a></h4></td>
-        </tr>
-    </table>
+    <%@ include file="jspf/header.jspf"%>
 
     <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p>
 
@@ -49,8 +30,8 @@
                 <td><center><b>${joke.likes}</b></center></td>
                 <td><center>${joke.dislikes}</center></td>
                 <td>${joke.text}</td>
-                <td><a href="/com_company/like?jokeId=${joke.id}&login=<%=userName%>"><b>Like!</b></a></td>
-                <td><a href="/com_company/dislike?jokeId=${joke.id}&login=<%=userName%>"><b>Dislike</b></a></td>
+                <td><a href="./like?jokeId=${joke.id}&login=<%=userName%>"><b>Like!</b></a></td>
+                <td><a href="./dislike?jokeId=${joke.id}&login=<%=userName%>"><b>Dislike</b></a></td>
             </tr>
         </c:forEach>
     </table>

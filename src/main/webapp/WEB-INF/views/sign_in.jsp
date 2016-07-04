@@ -10,6 +10,7 @@
 <body>
 
 <div class="container">
+
     <%  String userName = null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null)
@@ -18,7 +19,7 @@
                     userName = cookie.getValue();
 
         if (userName != null)
-            response.sendRedirect("/com_company/index");  %>
+            response.sendRedirect("/joker.com/index");  %>
 
     <table border="0" align="center">
         <td align="center">
@@ -31,7 +32,7 @@
                     <div class="form-group"><input  type=password class="form-control" name="password" placeholder="Password *"></div>
 
                     <div class="form-group"><input type="submit" class="btn btn-primary" value="Sign in">
-                        <a href="/com_company/authorization">you can create new user</a>
+                        <a href="./authorization">you can create new user</a>
                     </div>
                 </form>
             </table>
