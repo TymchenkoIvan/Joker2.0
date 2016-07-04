@@ -10,6 +10,7 @@
 <body>
 
 <div class="container">
+
     <%  String userName = null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null)

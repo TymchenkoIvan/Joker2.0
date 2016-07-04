@@ -140,7 +140,7 @@ public class MainController {
                                @RequestParam(value=Constants.VAR_PASSWORD) String password,
                                HttpServletResponse response) {
         try{
-            if(userDAO.isSignInOk(login, password)){
+            if(!userDAO.isSignInOk(login, password)){
                 throw new JokerAppException(Constants.ERROR_SIGN_IN);
             }
 
