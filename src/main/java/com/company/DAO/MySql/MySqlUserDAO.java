@@ -1,5 +1,6 @@
-package com.company.DAO;
+package com.company.DAO.MySql;
 
+import com.company.DAO.UserDAO;
 import com.company.entity.Joke;
 import com.company.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import javax.persistence.Query;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UserDAOImpl implements UserDAO{
+public class MySqlUserDAO implements UserDAO {
 
     @Autowired
     private EntityManager entityManager;

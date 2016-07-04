@@ -31,8 +31,8 @@
                 <td><center><b>${joke.likes}</b></center></td>
                 <td><center>${joke.dislikes}</center></td>
                 <td>${joke.text}</td>
-                <td><center><a href="./archive/delete?jokeId=${joke.id}&login=<%=userName%>"><b>delete</b></a></center></td>
-                <td><center><a href="./archive/recover?jokeId=${joke.id}&login=<%=userName%>"><b>recover</b></a></center></td>
+                <td><center><a href="/joker.com/archive/delete?jokeId=${joke.id}&login=<%=userName%>"><b>delete</b></a></center></td>
+                <td><center><a href="/joker.com/archive/recover?jokeId=${joke.id}&login=<%=userName%>"><b>recover</b></a></center></td>
             </tr>
         </c:forEach>
     </table>

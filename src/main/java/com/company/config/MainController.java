@@ -187,7 +187,7 @@ public class MainController {
 
             User user = new User(login, mail, password);
             userDAO.addUser(user);
-            return new ModelAndView("sign_in");
+            return new ModelAndView("index");
         } catch (Exception ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return null;

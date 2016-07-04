@@ -1,5 +1,6 @@
-package com.company.DAO;
+package com.company.DAO.MySql;
 
+import com.company.DAO.JokeDAO;
 import com.company.entity.Joke;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -8,7 +9,7 @@ import javax.persistence.Query;
 import java.util.Collections;
 import java.util.List;
 
-public class JokeDAOImpl implements JokeDAO {
+public class MySqlJokeDAO implements JokeDAO {
 
     @Autowired
     private EntityManager entityManager;
