@@ -1,9 +1,8 @@
 package com.company.config;
 
-import com.company.DAO.JokeDAO;
-import com.company.DAO.UserDAO;
-import com.company.entity.Joke;
 import com.company.entity.User;
+import com.company.service.JokeService;
+import com.company.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,15 +29,15 @@ public class MainController {
     private final String IS_ADMIN_ERROR = "ERROR: Only admin can delete/recover jokes";
     private final String VOTE_ERROR = "ERROR: You can't rate one joke twice";
 
-	@Autowired
-	private JokeDAO jokeDAO;
+    @Autowired
+    private JokeService jokeService;
 
     @Autowired
-    private UserDAO userDAO;
+    private UserService userService;
 
 	@RequestMapping("/index")
 	public ModelAndView listJokes() {
-		return new ModelAndView("index", "jokes", jokeDAO.list());
+		return new ModelAndView("index", "jokes", jokeService.getAllJokes());
 	}
 
     @RequestMapping("/")
@@ -53,7 +52,7 @@ public class MainController {
 
     @RequestMapping("/archive")
     public ModelAndView listJokesArchive() {
-        return new ModelAndView("archive", "jokes", jokeDAO.listArchive());
+        return new ModelAndView("archive", "jokes", jokeService.getArchivedJokes());
     }
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -62,9 +61,8 @@ public class MainController {
 						 HttpServletResponse response)
 	{
 		try {
-			Joke joke = new Joke(text);
-            jokeDAO.add(joke);
-			return new ModelAndView("index", "jokes", jokeDAO.list());
+            jokeService.addJoke(text);
+			return new ModelAndView("index", "jokes", jokeService.getAllJokes());
 		} catch (Exception ex) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return null;
@@ -75,12 +73,12 @@ public class MainController {
     public ModelAndView like(@RequestParam(value="jokeId") int jokeId,
                              @RequestParam(value="login") String login) {
         Map<String, Object> model = new HashMap<>();
-        if(userDAO.isCorrectAction(jokeId, login)){
-            jokeDAO.like(jokeId);
-            model.put("jokes", jokeDAO.list());
+        if(userService.isCorrectAction(jokeId, login)){
+            jokeService.addLike(jokeId);
+            model.put("jokes", jokeService.getAllJokes());
             return new ModelAndView("index", model);
         }
-        model.put("jokes", jokeDAO.list());
+        model.put("jokes", jokeService.getAllJokes());
         model.put("error", VOTE_ERROR);
         return new ModelAndView("index", model);
     }
@@ -89,12 +87,12 @@ public class MainController {
      public ModelAndView dislike(@RequestParam(value="jokeId") int jokeId,
                                  @RequestParam(value="login") String login) {
         Map<String, Object> model = new HashMap<>();
-        if(userDAO.isCorrectAction(jokeId, login)) {
-            jokeDAO.dislike(jokeId);
-            model.put("jokes", jokeDAO.list());
+        if(userService.isCorrectAction(jokeId, login)) {
+            jokeService.addDislike(jokeId);
+            model.put("jokes", jokeService.getAllJokes());
             return new ModelAndView("index", model);
         }
-        model.put("jokes", jokeDAO.list());
+        model.put("jokes", jokeService.getAllJokes());
         model.put("error", VOTE_ERROR);
         return new ModelAndView("index", model);
     }
@@ -103,12 +101,12 @@ public class MainController {
     public ModelAndView recover(@RequestParam(value="jokeId") int jokeId,
                                 @RequestParam(value="login") String login) {
         Map<String, Object> model = new HashMap<>();
-        if(userDAO.isUserAdmin(login)) {
-            jokeDAO.recover(jokeId);
-            model.put("jokes", jokeDAO.listArchive());
+        if(userService.isUserAdmin(login)) {
+            jokeService.recoverJokeFromArchive(jokeId);
+            model.put("jokes", jokeService.getArchivedJokes());
             return new ModelAndView("archive", model);
         }
-        model.put("jokes", jokeDAO.listArchive());
+        model.put("jokes", jokeService.getArchivedJokes());
         model.put("error", IS_ADMIN_ERROR);
         return new ModelAndView("archive", model);
     }
@@ -117,12 +115,12 @@ public class MainController {
     public ModelAndView delete(@RequestParam(value="jokeId") int jokeId,
                                @RequestParam(value="login") String login) {
         Map<String, Object> model = new HashMap<>();
-        if(userDAO.isUserAdmin(login)) {
-            jokeDAO.delete(jokeId);
-            model.put("jokes", jokeDAO.listArchive());
+        if(userService.isUserAdmin(login)) {
+            jokeService.deleteJoke(jokeId);
+            model.put("jokes", jokeService.getArchivedJokes());
             return new ModelAndView("archive", model);
         }
-        model.put("jokes", jokeDAO.listArchive());
+        model.put("jokes", jokeService.getArchivedJokes());
         model.put("error", IS_ADMIN_ERROR);
         return new ModelAndView("archive", model);
     }
@@ -132,14 +130,14 @@ public class MainController {
                                @RequestParam(value="password") String password,
                                HttpServletRequest request,
                                HttpServletResponse response) {
-        if(userDAO.isSignInOk(login, password)){
+        if(userService.isSignInOk(login, password)){
             Cookie cookie = new Cookie("jokerUser", login);
             cookie.setMaxAge(365*24*60*60);
             cookie.setPath("/");
             response.addCookie(cookie);
 
             Map<String, Object> model = new HashMap<>();
-            model.put("jokes", jokeDAO.list());
+            model.put("jokes", jokeService.getAllJokes());
             return new ModelAndView("index", model);
         }
         else
@@ -176,17 +174,17 @@ public class MainController {
                                 HttpServletRequest request,
                                 HttpServletResponse response) {
         try {
-            if(!userDAO.isLoginUnique(login))
+            if(!userService.isLoginUnique(login))
                 return new ModelAndView("authorization", "error", LOGIN_ERROR);
-            if(!userDAO.isMailReal(mail))
+            if(!userService.isMailReal(mail))
                 return new ModelAndView("authorization", "error", MAIL_NOT_REAL);
-            if(!userDAO.isMailUnique(mail))
+            if(!userService.isMailUnique(mail))
                 return new ModelAndView("authorization", "error", MAIL_NOT_UNIQUE);
             if(!password.equals(repeat_password))
                 return new ModelAndView("authorization", "error", PASSWORD_ERROR);
 
             User user = new User(login, mail, password);
-            userDAO.addUser(user);
+            userService.addUser(user);
             return new ModelAndView("index");
         } catch (Exception ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
