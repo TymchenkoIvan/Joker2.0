@@ -19,12 +19,12 @@
                     userName = cookie.getValue();
 
         if (userName != null)
-            response.sendRedirect("/joker.com/index");  %>
+            response.sendRedirect("/joker.com");  %>
 
     <table border="0" align="center">
         <td align="center">
             <table>
-                <form action="/joker.com/sign_in/sign_in" method="post">
+                <form action="/joker.com/sign_in/sign" method="post">
                     <div><img height="200" width="200" src="<c:url value="/resources/images/main_clown.jpg" />"></div>
                     <div><h3>Sign in</h3></div>
                     <div><p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p></div>

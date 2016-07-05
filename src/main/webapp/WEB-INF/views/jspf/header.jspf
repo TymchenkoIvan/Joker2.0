@@ -7,17 +7,16 @@
 					userName = cookie.getValue();
 
 		if (userName == null)
-			response.sendRedirect("/joker.com/");  %>
+			response.sendRedirect("/joker.com/sign_in");  %>
 
 	<table border="0" width="80%" align="center">
 		<tr align="center">
 			<td>Hello, <%=userName%>!  <a href="/joker.com/sign_out" method="post"><b>sign out</b></a></td>
 			<td><img height="100" width="150" src="<c:url value="/resources/images/header_clown.png" />"></td>
 			<td><h4><a href="/joker.com/index" method="post"><b>MAIN</b></a></h4></td>
-			<td><h4><a href="/joker.com/add_page" method="post"><b>ADD</b></a></h4></td>
+			<td><h4><a href="/joker.com/add" method="post"><b>ADD</b></a></h4></td>
 			<td><h4><a href="/joker.com/archive" method="post"><b>ARCHIVE</b></a></h4></td>
 			<td><h4><a href="/joker.com/faq" method="post"><b>FAQ</b></a></h4></td>
 		</tr>
 	</table>
 </header>
-
