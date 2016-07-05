@@ -1,6 +1,7 @@
 package com.company.config;
 
 import com.company.entity.User;
+import com.company.util.Message;
 import com.company.service.JokeService;
 import com.company.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/")
 public class MainController {
-
-    private final String SIGN_IN_ERROR = "ERROR: Wrong pair Login/Password, try again";
-    private final String LOGIN_ERROR = "ERROR: Login is not unique, try again";
-    private final String MAIL_NOT_UNIQUE = "ERROR: Mail is not unique, try again";
-    private final String MAIL_NOT_REAL = "ERROR: Mail is not real, try again";
-    private final String PASSWORD_ERROR = "ERROR: Password repeat is wrong, try again";
-    private final String IS_ADMIN_ERROR = "ERROR: Only admin can delete/recover jokes";
-    private final String VOTE_ERROR = "ERROR: You can't rate one joke twice";
 
     @Autowired
     private JokeService jokeService;
@@ -79,7 +72,7 @@ public class MainController {
             return new ModelAndView("index", model);
         }
         model.put("jokes", jokeService.getAllJokes());
-        model.put("error", VOTE_ERROR);
+        model.put("error", Message.VOTE_ERROR);
         return new ModelAndView("index", model);
     }
 
@@ -93,7 +86,7 @@ public class MainController {
             return new ModelAndView("index", model);
         }
         model.put("jokes", jokeService.getAllJokes());
-        model.put("error", VOTE_ERROR);
+        model.put("error", Message.VOTE_ERROR);
         return new ModelAndView("index", model);
     }
 
@@ -107,7 +100,7 @@ public class MainController {
             return new ModelAndView("archive", model);
         }
         model.put("jokes", jokeService.getArchivedJokes());
-        model.put("error", IS_ADMIN_ERROR);
+        model.put("error", Message.IS_ADMIN_ERROR);
         return new ModelAndView("archive", model);
     }
 
@@ -121,7 +114,7 @@ public class MainController {
             return new ModelAndView("archive", model);
         }
         model.put("jokes", jokeService.getArchivedJokes());
-        model.put("error", IS_ADMIN_ERROR);
+        model.put("error", Message.IS_ADMIN_ERROR);
         return new ModelAndView("archive", model);
     }
 
@@ -141,7 +134,7 @@ public class MainController {
             return new ModelAndView("index", model);
         }
         else
-            return new ModelAndView("sign_in", "error", SIGN_IN_ERROR);
+            return new ModelAndView("sign_in", "error", Message.SIGN_IN_ERROR);
     }
 
     @RequestMapping("/sign_out")
@@ -175,13 +168,13 @@ public class MainController {
                                 HttpServletResponse response) {
         try {
             if(!userService.isLoginUnique(login))
-                return new ModelAndView("authorization", "error", LOGIN_ERROR);
+                return new ModelAndView("authorization", "error", Message.LOGIN_ERROR);
             if(!userService.isMailReal(mail))
-                return new ModelAndView("authorization", "error", MAIL_NOT_REAL);
+                return new ModelAndView("authorization", "error", Message.MAIL_NOT_REAL);
             if(!userService.isMailUnique(mail))
-                return new ModelAndView("authorization", "error", MAIL_NOT_UNIQUE);
+                return new ModelAndView("authorization", "error", Message.MAIL_NOT_UNIQUE);
             if(!password.equals(repeat_password))
-                return new ModelAndView("authorization", "error", PASSWORD_ERROR);
+                return new ModelAndView("authorization", "error", Message.PASSWORD_ERROR);
 
             User user = new User(login, mail, password);
             userService.addUser(user);
