@@ -17,8 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/sign_in")
-public class SignInController {
+@RequestMapping("/login")
+public class LogInController {
 
     @Autowired
     private JokeService jokeService;
@@ -28,16 +28,14 @@ public class SignInController {
 
     @RequestMapping("")
     public ModelAndView authorization() {
-        return new ModelAndView("sign_in");
+        return new ModelAndView("login");
     }
 
-    @RequestMapping(value = "/sign", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public ModelAndView signIn(@RequestParam(value="login") String login,
                                @RequestParam(value="password") String password,
                                HttpServletRequest request,
                                HttpServletResponse response) {
-
-        System.out.println("i am here!");
         if(userService.isSignInOk(login, password)){
             Cookie cookie = new Cookie("jokerUser", login);
             cookie.setMaxAge(365*24*60*60);
@@ -49,7 +47,7 @@ public class SignInController {
             return new ModelAndView("index", model);
         }
         else
-            return new ModelAndView("sign_in", "error", Message.SIGN_IN_ERROR);
+            return new ModelAndView("login", "error", Message.SIGN_IN_ERROR);
     }
 
 }

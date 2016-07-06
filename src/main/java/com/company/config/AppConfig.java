@@ -8,6 +8,8 @@ import com.company.service.JokeService;
 import com.company.service.UserService;
 import com.company.service.custom.CustomJokeService;
 import com.company.service.custom.CustomUserService;
+import com.company.util.validator.SignUpFormValidator;
+import com.company.util.validator.Validator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -43,4 +45,12 @@ public class AppConfig {
     public UserService userService() {
         return new CustomUserService();
     }
+
+    @Bean
+    public SignUpFormValidator signUpFormValidator() {
+        return new SignUpFormValidator();
+    }
+
+    @Bean
+    public Validator validator(){ return new Validator(); }
 }

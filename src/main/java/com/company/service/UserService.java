@@ -14,7 +14,5 @@ public interface UserService {
 
     boolean isMailUnique(String mail);
 
-    boolean isMailReal(String mail);
-
     void addUser(User user);
 }

@@ -24,14 +24,6 @@ public class MySqlUserDAO implements UserDAO {
     }
 
     @Override
-    public boolean isMailReal(String mail) {
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(mail);
-
-        return matcher.matches();
-    }
-
-    @Override
     public boolean isMailUnique(String mail) {
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.mail = :mail", User.class);
         query.setParameter("mail", mail);

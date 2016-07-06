@@ -36,11 +36,6 @@ public class CustomUserService implements UserService{
     }
 
     @Override
-    public boolean isMailReal(String mail) {
-        return userDAO.isMailReal(mail);
-    }
-
-    @Override
     public void addUser(User user) {
         userDAO.addUser(user);
     }

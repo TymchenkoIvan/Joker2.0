@@ -9,17 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping("/sign_out")
-public class SignOutController {
+@RequestMapping("/logout")
+public class LogOutController {
 
     @RequestMapping("")
-    public ModelAndView signOut(HttpServletRequest request,
-                                HttpServletResponse response) {
+    public ModelAndView logOut(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html");
         Cookie cookie = new Cookie("jokerUser", null);
         cookie.setMaxAge(0);
         cookie.setPath("/");
         response.addCookie(cookie);
-        return new ModelAndView("sign_in");
+        return new ModelAndView("login");
     }
 }
