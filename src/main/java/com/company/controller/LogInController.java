@@ -3,6 +3,7 @@ package com.company.controller;
 import com.company.service.JokeService;
 import com.company.service.UserService;
 import com.company.util.Message;
+import com.company.util.View;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,10 +45,10 @@ public class LogInController {
 
             Map<String, Object> model = new HashMap<>();
             model.put("jokes", jokeService.getAllJokes());
-            return new ModelAndView("index", model);
+            return new ModelAndView(View.INDEX_PAGE, model);
         }
         else
-            return new ModelAndView("login", "error", Message.SIGN_IN_ERROR);
+            return new ModelAndView(View.LOG_IN_PAGE, "error", Message.SIGN_IN_ERROR);
     }
 
 }

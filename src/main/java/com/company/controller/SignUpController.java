@@ -3,6 +3,7 @@ package com.company.controller;
 import com.company.entity.User;
 import com.company.exception.JokerValidationException;
 import com.company.service.UserService;
+import com.company.util.View;
 import com.company.util.bean.SignUpForm;
 import com.company.util.validator.SignUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class SignUpController {
 
     @RequestMapping("")
     public ModelAndView signUpPage() {
-        return new ModelAndView("signup");
+        return new ModelAndView(View.SIGN_UP_PAGE);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -42,7 +43,7 @@ public class SignUpController {
         try {
             signUpFormValidator.validate(formBean);
         } catch (JokerValidationException ex) {
-            return new ModelAndView("signup", "error", ex.getMessage());
+            return new ModelAndView(View.SIGN_UP_PAGE, "error", ex.getMessage());
         }
         User user = new User(login, mail, password);
         userService.addUser(user);

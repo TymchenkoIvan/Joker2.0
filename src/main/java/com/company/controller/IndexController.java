@@ -3,6 +3,7 @@ package com.company.controller;
 import com.company.service.JokeService;
 import com.company.service.UserService;
 import com.company.util.Message;
+import com.company.util.View;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class IndexController {
 
     @RequestMapping(value={"", " * "})
     public ModelAndView mainPage() {
-        return new ModelAndView("index", "jokes", jokeService.getAllJokes());
+        return new ModelAndView(View.INDEX_PAGE, "jokes", jokeService.getAllJokes());
     }
 
     @RequestMapping("/like")
@@ -34,11 +35,11 @@ public class IndexController {
         if(userService.isCorrectAction(jokeId, login)){
             jokeService.addLike(jokeId);
             model.put("jokes", jokeService.getAllJokes());
-            return new ModelAndView("index", model);
+            return new ModelAndView(View.INDEX_PAGE, model);
         }
         model.put("jokes", jokeService.getAllJokes());
         model.put("error", Message.VOTE_ERROR);
-        return new ModelAndView("index", model);
+        return new ModelAndView(View.INDEX_PAGE, model);
     }
 
     @RequestMapping("/dislike")
@@ -48,10 +49,10 @@ public class IndexController {
         if(userService.isCorrectAction(jokeId, login)) {
             jokeService.addDislike(jokeId);
             model.put("jokes", jokeService.getAllJokes());
-            return new ModelAndView("index", model);
+            return new ModelAndView(View.INDEX_PAGE, model);
         }
         model.put("jokes", jokeService.getAllJokes());
         model.put("error", Message.VOTE_ERROR);
-        return new ModelAndView("index", model);
+        return new ModelAndView(View.INDEX_PAGE, model);
     }
 }

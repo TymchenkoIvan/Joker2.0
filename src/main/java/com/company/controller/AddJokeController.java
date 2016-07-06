@@ -1,6 +1,7 @@
 package com.company.controller;
 
 import com.company.service.JokeService;
+import com.company.util.View;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +22,7 @@ public class AddJokeController {
 
     @RequestMapping(value = "")
     public String addPage(Model model) {
-        return "add";
+        return View.ADD_JOKE_PAGE;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -31,7 +32,7 @@ public class AddJokeController {
     {
         try {
             jokeService.addJoke(text);
-            return new ModelAndView("index", "jokes", jokeService.getAllJokes());
+            return new ModelAndView(View.INDEX_PAGE, "jokes", jokeService.getAllJokes());
         } catch (Exception ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return null;

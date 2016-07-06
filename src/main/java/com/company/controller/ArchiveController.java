@@ -3,6 +3,7 @@ package com.company.controller;
 import com.company.service.JokeService;
 import com.company.service.UserService;
 import com.company.util.Message;
+import com.company.util.View;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class ArchiveController {
 
     @RequestMapping("")
     public ModelAndView listJokesArchive() {
-        return new ModelAndView("archive", "jokes", jokeService.getArchivedJokes());
+        return new ModelAndView(View.ARCHIVE_JOKES_PAGE, "jokes", jokeService.getArchivedJokes());
     }
 
     @RequestMapping("/recover")
@@ -34,11 +35,11 @@ public class ArchiveController {
         if(userService.isUserAdmin(login)) {
             jokeService.recoverJokeFromArchive(jokeId);
             model.put("jokes", jokeService.getArchivedJokes());
-            return new ModelAndView("archive", model);
+            return new ModelAndView(View.ARCHIVE_JOKES_PAGE, model);
         }
         model.put("jokes", jokeService.getArchivedJokes());
         model.put("error", Message.IS_ADMIN_ERROR);
-        return new ModelAndView("archive", model);
+        return new ModelAndView(View.ARCHIVE_JOKES_PAGE, model);
     }
 
     @RequestMapping("/delete")
@@ -48,10 +49,10 @@ public class ArchiveController {
         if(userService.isUserAdmin(login)) {
             jokeService.deleteJoke(jokeId);
             model.put("jokes", jokeService.getArchivedJokes());
-            return new ModelAndView("archive", model);
+            return new ModelAndView(View.ARCHIVE_JOKES_PAGE, model);
         }
         model.put("jokes", jokeService.getArchivedJokes());
         model.put("error", Message.IS_ADMIN_ERROR);
-        return new ModelAndView("archive", model);
+        return new ModelAndView(View.ARCHIVE_JOKES_PAGE, model);
     }
 }
