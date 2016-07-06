@@ -2,7 +2,7 @@ package com.company.util;
 
 public class Message {
 
-    public final static String SIGN_IN_ERROR = "ERROR: Wrong pair Login/Password, try again";
+    public final static String LOG_IN_ERROR = "ERROR: Wrong pair Login/Password, try again";
 
     public final static String LOGIN_ERROR = "ERROR: Login is not unique, try again";
 

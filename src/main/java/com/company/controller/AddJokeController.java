@@ -1,10 +1,14 @@
 package com.company.controller;
 
+import com.company.entity.Joke;
+import com.company.exception.JokerValidationException;
 import com.company.service.JokeService;
+import com.company.util.ModelName;
 import com.company.util.View;
+import com.company.util.bean.AddJokeForm;
+import com.company.util.validator.AddJokeFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,22 +24,36 @@ public class AddJokeController {
     @Autowired
     private JokeService jokeService;
 
+    @Autowired
+    private AddJokeFormValidator formValidator;
+
     @RequestMapping(value = "")
-    public String addPage(Model model) {
+    public String addJokePage() {
         return View.ADD_JOKE_PAGE;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ModelAndView addAdv(@RequestParam(value="text") String text,
-                               HttpServletRequest request,
-                               HttpServletResponse response)
+    public ModelAndView createNewJoke(@RequestParam(value = "text") String text,
+                                      HttpServletRequest request,
+                                      HttpServletResponse response)
     {
         try {
-            jokeService.addJoke(text);
-            return new ModelAndView(View.INDEX_PAGE, "jokes", jokeService.getAllJokes());
-        } catch (Exception ex) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            return null;
+            AddJokeForm formBean = createFormBean(text);
+            formValidator.validate(formBean);
+
+            Joke joke = new Joke();
+            joke.setText(text);
+            jokeService.addJoke(joke);
+
+            return new ModelAndView(View.INDEX_PAGE, ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getAllJokes());
+        } catch (JokerValidationException e) {
+            return new ModelAndView(View.ADD_JOKE_PAGE, ModelName.ALL_PAGES_ERROR_MESSAGE, e.getMessage());
         }
+    }
+
+    private AddJokeForm createFormBean(String text) {
+        AddJokeForm bean = new AddJokeForm();
+        bean.setText(text);
+        return bean;
     }
 }

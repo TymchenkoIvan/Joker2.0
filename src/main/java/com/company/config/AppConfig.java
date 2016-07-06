@@ -8,16 +8,20 @@ import com.company.service.JokeService;
 import com.company.service.UserService;
 import com.company.service.custom.CustomJokeService;
 import com.company.service.custom.CustomUserService;
+import com.company.util.validator.AddJokeFormValidator;
+import com.company.util.validator.LogInFormValidator;
 import com.company.util.validator.SignUpFormValidator;
 import com.company.util.validator.Validator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 @Configuration
+@PropertySource("classpath:property/validator.properties")
 public class AppConfig {
 
     @Bean
@@ -47,8 +51,18 @@ public class AppConfig {
     }
 
     @Bean
+    public LogInFormValidator logInFormValidator() {
+        return new LogInFormValidator();
+    }
+
+    @Bean
     public SignUpFormValidator signUpFormValidator() {
         return new SignUpFormValidator();
+    }
+
+    @Bean
+    public AddJokeFormValidator addJokeFormValidator() {
+        return new AddJokeFormValidator();
     }
 
     @Bean

@@ -1,9 +1,12 @@
 package com.company.controller;
 
+import com.company.exception.JokerValidationException;
 import com.company.service.JokeService;
-import com.company.service.UserService;
 import com.company.util.Message;
+import com.company.util.ModelName;
 import com.company.util.View;
+import com.company.util.bean.LogInForm;
+import com.company.util.validator.LogInFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,30 +28,43 @@ public class LogInController {
     private JokeService jokeService;
 
     @Autowired
-    private UserService userService;
+    private LogInFormValidator formValidator;
 
     @RequestMapping("")
-    public ModelAndView authorization() {
-        return new ModelAndView("login");
+    public ModelAndView logInPage() {
+        return new ModelAndView(View.LOG_IN_PAGE);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ModelAndView signIn(@RequestParam(value="login") String login,
+    public ModelAndView logIn(@RequestParam(value="login") String login,
                                @RequestParam(value="password") String password,
                                HttpServletRequest request,
                                HttpServletResponse response) {
-        if(userService.isSignInOk(login, password)){
+        try {
+            LogInForm formBean = createFormBean(login, password);
+            formValidator.validate(formBean);
             Cookie cookie = new Cookie("jokerUser", login);
             cookie.setMaxAge(365*24*60*60);
             cookie.setPath("/");
             response.addCookie(cookie);
 
             Map<String, Object> model = new HashMap<>();
-            model.put("jokes", jokeService.getAllJokes());
+            model.put(ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getAllJokes());
+
             return new ModelAndView(View.INDEX_PAGE, model);
+        } catch (JokerValidationException e) {
+            e.printStackTrace();
+            return new ModelAndView(View.LOG_IN_PAGE, ModelName.ALL_PAGES_ERROR_MESSAGE, Message.LOG_IN_ERROR);
         }
-        else
-            return new ModelAndView(View.LOG_IN_PAGE, "error", Message.SIGN_IN_ERROR);
+    }
+
+    private LogInForm createFormBean(String login, String password) {
+        LogInForm bean = new LogInForm();
+
+        bean.setLogin(login);
+        bean.setPassword(password);
+
+        return bean;
     }
 
 }

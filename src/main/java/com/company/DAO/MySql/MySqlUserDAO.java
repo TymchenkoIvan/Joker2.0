@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MySqlUserDAO implements UserDAO {
 
@@ -32,14 +30,12 @@ public class MySqlUserDAO implements UserDAO {
     }
 
     @Override
-    public boolean isSignInOk(String login, String password) {
+    public boolean isLoginPairCorrect(String login, String password) {
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login AND u.password = :password", User.class);
         query.setParameter("login", login);
         query.setParameter("password", password);
-        if(query.getResultList().size() != 1)
-            return false;
 
-        return true;
+        return query.getResultList().size() == 1;
     }
 
     @Override

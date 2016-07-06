@@ -8,7 +8,7 @@ public interface UserService {
 
     boolean isUserAdmin(String login);
 
-    boolean isSignInOk(String login, String password);
+    boolean isLoginPairCorrect(String login, String password);
 
     boolean isLoginUnique(String login);
 

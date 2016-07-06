@@ -11,7 +11,7 @@
 
     <%@ include file="jspf/header.jspf"%>
 
-    <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p>
+    <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${errorMessage}</p>
 
     <table class="table table-striped">
         <thead>

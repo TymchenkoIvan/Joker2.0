@@ -11,7 +11,7 @@
 
     <%@ include file="jspf/header.jspf"%>
 
-    <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p>
+    <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${errorMessage}</p>
 
     <tr> <center><h3>Archive:</h3></center></tr>
     <table class="table table-striped">
@@ -23,7 +23,7 @@
             <td><center><b>Joke</b></center></td>
         </tr>
         </thead>
-        <c:forEach items="${jokes}" var="joke">
+        <c:forEach items="${archiveJokes}" var="joke">
             <tr>
                 <jsp:useBean id="beanNow" class="java.util.Date" />
                 <fmt:formatDate value="${joke.date}" var="s_now" pattern="dd.MM.YYYY" />

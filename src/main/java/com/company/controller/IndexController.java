@@ -3,6 +3,7 @@ package com.company.controller;
 import com.company.service.JokeService;
 import com.company.service.UserService;
 import com.company.util.Message;
+import com.company.util.ModelName;
 import com.company.util.View;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,35 +25,39 @@ public class IndexController {
     private UserService userService;
 
     @RequestMapping(value={"", " * "})
-    public ModelAndView mainPage() {
-        return new ModelAndView(View.INDEX_PAGE, "jokes", jokeService.getAllJokes());
+    public ModelAndView indexPage() {
+        return new ModelAndView(View.INDEX_PAGE, ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getAllJokes());
     }
 
     @RequestMapping("/like")
-    public ModelAndView like(@RequestParam(value="jokeId") int jokeId,
-                             @RequestParam(value="login") String login) {
+    public ModelAndView likeAction(@RequestParam(value="jokeId") int jokeId,
+                                   @RequestParam(value="login") String login) {
         Map<String, Object> model = new HashMap<>();
+
         if(userService.isCorrectAction(jokeId, login)){
             jokeService.addLike(jokeId);
-            model.put("jokes", jokeService.getAllJokes());
+            model.put(ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getAllJokes());
             return new ModelAndView(View.INDEX_PAGE, model);
         }
-        model.put("jokes", jokeService.getAllJokes());
-        model.put("error", Message.VOTE_ERROR);
+
+        model.put(ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getAllJokes());
+        model.put(ModelName.ALL_PAGES_ERROR_MESSAGE, Message.VOTE_ERROR);
         return new ModelAndView(View.INDEX_PAGE, model);
     }
 
     @RequestMapping("/dislike")
-     public ModelAndView dislike(@RequestParam(value="jokeId") int jokeId,
-                                 @RequestParam(value="login") String login) {
+     public ModelAndView dislikeAction(@RequestParam(value="jokeId") int jokeId,
+                                       @RequestParam(value="login") String login) {
         Map<String, Object> model = new HashMap<>();
+
         if(userService.isCorrectAction(jokeId, login)) {
             jokeService.addDislike(jokeId);
-            model.put("jokes", jokeService.getAllJokes());
+            model.put(ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getAllJokes());
             return new ModelAndView(View.INDEX_PAGE, model);
         }
-        model.put("jokes", jokeService.getAllJokes());
-        model.put("error", Message.VOTE_ERROR);
+
+        model.put(ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getAllJokes());
+        model.put(ModelName.ALL_PAGES_ERROR_MESSAGE, Message.VOTE_ERROR);
         return new ModelAndView(View.INDEX_PAGE, model);
     }
 }

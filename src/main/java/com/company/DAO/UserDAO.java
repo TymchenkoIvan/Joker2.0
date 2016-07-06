@@ -8,7 +8,7 @@ public interface UserDAO {
 
     boolean isMailUnique(String mail);
 
-    boolean isSignInOk(String login, String password);
+    boolean isLoginPairCorrect(String login, String password);
 
     boolean isCorrectAction(int jokeId, String login);
 

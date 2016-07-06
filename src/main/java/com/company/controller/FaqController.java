@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class FaqController {
 
     @RequestMapping("")
-    public ModelAndView faq() {
+    public ModelAndView faqPage() {
         return new ModelAndView(View.FAQ_PAGE);
     }
 }

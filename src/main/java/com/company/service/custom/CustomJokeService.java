@@ -28,8 +28,7 @@ public class CustomJokeService implements JokeService{
     }
 
     @Override
-    public void addJoke(String text) {
-        Joke joke = new Joke(text);
+    public void addJoke(Joke joke) {
         jokeDAO.add(joke);
     }
 

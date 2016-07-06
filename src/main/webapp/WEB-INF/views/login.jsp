@@ -25,9 +25,9 @@
         <td align="center">
             <table>
                 <form action="/joker.com/login" method="post">
-                    <div><img height="200" width="200" src="<c:url value="/resources/images/main_clown.jpg" />"></div>
-                    <div><h3>Sign in</h3></div>
-                    <div><p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p></div>
+                    <div><img height="200" width="200" src="<c:url value="/resources/web/main_clown.jpg" />"></div>
+                    <div><h3>Log in</h3></div>
+                    <div><p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${errorMessage}</p></div>
                     <div class="form-group"><input type="text" class="form-control" name="login" placeholder="Login *"></div>
                     <div class="form-group"><input  type=password class="form-control" name="password" placeholder="Password *"></div>
 

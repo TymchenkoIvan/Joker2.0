@@ -21,8 +21,8 @@ public class CustomUserService implements UserService{
     }
 
     @Override
-    public boolean isSignInOk(String login, String password) {
-        return userDAO.isSignInOk(login, password);
+    public boolean isLoginPairCorrect(String login, String password) {
+        return userDAO.isLoginPairCorrect(login, password);
     }
 
     @Override

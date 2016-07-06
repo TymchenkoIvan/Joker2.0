@@ -4,6 +4,7 @@ import com.company.entity.User;
 import com.company.exception.JokerValidationException;
 import com.company.service.UserService;
 import com.company.util.View;
+import com.company.util.ModelName;
 import com.company.util.bean.SignUpForm;
 import com.company.util.validator.SignUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class SignUpController {
     private UserService userService;
 
     @Autowired
-    private SignUpFormValidator signUpFormValidator;
+    private SignUpFormValidator formValidator;
 
     @RequestMapping("")
     public ModelAndView signUpPage() {
@@ -39,24 +40,28 @@ public class SignUpController {
                                 @RequestParam(value="confirm") String confirm,
                                 HttpServletRequest request,
                                 HttpServletResponse response) {
-        SignUpForm formBean = createFormBean(login, mail, telephone, password, confirm);
         try {
-            signUpFormValidator.validate(formBean);
-        } catch (JokerValidationException ex) {
-            return new ModelAndView(View.SIGN_UP_PAGE, "error", ex.getMessage());
+            SignUpForm formBean = createFormBean(login, mail, telephone, password, confirm);
+            formValidator.validate(formBean);
+
+            User user = new User(login, mail, password);
+            userService.addUser(user);
+        } catch (JokerValidationException e) {
+            e.printStackTrace();
+            return new ModelAndView(View.SIGN_UP_PAGE, ModelName.ALL_PAGES_ERROR_MESSAGE, e.getMessage());
         }
-        User user = new User(login, mail, password);
-        userService.addUser(user);
-        return new ModelAndView("index");
+        return new ModelAndView(View.INDEX_PAGE);
     }
 
     private SignUpForm createFormBean(String login, String mail, String telephone, String password, String confirm) {
-        SignUpForm dto = new SignUpForm();
-        dto.setLogin(login);
-        dto.setMail(mail);
-        dto.setTelephone(telephone);
-        dto.setPassword(password);
-        dto.setConfirmPassword(confirm);
-        return dto;
+        SignUpForm bean = new SignUpForm();
+
+        bean.setLogin(login);
+        bean.setMail(mail);
+        bean.setTelephone(telephone);
+        bean.setPassword(password);
+        bean.setConfirmPassword(confirm);
+
+        return bean;
     }
 }

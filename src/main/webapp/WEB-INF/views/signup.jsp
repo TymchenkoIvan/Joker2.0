@@ -13,9 +13,9 @@
             <td align="center">
                 <table>
                     <form role="form" class="form-horizontal" action="/joker.com/signup" method="post">
-                        <div><img height="200" width="200" src="http://fs199.www.ex.ua/show/46462669/46462669.jpg?1600"></div>
-                        <div><h3>New user</h3></div>
-                        <div><p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${error}</p></div>
+                        <div><img height="200" width="200" src="<c:url value="/resources/web/main_clown.jpg" />"></div>
+                        <div><h3>Sign Up</h3></div>
+                        <div><p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${errorMessage}</p></div>
                         <div class="form-group"><input type="text" class="form-control" name="login" placeholder="Login *"></div>
                         <div class="form-group"><input type="text" class="form-control" name="mail" placeholder="E-mail *"></div>
                         <div class="form-group"><input type="text" class="form-control" name="telephone" placeholder="Telephone"></div>

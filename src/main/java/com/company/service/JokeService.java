@@ -12,7 +12,7 @@ public interface JokeService {
 
     void addDislike(int jokeId);
 
-    void addJoke(String text);
+    void addJoke(Joke joke);
 
     void recoverJokeFromArchive(int jokeId);
 

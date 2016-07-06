@@ -6,16 +6,12 @@ import com.company.util.Message;
 import com.company.util.bean.Bean;
 import com.company.util.bean.SignUpForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
-@PropertySource("classpath:property/validator.properties")
 public class SignUpFormValidator extends Validator implements BeanValidator{
 
-    //private String mailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
     @Autowired
-    private Environment env;
+    private Environment properties;
 
     @Autowired
     private UserService userService;
@@ -34,15 +30,15 @@ public class SignUpFormValidator extends Validator implements BeanValidator{
         if(isNullOrEmpty(login))
             throw new JokerValidationException(Message.LOGIN_ERROR);
 
-        if(userService.isLoginUnique(login))
+        if(!userService.isLoginUnique(login))
             throw new JokerValidationException(Message.LOGIN_ERROR);
     }
 
     private void validateMail(String mail) throws JokerValidationException {
-        if(isNullOrEmpty(mail) || isMatchesToPattern(mail, env.getProperty("mail.pattern")))
+        if(isNullOrEmpty(mail) || !isMatchesToPattern(mail, properties.getProperty("mail.pattern")))
             throw new JokerValidationException(Message.MAIL_NOT_REAL);
 
-        if(userService.isMailUnique(mail))
+        if(!userService.isMailUnique(mail))
             throw new JokerValidationException(Message.MAIL_NOT_UNIQUE);
     }
 
