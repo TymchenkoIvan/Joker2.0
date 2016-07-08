@@ -6,12 +6,8 @@ import com.company.util.Message;
 import com.company.util.bean.Bean;
 import com.company.util.bean.SignUpForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 
 public class SignUpFormValidator extends Validator implements BeanValidator{
-
-    @Autowired
-    private Environment properties;
 
     @Autowired
     private UserService userService;
@@ -27,7 +23,7 @@ public class SignUpFormValidator extends Validator implements BeanValidator{
     }
 
     private void validateLogin(String login) throws JokerValidationException {
-        if(isNullOrEmpty(login))
+        if(isNullOrEmpty(login) || !isValidField(login, LOGIN_PATTERN))
             throw new JokerValidationException(Message.LOGIN_ERROR);
 
         if(!userService.isLoginUnique(login))
@@ -35,7 +31,7 @@ public class SignUpFormValidator extends Validator implements BeanValidator{
     }
 
     private void validateMail(String mail) throws JokerValidationException {
-        if(isNullOrEmpty(mail) || !isMatchesToPattern(mail, properties.getProperty("mail.pattern")))
+        if(isNullOrEmpty(mail) || !isValidField(mail, MAIL_PATTERN))
             throw new JokerValidationException(Message.MAIL_NOT_REAL);
 
         if(!userService.isMailUnique(mail))
@@ -43,7 +39,7 @@ public class SignUpFormValidator extends Validator implements BeanValidator{
     }
 
     private void validatePassword(String password) throws JokerValidationException {
-        if(isNullOrEmpty(password))
+        if(isNullOrEmpty(password) || !isValidField(password, PASSWORD_PATTERN))
             throw new JokerValidationException(Message.PASSWORD_ERROR);
     }
 

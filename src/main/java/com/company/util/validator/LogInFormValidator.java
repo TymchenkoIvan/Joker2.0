@@ -22,12 +22,12 @@ public class LogInFormValidator extends Validator implements BeanValidator{
     }
 
     private void validateLogin(String login) throws JokerValidationException {
-        if(isNullOrEmpty(login))
+        if(isNullOrEmpty(login) || !isValidField(login, LOGIN_PATTERN))
             throw new JokerValidationException(Message.LOG_IN_ERROR);
     }
 
     private void validatePassword(String password) throws JokerValidationException {
-        if(isNullOrEmpty(password))
+        if(isNullOrEmpty(password) || !isValidField(password, LOGIN_PATTERN))
             throw new JokerValidationException(Message.LOG_IN_ERROR);
     }
 
