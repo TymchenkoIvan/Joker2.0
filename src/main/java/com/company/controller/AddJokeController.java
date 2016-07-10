@@ -1,12 +1,14 @@
 package com.company.controller;
 
 import com.company.entity.Joke;
+import com.company.entity.bean.formbean.AddJokeForm;
+import com.company.entity.bean.formbean.FormBeans;
 import com.company.exception.JokerValidationException;
+import com.company.populator.BeanFactory;
 import com.company.service.JokeService;
 import com.company.util.ModelName;
 import com.company.util.View;
-import com.company.util.bean.AddJokeForm;
-import com.company.util.validator.AddJokeFormValidator;
+import com.company.validator.formvalidator.AddJokeFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,9 @@ public class AddJokeController {
     private JokeService jokeService;
 
     @Autowired
+    private BeanFactory beanFactory;
+
+    @Autowired
     private AddJokeFormValidator formValidator;
 
     @RequestMapping(value = "")
@@ -38,7 +43,7 @@ public class AddJokeController {
                                       HttpServletResponse response)
     {
         try {
-            AddJokeForm formBean = createFormBean(text);
+            AddJokeForm formBean = (AddJokeForm) beanFactory.create(FormBeans.ADD_JOKE, request);
             formValidator.validate(formBean);
 
             Joke joke = new Joke();
@@ -49,11 +54,5 @@ public class AddJokeController {
         } catch (JokerValidationException e) {
             return new ModelAndView(View.ADD_JOKE_PAGE, ModelName.ALL_PAGES_ERROR_MESSAGE, e.getMessage());
         }
-    }
-
-    private AddJokeForm createFormBean(String text) {
-        AddJokeForm bean = new AddJokeForm();
-        bean.setText(text);
-        return bean;
     }
 }

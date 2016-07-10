@@ -1,6 +1,8 @@
-package com.company.util.bean;
+package com.company.entity.bean.formbean;
 
-public class SignUpForm implements Bean{
+import com.company.entity.bean.Bean;
+
+public class SignUpForm implements Bean {
 
     private String login;
 

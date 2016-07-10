@@ -8,10 +8,10 @@ import com.company.service.JokeService;
 import com.company.service.UserService;
 import com.company.service.custom.CustomJokeService;
 import com.company.service.custom.CustomUserService;
-import com.company.util.validator.AddJokeFormValidator;
-import com.company.util.validator.LogInFormValidator;
-import com.company.util.validator.SignUpFormValidator;
-import com.company.util.validator.Validator;
+import com.company.validator.Validator;
+import com.company.validator.formvalidator.AddJokeFormValidator;
+import com.company.validator.formvalidator.LogInFormValidator;
+import com.company.validator.formvalidator.SignUpFormValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -67,4 +67,5 @@ public class AppConfig {
 
     @Bean
     public Validator validator(){ return new Validator(); }
+
 }

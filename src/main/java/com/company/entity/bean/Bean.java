@@ -1,4 +1,4 @@
-package com.company.util.bean;
+package com.company.entity.bean;
 
 import java.io.Serializable;
 

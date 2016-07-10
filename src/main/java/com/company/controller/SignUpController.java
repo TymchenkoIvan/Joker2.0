@@ -3,10 +3,12 @@ package com.company.controller;
 import com.company.entity.User;
 import com.company.exception.JokerValidationException;
 import com.company.service.UserService;
+import com.company.entity.bean.formbean.FormBeans;
 import com.company.util.View;
 import com.company.util.ModelName;
-import com.company.util.bean.SignUpForm;
-import com.company.util.validator.SignUpFormValidator;
+import com.company.entity.bean.formbean.SignUpForm;
+import com.company.populator.BeanFactory;
+import com.company.validator.formvalidator.SignUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,9 @@ public class SignUpController {
     private UserService userService;
 
     @Autowired
+    private BeanFactory beanFactory;
+
+    @Autowired
     private SignUpFormValidator formValidator;
 
     @RequestMapping("")
@@ -41,7 +46,7 @@ public class SignUpController {
                                 HttpServletRequest request,
                                 HttpServletResponse response) {
         try {
-            SignUpForm formBean = createFormBean(login, mail, telephone, password, confirm);
+            SignUpForm formBean = (SignUpForm) beanFactory.create(FormBeans.SIGN_UP, request);
             formValidator.validate(formBean);
 
             User user = new User(login, mail, password);
@@ -51,17 +56,5 @@ public class SignUpController {
             return new ModelAndView(View.SIGN_UP_PAGE, ModelName.ALL_PAGES_ERROR_MESSAGE, e.getMessage());
         }
         return new ModelAndView(View.INDEX_PAGE);
-    }
-
-    private SignUpForm createFormBean(String login, String mail, String telephone, String password, String confirm) {
-        SignUpForm bean = new SignUpForm();
-
-        bean.setLogin(login);
-        bean.setMail(mail);
-        bean.setTelephone(telephone);
-        bean.setPassword(password);
-        bean.setConfirmPassword(confirm);
-
-        return bean;
     }
 }

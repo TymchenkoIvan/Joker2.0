@@ -5,6 +5,7 @@ import com.company.entity.Joke;
 import com.company.service.JokeService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.List;
 
 public class CustomJokeService implements JokeService{
@@ -29,6 +30,8 @@ public class CustomJokeService implements JokeService{
 
     @Override
     public void addJoke(Joke joke) {
+        joke.setDate(new Date());
+        joke.setMark("new");
         jokeDAO.add(joke);
     }
 

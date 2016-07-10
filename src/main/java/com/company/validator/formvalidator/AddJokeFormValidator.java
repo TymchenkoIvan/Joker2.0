@@ -1,11 +1,12 @@
-package com.company.util.validator;
+package com.company.validator.formvalidator;
 
 import com.company.exception.JokerValidationException;
 import com.company.util.Message;
-import com.company.util.bean.AddJokeForm;
-import com.company.util.bean.Bean;
+import com.company.entity.bean.formbean.AddJokeForm;
+import com.company.entity.bean.Bean;
+import com.company.validator.BeanValidator;
 
-public class AddJokeFormValidator extends Validator implements BeanValidator{
+public class AddJokeFormValidator extends FormValidator implements BeanValidator {
 
     @Override
     public void validate(Bean bean) throws JokerValidationException {

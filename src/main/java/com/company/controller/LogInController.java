@@ -2,11 +2,13 @@ package com.company.controller;
 
 import com.company.exception.JokerValidationException;
 import com.company.service.JokeService;
+import com.company.entity.bean.formbean.FormBeans;
 import com.company.util.Message;
 import com.company.util.ModelName;
 import com.company.util.View;
-import com.company.util.bean.LogInForm;
-import com.company.util.validator.LogInFormValidator;
+import com.company.entity.bean.formbean.LogInForm;
+import com.company.populator.BeanFactory;
+import com.company.validator.formvalidator.LogInFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,9 @@ public class LogInController {
     private JokeService jokeService;
 
     @Autowired
+    private BeanFactory beanFactory;
+
+    @Autowired
     private LogInFormValidator formValidator;
 
     @RequestMapping("")
@@ -41,8 +46,9 @@ public class LogInController {
                                HttpServletRequest request,
                                HttpServletResponse response) {
         try {
-            LogInForm formBean = createFormBean(login, password);
+            LogInForm formBean = (LogInForm) beanFactory.create(FormBeans.LOG_IN, request);
             formValidator.validate(formBean);
+
             Cookie cookie = new Cookie("jokerUser", login);
             cookie.setMaxAge(365*24*60*60);
             cookie.setPath("/");
@@ -57,14 +63,4 @@ public class LogInController {
             return new ModelAndView(View.LOG_IN_PAGE, ModelName.ALL_PAGES_ERROR_MESSAGE, Message.LOG_IN_ERROR);
         }
     }
-
-    private LogInForm createFormBean(String login, String password) {
-        LogInForm bean = new LogInForm();
-
-        bean.setLogin(login);
-        bean.setPassword(password);
-
-        return bean;
-    }
-
 }
