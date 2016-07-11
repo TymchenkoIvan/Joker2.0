@@ -2,6 +2,8 @@ package com.company.service.custom;
 
 import com.company.DAO.JokeDAO;
 import com.company.entity.Joke;
+import com.company.entity.bean.formbean.impl.AddJokeForm;
+import com.company.populator.entity.EntityFactory;
 import com.company.service.JokeService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,6 +14,9 @@ public class CustomJokeService implements JokeService{
 
     @Autowired
     private JokeDAO jokeDAO;
+
+    @Autowired
+    private EntityFactory entityFactory;
 
     @Override
     public void addLike(int jokeId) {
@@ -29,9 +34,8 @@ public class CustomJokeService implements JokeService{
     }
 
     @Override
-    public void addJoke(Joke joke) {
-        joke.setDate(new Date());
-        joke.setMark("new");
+    public void addJoke(AddJokeForm formBean) {
+        Joke joke = (Joke) entityFactory.create(Joke.class, formBean);
         jokeDAO.add(joke);
     }
 

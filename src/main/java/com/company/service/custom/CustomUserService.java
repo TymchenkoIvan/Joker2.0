@@ -2,6 +2,8 @@ package com.company.service.custom;
 
 import com.company.DAO.UserDAO;
 import com.company.entity.User;
+import com.company.entity.bean.formbean.impl.SignUpForm;
+import com.company.populator.entity.EntityFactory;
 import com.company.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,6 +11,9 @@ public class CustomUserService implements UserService{
 
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private EntityFactory entityFactory;
 
     @Override
     public boolean isCorrectAction(int jokeId, String login) {
@@ -36,7 +41,8 @@ public class CustomUserService implements UserService{
     }
 
     @Override
-    public void addUser(User user) {
+    public void createUser(SignUpForm formBean) {
+        User user = (User) entityFactory.create(User.class, formBean);
         userDAO.addUser(user);
     }
 }

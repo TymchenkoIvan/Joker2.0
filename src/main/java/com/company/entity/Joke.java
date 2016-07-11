@@ -3,9 +3,9 @@ package com.company.entity;
 import javax.persistence.*;
 import java.util.*;
 
-@Entity
+@javax.persistence.Entity
 @Table(name = "jokes")
-public class Joke {
+public class Joke implements Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")

@@ -1,6 +1,6 @@
 package com.company.service;
 
-import com.company.entity.User;
+import com.company.entity.bean.formbean.impl.SignUpForm;
 
 public interface UserService {
 
@@ -14,5 +14,5 @@ public interface UserService {
 
     boolean isMailUnique(String mail);
 
-    void addUser(User user);
+    void createUser(SignUpForm formBean);
 }

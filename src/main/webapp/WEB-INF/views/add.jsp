@@ -13,6 +13,8 @@
 
     <%@ include file="jspf/header.jspf"%>
 
+    <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${errorMessage}</p>
+
     <tr> <center><h3>New joke:</h3></center></tr>
     <form role="form" class="form-horizontal" action="/joker.com/add/create" method="post">
         <div class="form-group"><textarea class="form-control" rows="15" cols="50" name="text" id="comment"></textarea></div>

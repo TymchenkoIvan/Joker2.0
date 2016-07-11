@@ -1,7 +1,8 @@
-package com.company.populator.formbean;
+package com.company.populator.formbean.impl;
 
 import com.company.entity.bean.formbean.FormBean;
 import com.company.entity.bean.formbean.impl.SignUpForm;
+import com.company.populator.formbean.FormBeanPopulator;
 
 import javax.servlet.http.HttpServletRequest;
 

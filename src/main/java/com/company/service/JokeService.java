@@ -1,6 +1,7 @@
 package com.company.service;
 
 import com.company.entity.Joke;
+import com.company.entity.bean.formbean.impl.AddJokeForm;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface JokeService {
 
     void addDislike(int jokeId);
 
-    void addJoke(Joke joke);
+    void addJoke(AddJokeForm formBean);
 
     void recoverJokeFromArchive(int jokeId);
 

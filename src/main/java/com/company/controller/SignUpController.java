@@ -1,6 +1,5 @@
 package com.company.controller;
 
-import com.company.entity.User;
 import com.company.entity.bean.formbean.impl.SignUpForm;
 import com.company.exception.JokerValidationException;
 import com.company.service.UserService;
@@ -48,9 +47,7 @@ public class SignUpController {
         try {
             SignUpForm formBean = (SignUpForm) formBeanFactory.create(FormBeans.SIGN_UP, request);
             formValidator.validate(formBean);
-
-            User user = new User(login, mail, password);
-            userService.addUser(user);
+            userService.createUser(formBean);
         } catch (JokerValidationException e) {
             e.printStackTrace();
             return new ModelAndView(View.SIGN_UP_PAGE, ModelName.ALL_PAGES_ERROR_MESSAGE, e.getMessage());
