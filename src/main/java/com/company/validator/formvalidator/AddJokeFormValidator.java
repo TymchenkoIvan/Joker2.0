@@ -2,7 +2,7 @@ package com.company.validator.formvalidator;
 
 import com.company.exception.JokerValidationException;
 import com.company.util.Message;
-import com.company.entity.bean.formbean.AddJokeForm;
+import com.company.entity.bean.formbean.impl.AddJokeForm;
 import com.company.entity.bean.Bean;
 import com.company.validator.BeanValidator;
 

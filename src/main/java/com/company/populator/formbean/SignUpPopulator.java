@@ -1,14 +1,14 @@
-package com.company.populator;
+package com.company.populator.formbean;
 
-import com.company.entity.bean.Bean;
-import com.company.entity.bean.formbean.SignUpForm;
+import com.company.entity.bean.formbean.FormBean;
+import com.company.entity.bean.formbean.impl.SignUpForm;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class SignUpPopulator implements BeanPopulator {
+public class SignUpPopulator implements FormBeanPopulator {
 
     @Override
-    public Bean populate(HttpServletRequest req) {
+    public FormBean populate(HttpServletRequest req) {
         SignUpForm bean = new SignUpForm();
 
         bean.setLogin(req.getParameter("login"));

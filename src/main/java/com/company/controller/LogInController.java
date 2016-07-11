@@ -1,13 +1,13 @@
 package com.company.controller;
 
+import com.company.entity.bean.formbean.impl.LogInForm;
 import com.company.exception.JokerValidationException;
 import com.company.service.JokeService;
 import com.company.entity.bean.formbean.FormBeans;
 import com.company.util.Message;
 import com.company.util.ModelName;
 import com.company.util.View;
-import com.company.entity.bean.formbean.LogInForm;
-import com.company.populator.BeanFactory;
+import com.company.populator.formbean.FormBeanFactory;
 import com.company.validator.formvalidator.LogInFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +30,7 @@ public class LogInController {
     private JokeService jokeService;
 
     @Autowired
-    private BeanFactory beanFactory;
+    private FormBeanFactory formBeanFactory;
 
     @Autowired
     private LogInFormValidator formValidator;
@@ -46,7 +46,7 @@ public class LogInController {
                                HttpServletRequest request,
                                HttpServletResponse response) {
         try {
-            LogInForm formBean = (LogInForm) beanFactory.create(FormBeans.LOG_IN, request);
+            LogInForm formBean = (LogInForm) formBeanFactory.create(FormBeans.LOG_IN, request);
             formValidator.validate(formBean);
 
             Cookie cookie = new Cookie("jokerUser", login);

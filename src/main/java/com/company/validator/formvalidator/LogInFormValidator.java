@@ -4,7 +4,7 @@ import com.company.exception.JokerValidationException;
 import com.company.service.UserService;
 import com.company.util.Message;
 import com.company.entity.bean.Bean;
-import com.company.entity.bean.formbean.LogInForm;
+import com.company.entity.bean.formbean.impl.LogInForm;
 import com.company.validator.BeanValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 

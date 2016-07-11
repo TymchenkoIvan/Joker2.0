@@ -1,13 +1,13 @@
 package com.company.controller;
 
 import com.company.entity.User;
+import com.company.entity.bean.formbean.impl.SignUpForm;
 import com.company.exception.JokerValidationException;
 import com.company.service.UserService;
 import com.company.entity.bean.formbean.FormBeans;
 import com.company.util.View;
 import com.company.util.ModelName;
-import com.company.entity.bean.formbean.SignUpForm;
-import com.company.populator.BeanFactory;
+import com.company.populator.formbean.FormBeanFactory;
 import com.company.validator.formvalidator.SignUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ public class SignUpController {
     private UserService userService;
 
     @Autowired
-    private BeanFactory beanFactory;
+    private FormBeanFactory formBeanFactory;
 
     @Autowired
     private SignUpFormValidator formValidator;
@@ -46,7 +46,7 @@ public class SignUpController {
                                 HttpServletRequest request,
                                 HttpServletResponse response) {
         try {
-            SignUpForm formBean = (SignUpForm) beanFactory.create(FormBeans.SIGN_UP, request);
+            SignUpForm formBean = (SignUpForm) formBeanFactory.create(FormBeans.SIGN_UP, request);
             formValidator.validate(formBean);
 
             User user = new User(login, mail, password);

@@ -1,10 +1,10 @@
 package com.company.controller;
 
 import com.company.entity.Joke;
-import com.company.entity.bean.formbean.AddJokeForm;
 import com.company.entity.bean.formbean.FormBeans;
+import com.company.entity.bean.formbean.impl.AddJokeForm;
 import com.company.exception.JokerValidationException;
-import com.company.populator.BeanFactory;
+import com.company.populator.formbean.FormBeanFactory;
 import com.company.service.JokeService;
 import com.company.util.ModelName;
 import com.company.util.View;
@@ -27,7 +27,7 @@ public class AddJokeController {
     private JokeService jokeService;
 
     @Autowired
-    private BeanFactory beanFactory;
+    private FormBeanFactory formBeanFactory;
 
     @Autowired
     private AddJokeFormValidator formValidator;
@@ -43,7 +43,7 @@ public class AddJokeController {
                                       HttpServletResponse response)
     {
         try {
-            AddJokeForm formBean = (AddJokeForm) beanFactory.create(FormBeans.ADD_JOKE, request);
+            AddJokeForm formBean = (AddJokeForm) formBeanFactory.create(FormBeans.ADD_JOKE, request);
             formValidator.validate(formBean);
 
             Joke joke = new Joke();

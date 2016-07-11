@@ -1,4 +1,4 @@
-package com.company.populator;
+package com.company.populator.formbean;
 
 import com.company.entity.bean.formbean.FormBeans;
 import com.company.entity.bean.Bean;
@@ -6,11 +6,11 @@ import com.company.entity.bean.Bean;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-public class BeanFactory {
+public class FormBeanFactory {
 
-    private Map<FormBeans, BeanPopulator> factoryMap;
+    private Map<FormBeans, FormBeanPopulator> factoryMap;
 
-    public BeanFactory(Map<FormBeans, BeanPopulator> factoryMap){
+    public FormBeanFactory(Map<FormBeans, FormBeanPopulator> factoryMap){
         this.factoryMap = factoryMap;
     }
 
