@@ -32,32 +32,28 @@ public class ArchiveController {
     @RequestMapping("/recover")
     public ModelAndView recoverJoke(@RequestParam(value="jokeId") int jokeId,
                                     @RequestParam(value="login") String login) {
-        Map<String, Object> model = new HashMap<>();
-
         if(userService.isUserAdmin(login)) {
             jokeService.recoverJokeFromArchive(jokeId);
-            model.put(ModelName.ARCHIVE_PAGE_JOKE_LIST, jokeService.getArchivedJokes());
-            return new ModelAndView(View.ARCHIVE_JOKES_PAGE, model);
+            return new ModelAndView("redirect:/archive");
         }
-
-        model.put(ModelName.ARCHIVE_PAGE_JOKE_LIST, jokeService.getArchivedJokes());
-        model.put(ModelName.ALL_PAGES_ERROR_MESSAGE, Message.IS_ADMIN_ERROR);
-        return new ModelAndView(View.ARCHIVE_JOKES_PAGE, model);
+        return getModelAndView(Message.IS_ADMIN_ERROR);
     }
 
     @RequestMapping("/delete")
     public ModelAndView deleteJoke(@RequestParam(value="jokeId") int jokeId,
                                    @RequestParam(value="login") String login) {
-        Map<String, Object> model = new HashMap<>();
-
         if(userService.isUserAdmin(login)) {
             jokeService.deleteJoke(jokeId);
-            model.put(ModelName.ARCHIVE_PAGE_JOKE_LIST, jokeService.getArchivedJokes());
-            return new ModelAndView(View.ARCHIVE_JOKES_PAGE, model);
+            return new ModelAndView("redirect:/archive");
         }
+        return getModelAndView(Message.IS_ADMIN_ERROR);
+    }
 
+    private ModelAndView getModelAndView(String errorMessage) {
+        Map<String, Object> model = new HashMap<>();
         model.put(ModelName.ARCHIVE_PAGE_JOKE_LIST, jokeService.getArchivedJokes());
-        model.put(ModelName.ALL_PAGES_ERROR_MESSAGE, Message.IS_ADMIN_ERROR);
+        model.put(ModelName.ALL_PAGES_ERROR_MESSAGE, errorMessage);
+
         return new ModelAndView(View.ARCHIVE_JOKES_PAGE, model);
     }
 }

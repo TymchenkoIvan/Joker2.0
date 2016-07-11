@@ -32,32 +32,29 @@ public class IndexController {
     @RequestMapping("/like")
     public ModelAndView likeAction(@RequestParam(value="jokeId") int jokeId,
                                    @RequestParam(value="login") String login) {
-        Map<String, Object> model = new HashMap<>();
-
         if(userService.isCorrectAction(jokeId, login)){
             jokeService.addLike(jokeId);
-            model.put(ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getAllJokes());
-            return new ModelAndView(View.INDEX_PAGE, model);
+            return new ModelAndView("redirect:/");
         }
-
-        model.put(ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getAllJokes());
-        model.put(ModelName.ALL_PAGES_ERROR_MESSAGE, Message.VOTE_ERROR);
-        return new ModelAndView(View.INDEX_PAGE, model);
+        return getModelAndView(Message.VOTE_ERROR);
     }
 
     @RequestMapping("/dislike")
      public ModelAndView dislikeAction(@RequestParam(value="jokeId") int jokeId,
                                        @RequestParam(value="login") String login) {
-        Map<String, Object> model = new HashMap<>();
-
         if(userService.isCorrectAction(jokeId, login)) {
             jokeService.addDislike(jokeId);
-            model.put(ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getAllJokes());
-            return new ModelAndView(View.INDEX_PAGE, model);
+            return new ModelAndView("redirect:/");
         }
+        return getModelAndView(Message.VOTE_ERROR);
+    }
 
+
+    private ModelAndView getModelAndView(String errorMessage) {
+        Map<String, Object> model = new HashMap<>();
         model.put(ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getAllJokes());
-        model.put(ModelName.ALL_PAGES_ERROR_MESSAGE, Message.VOTE_ERROR);
+        model.put(ModelName.ALL_PAGES_ERROR_MESSAGE, errorMessage);
+
         return new ModelAndView(View.INDEX_PAGE, model);
     }
 }

@@ -46,7 +46,7 @@ public class AddJokeController {
             formValidator.validate(formBean);
             jokeService.addJoke(formBean);
 
-            return new ModelAndView(View.INDEX_PAGE, ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getAllJokes());
+            return new ModelAndView("redirect:/");
         } catch (JokerValidationException e) {
             return new ModelAndView(View.ADD_JOKE_PAGE, ModelName.ALL_PAGES_ERROR_MESSAGE, e.getMessage());
         }

@@ -43,7 +43,8 @@ public class SignUpController {
                                 @RequestParam(value="password") String password,
                                 @RequestParam(value="confirm") String confirm,
                                 HttpServletRequest request,
-                                HttpServletResponse response) {
+                                HttpServletResponse response)
+    {
         try {
             SignUpForm formBean = (SignUpForm) formBeanFactory.create(FormBeans.SIGN_UP, request);
             formValidator.validate(formBean);
@@ -52,6 +53,6 @@ public class SignUpController {
             e.printStackTrace();
             return new ModelAndView(View.SIGN_UP_PAGE, ModelName.ALL_PAGES_ERROR_MESSAGE, e.getMessage());
         }
-        return new ModelAndView(View.INDEX_PAGE);
+        return new ModelAndView("redirect:/");
     }
 }

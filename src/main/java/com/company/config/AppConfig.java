@@ -12,21 +12,26 @@ import com.company.validator.Validator;
 import com.company.validator.formvalidator.AddJokeFormValidator;
 import com.company.validator.formvalidator.LogInFormValidator;
 import com.company.validator.formvalidator.SignUpFormValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 @Configuration
-@PropertySource("classpath:property/validator.properties")
+@PropertySource({"classpath:property/validator.properties", "classpath:property/config.properties"})
 public class AppConfig {
+
+    @Autowired
+    protected Environment props;
 
     @Bean
     public EntityManager entityManager() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JokerJPA");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(props.getProperty("entity.manager"));
         return emf.createEntityManager();
     }
 
