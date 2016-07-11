@@ -7,7 +7,7 @@ import com.company.entity.bean.formbean.FormBeans;
 import com.company.util.Message;
 import com.company.util.ModelName;
 import com.company.util.View;
-import com.company.populator.formbean.FormBeanFactory;
+import com.company.populator.factory.FormBeanFactory;
 import com.company.validator.formvalidator.LogInFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

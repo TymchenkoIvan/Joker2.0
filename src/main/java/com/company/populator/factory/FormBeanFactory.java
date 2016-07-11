@@ -1,7 +1,8 @@
-package com.company.populator.formbean;
+package com.company.populator.factory;
 
 import com.company.entity.bean.formbean.FormBeans;
 import com.company.entity.bean.Bean;
+import com.company.populator.formbean.FormBeanPopulator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;

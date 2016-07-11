@@ -3,7 +3,7 @@ package com.company.service.custom;
 import com.company.DAO.UserDAO;
 import com.company.entity.User;
 import com.company.entity.bean.formbean.impl.SignUpForm;
-import com.company.populator.entity.EntityFactory;
+import com.company.populator.factory.EntityFactory;
 import com.company.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 

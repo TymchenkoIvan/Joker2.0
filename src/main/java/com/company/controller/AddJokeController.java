@@ -3,7 +3,7 @@ package com.company.controller;
 import com.company.entity.bean.formbean.FormBeans;
 import com.company.entity.bean.formbean.impl.AddJokeForm;
 import com.company.exception.JokerValidationException;
-import com.company.populator.formbean.FormBeanFactory;
+import com.company.populator.factory.FormBeanFactory;
 import com.company.service.JokeService;
 import com.company.util.ModelName;
 import com.company.util.View;

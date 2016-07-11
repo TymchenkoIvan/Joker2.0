@@ -1,6 +1,6 @@
 package com.company.service;
 
-import com.company.entity.Joke;
+import com.company.entity.bean.dtobean.impl.JokeDTO;
 import com.company.entity.bean.formbean.impl.AddJokeForm;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public interface JokeService {
 
     void recoverJokeFromArchive(int jokeId);
 
-    List<Joke> getAllJokes();
+    List<JokeDTO> getAllJokes();
 
-    List<Joke> getArchivedJokes();
+    List<JokeDTO> getArchivedJokes();
 }

@@ -1,7 +1,9 @@
-package com.company.populator.entity;
+package com.company.populator.factory;
 
 import com.company.entity.Entity;
 import com.company.entity.bean.formbean.FormBean;
+import com.company.populator.entity.EntityPopulator;
+
 import java.util.Map;
 
 public class EntityFactory {

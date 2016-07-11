@@ -2,13 +2,17 @@ package com.company.service.custom;
 
 import com.company.DAO.JokeDAO;
 import com.company.entity.Joke;
+import com.company.entity.bean.dtobean.DTOBeans;
+import com.company.entity.bean.dtobean.impl.JokeDTO;
 import com.company.entity.bean.formbean.impl.AddJokeForm;
-import com.company.populator.entity.EntityFactory;
+import com.company.populator.factory.DTOBeanFactory;
+import com.company.populator.factory.EntityFactory;
 import com.company.service.JokeService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CustomJokeService implements JokeService{
 
@@ -17,6 +21,9 @@ public class CustomJokeService implements JokeService{
 
     @Autowired
     private EntityFactory entityFactory;
+
+    @Autowired
+    private DTOBeanFactory dtoFactory;
 
     @Override
     public void addLike(int jokeId) {
@@ -45,12 +52,18 @@ public class CustomJokeService implements JokeService{
     }
 
     @Override
-    public List<Joke> getAllJokes() {
-        return jokeDAO.list();
+    public List<JokeDTO> getAllJokes() {
+        return retrieveDtoFromJokes(jokeDAO.list());
+    }
+
+    private List<JokeDTO> retrieveDtoFromJokes(List<Joke> jokes) {
+        return jokes.stream()
+                .map(joke -> (JokeDTO) dtoFactory.create(DTOBeans.JokeDTO, joke))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Joke> getArchivedJokes() {
-        return jokeDAO.listArchive();
+    public List<JokeDTO> getArchivedJokes() {
+        return retrieveDtoFromJokes(jokeDAO.listArchive());
     }
 }
