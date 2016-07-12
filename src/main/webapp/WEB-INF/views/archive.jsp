@@ -1,5 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ include file="jspf/directive/page.jspf"%>
+
 <html>
 <head>
     <title>Jokes</title>
@@ -10,8 +10,6 @@
 <div class="container">
 
     <%@ include file="jspf/header.jspf"%>
-
-    <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${errorMessage}</p>
 
     <tr> <center><h3>Archive:</h3></center></tr>
     <table class="table table-striped">
@@ -31,8 +29,7 @@
                 <td><center><b>${joke.likes}</b></center></td>
                 <td><center>${joke.dislikes}</center></td>
                 <td>${joke.text}</td>
-                <td><center><a href="/joker.com/archive/delete?jokeId=${joke.id}&login=<%=userName%>"><b>delete</b></a></center></td>
-                <td><center><a href="/joker.com/archive/recover?jokeId=${joke.id}&login=<%=userName%>"><b>recover</b></a></center></td>
+                <util:recover jokeId="${joke.id}"/>
             </tr>
         </c:forEach>
     </table>

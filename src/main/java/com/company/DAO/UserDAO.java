@@ -15,4 +15,6 @@ public interface UserDAO {
     boolean isUserAdmin(String login);
 
     void addUser(User user);
+
+    User getUser(String login);
 }

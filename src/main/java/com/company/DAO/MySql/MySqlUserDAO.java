@@ -79,4 +79,12 @@ public class MySqlUserDAO implements UserDAO {
             ex.printStackTrace();
         }
     }
+
+    @Override
+    public User getUser(String login) {
+        Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
+        query.setParameter("login", login);
+
+        return (User)query.getSingleResult();
+    }
 }

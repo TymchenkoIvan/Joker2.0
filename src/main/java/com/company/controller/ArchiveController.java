@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.entity.bean.dtobean.impl.UserDTO;
 import com.company.service.JokeService;
 import com.company.service.UserService;
 import com.company.util.Message;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,9 +32,8 @@ public class ArchiveController {
     }
 
     @RequestMapping("/recover")
-    public ModelAndView recoverJoke(@RequestParam(value="jokeId") int jokeId,
-                                    @RequestParam(value="login") String login) {
-        if(userService.isUserAdmin(login)) {
+    public ModelAndView recoverJoke(@RequestParam(value="jokeId") int jokeId, HttpSession session) {
+        if(userService.isUserAdmin(((UserDTO)session.getAttribute("user")).getLogin())) {
             jokeService.recoverJokeFromArchive(jokeId);
             return new ModelAndView("redirect:/archive");
         }
@@ -40,9 +41,8 @@ public class ArchiveController {
     }
 
     @RequestMapping("/delete")
-    public ModelAndView deleteJoke(@RequestParam(value="jokeId") int jokeId,
-                                   @RequestParam(value="login") String login) {
-        if(userService.isUserAdmin(login)) {
+    public ModelAndView deleteJoke(@RequestParam(value="jokeId") int jokeId, HttpSession session) {
+        if(userService.isUserAdmin(((UserDTO)session.getAttribute("user")).getLogin())) {
             jokeService.deleteJoke(jokeId);
             return new ModelAndView("redirect:/archive");
         }

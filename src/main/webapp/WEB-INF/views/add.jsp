@@ -1,5 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="jspf/directive/page.jspf"%>
 
 <html>
 <head>
@@ -12,8 +11,6 @@
 <div class="container">
 
     <%@ include file="jspf/header.jspf"%>
-
-    <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${errorMessage}</p>
 
     <tr> <center><h3>New joke:</h3></center></tr>
     <form role="form" class="form-horizontal" action="/joker.com/add/create" method="post">

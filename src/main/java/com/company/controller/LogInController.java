@@ -4,7 +4,7 @@ import com.company.entity.bean.formbean.FormBeans;
 import com.company.entity.bean.formbean.impl.LogInForm;
 import com.company.exception.JokerValidationException;
 import com.company.populator.factory.FormBeanFactory;
-import com.company.service.JokeService;
+import com.company.service.UserService;
 import com.company.util.Message;
 import com.company.util.ModelName;
 import com.company.util.View;
@@ -16,16 +16,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/login")
 public class LogInController {
 
     @Autowired
-    private JokeService jokeService;
+    private UserService userService;
 
     @Autowired
     private FormBeanFactory formBeanFactory;
@@ -40,18 +39,13 @@ public class LogInController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ModelAndView logIn(@RequestParam(value="login") String login,
-                               @RequestParam(value="password") String password,
                                HttpServletRequest request,
-                               HttpServletResponse response) {
+                               HttpSession session) {
         try {
             LogInForm formBean = (LogInForm) formBeanFactory.create(FormBeans.LOG_IN, request);
             formValidator.validate(formBean);
 
-            Cookie cookie = new Cookie("jokerUser", login);
-            cookie.setMaxAge(365*24*60*60);
-            cookie.setPath("/");
-            response.addCookie(cookie);
-
+            session.setAttribute("user", userService.getUserByLogin(login));
             return new ModelAndView("redirect:/");
         } catch (JokerValidationException e) {
             e.printStackTrace();
