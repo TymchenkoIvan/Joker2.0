@@ -18,11 +18,13 @@ import com.company.populator.formbean.impl.AddJokePopulator;
 import com.company.populator.formbean.impl.LogInPopulator;
 import com.company.populator.formbean.impl.SignUpPopulator;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@Configuration
 public class PopulatorConfig {
 
     private static final Map<FormBeans, FormBeanPopulator> BEAN_FACTORY_MAP =
