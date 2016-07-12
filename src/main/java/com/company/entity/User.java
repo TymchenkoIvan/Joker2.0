@@ -1,78 +1,63 @@
 package com.company.entity;
 
-import com.company.config.Constants;
-import com.company.enums.Roles;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = Constants.SQL_TABLE_USERS)
-public class User {
+@javax.persistence.Entity
+@Table(name = "users")
+public class User implements Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column()
+    @Column(name="id")
     private int id;
 
-    @Column(nullable = false)
-    private String role;
-
-    @Column(nullable = false)
+    @Column(name = "login", nullable = false)
     private String login;
 
-    @Column(nullable = false)
+    @Column(name = "mail", nullable = false)
     private String mail;
 
     private String telephone;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Joke> writedJokes = new ArrayList<>();
+    @Column(name = "mark")
+    private String mark;
 
     @ManyToMany
     @JoinTable(
-            name=Constants.SQL_TABLE_VOTES,
+            name="votes",
             joinColumns = {@JoinColumn(name = "id_user", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "id_joke", referencedColumnName = "id")}
     )
-    private List<Joke> ratedJokes = new ArrayList<>();
+    private List<Joke> jokes = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String login, String mail, String telephone, String password) {
+    public User(String login, String mail, String password) {
         this.login = login;
-        this.role = Roles.USER.getRole();
         this.mail = mail;
-        if(!telephone.equals(null)) {
-            this.telephone = telephone;
-        }
+        this.telephone = null;
         this.password = password;
+        this.mark = null;
     }
 
-    public void addRatedJoke(Joke joke) {
-        if ( ! ratedJokes.contains(joke))
-            ratedJokes.add(joke);
-        if ( ! joke.getUsersRates().contains(this))
-            joke.getUsersRates().add(this);
+    public void addJoke(Joke joke) {
+        if ( ! jokes.contains(joke))
+            jokes.add(joke);
+        if ( ! joke.getUsers().contains(this))
+            joke.getUsers().add(this);
     }
 
-    public void addWritedJoke(Joke joke) {
-        writedJokes.add(joke);
-        if (joke.getUser() != this){
-            joke.setUser(this);
-        }
+    public List<Joke> getJokes() {
+        return jokes;
     }
 
-    public List<Joke> getRatedJokes() {
-        return ratedJokes;
-    }
-
-    public void setRatedJokes(List<Joke> jokes) {
-        this.ratedJokes = jokes;
+    public void setJokes(List<Joke> jokes) {
+        this.jokes = jokes;
     }
 
     public int getId() {
@@ -115,12 +100,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public String getMark() {
+        return mark;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setMark(String mark) {
+        this.mark = mark;
     }
 }
-

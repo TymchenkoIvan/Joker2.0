@@ -1,0 +1,13 @@
+<header>
+	<table border="0" width="80%" align="center">
+		<tr align="center">
+			<td><util:greeting/></td>
+			<td><img height="100" width="150" src="<c:url value="/resources/web/header_clown.png" />"></td>
+			<td><h4><a href="/joker.com/index" method="post"><b>MAIN</b></a></h4></td>
+			<td><h4><a href="/joker.com/add" method="post"><b>ADD</b></a></h4></td>
+			<td><h4><a href="/joker.com/archive" method="post"><b>ARCHIVE</b></a></h4></td>
+			<td><h4><a href="/joker.com/faq" method="post"><b>FAQ</b></a></h4></td>
+		</tr>
+	</table>
+	<p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${errorMessage}</p>
+</header>
