@@ -1,6 +1,9 @@
-#/target
-#/.idea
-#*.iml
-#/.settings
-#/lib
-#/out
+/target
+/.idea
+*.class
+*.iml
+/.settings
+/lib
+/out
+.classpath
+.**
