@@ -28,7 +28,6 @@ public class IndexController {
 
     @RequestMapping(value={"", " * "})
     public ModelAndView indexPage() {
-        if(true)throw new NullPointerException();
         return new ModelAndView(View.INDEX_PAGE, ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getAllJokes());
     }
 
