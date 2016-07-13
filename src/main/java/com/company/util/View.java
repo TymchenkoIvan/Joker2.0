@@ -7,4 +7,5 @@ public class View {
     public static final String ARCHIVE_JOKES_PAGE = "archive";
     public static final String FAQ_PAGE = "faq";
     public static final String LOG_IN_PAGE = "login";
+    public static final String ERROR_PAGE = "error";
 }
