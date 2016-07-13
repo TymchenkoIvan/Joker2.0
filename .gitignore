@@ -1,6 +1,6 @@
-/target
-/.idea
-*.iml
-/.settings
-/lib
-/out
+#/target
+#/.idea
+#*.iml
+#/.settings
+#/lib
+#/out
