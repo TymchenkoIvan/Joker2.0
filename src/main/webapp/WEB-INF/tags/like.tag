@@ -4,9 +4,9 @@
 
 <c:if test="${sessionScope.user != null}">
 	<td>
-		<a href="/joker.com/like?jokeId=${jokeId}">Like!</a>
+		<a href="/joker.com/${jokeId}/like">Like!</a>
 	</td>
 	<td>
-		<a href="/joker.com/dislike?jokeId=${jokeId}">Dislike</a>
+		<a href="/joker.com/${jokeId}/dislike">Dislike</a>
 	</td>
 </c:if>

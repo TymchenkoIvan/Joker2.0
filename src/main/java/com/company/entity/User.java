@@ -2,37 +2,34 @@ package com.company.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @javax.persistence.Entity
 @Table(name = "users")
-public class User implements Entity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id")
-    private int id;
+public class User extends Entity {
 
-    @Column(name = "login", nullable = false)
+    @Column(nullable = false)
     private String login;
 
-    @Column(name = "mail", nullable = false)
+    @Column(nullable = false)
     private String mail;
 
     private String telephone;
 
-    @Column(name = "password", nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "mark")
-    private String mark;
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
-    @ManyToMany
-    @JoinTable(
-            name="votes",
-            joinColumns = {@JoinColumn(name = "id_user", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "id_joke", referencedColumnName = "id")}
-    )
-    private List<Joke> jokes = new ArrayList<>();
+    @OneToMany(mappedBy= "user", fetch= FetchType.LAZY)
+    private Set<Joke> jokes = new HashSet<Joke>();
+
+    @OneToMany(mappedBy="user", fetch= FetchType.LAZY)
+    private List<Vote> votes = new ArrayList<Vote>();
 
     public User() {
     }
@@ -42,30 +39,22 @@ public class User implements Entity {
         this.mail = mail;
         this.telephone = null;
         this.password = password;
-        this.mark = null;
     }
 
-    public void addJoke(Joke joke) {
-        if ( ! jokes.contains(joke))
-            jokes.add(joke);
-        if ( ! joke.getUsers().contains(this))
-            joke.getUsers().add(this);
-    }
-
-    public List<Joke> getJokes() {
+    public Set<Joke> getJokes() {
         return jokes;
     }
 
-    public void setJokes(List<Joke> jokes) {
-        this.jokes = jokes;
+    public void setJokes(Set<Joke> myJokes) {
+        this.jokes = myJokes;
     }
 
-    public int getId() {
-        return id;
+    public Role getRole() {
+        return role;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRole(Role role){
+        this.role = role;
     }
 
     public String getLogin() {
@@ -100,11 +89,11 @@ public class User implements Entity {
         this.password = password;
     }
 
-    public String getMark() {
-        return mark;
+    public List<Vote> getVotes() {
+        return votes;
     }
 
-    public void setMark(String mark) {
-        this.mark = mark;
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
     }
 }

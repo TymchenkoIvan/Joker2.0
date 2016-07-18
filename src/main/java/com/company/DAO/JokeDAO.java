@@ -1,14 +1,15 @@
 package com.company.DAO;
 
 import com.company.entity.Joke;
+import com.company.entity.Status;
 
 import java.util.List;
 
 public interface JokeDAO {
 
-    List<Joke> list();
+    Joke getJoke(int id);
 
-    List<Joke> listArchive();
+    List<Joke> getByStatus(Status status);
 
     void add(Joke joke);
 

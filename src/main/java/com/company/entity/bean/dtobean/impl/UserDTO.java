@@ -3,13 +3,14 @@ package com.company.entity.bean.dtobean.impl;
 import com.company.entity.bean.dtobean.DTOBean;
 
 public class UserDTO implements DTOBean{
+
     private int id;
 
     private String login;
 
     private String mail;
 
-    private String mark;
+    private String role;
 
     public int getId() {
         return id;
@@ -35,11 +36,11 @@ public class UserDTO implements DTOBean{
         this.mail = mail;
     }
 
-    public String getMark() {
-        return mark;
+    public String getRole() {
+        return role;
     }
 
-    public void setMark(String mark) {
-        this.mark = mark;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

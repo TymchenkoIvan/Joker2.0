@@ -45,7 +45,7 @@ public class SignUpFormValidator extends FormValidator implements BeanValidator 
     }
 
     private void validatePasswordConfirmation(String password, String confirm) throws JokerValidationException  {
-        if(isNullOrEmpty(confirm) || password.equals(confirm))
+        if(isNullOrEmpty(confirm) || !password.equals(confirm))
             throw new JokerValidationException(Message.PASSWORD_ERROR);
     }
 }

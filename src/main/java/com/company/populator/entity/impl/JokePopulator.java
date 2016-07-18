@@ -17,7 +17,6 @@ public class JokePopulator implements EntityPopulator {
 
         joke.setText(form.getText());
         joke.setDate(new Date());
-        joke.setMark("new");
 
         return joke;
     }

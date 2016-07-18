@@ -1,50 +1,68 @@
 package com.company.entity;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @javax.persistence.Entity
 @Table(name = "jokes")
-public class Joke implements Entity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id")
-    private int id;
+public class Joke extends Entity {
 
-    @Column(name = "date", nullable = false)
+    @Column(nullable = false)
     private Date date;
 
-    @Column(name = "likes", nullable = false)
+    @Column(nullable = false)
     private int likes;
 
-    @Column(name = "dislikes", nullable = false)
+    @Column(nullable = false)
     private int dislikes;
 
-    @Column(name = "text", nullable = false)
+    @Column(nullable = false)
     private String text;
 
-    @Column(name = "mark", nullable = false)
-    private String mark;
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name = "status_id", nullable = false)
+    private Status status;
 
-    @ManyToMany(mappedBy="jokes")
-    private List<User> users = new ArrayList<>();
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @OneToMany(mappedBy="joke", fetch= FetchType.LAZY)
+    private List<Vote> votes = new ArrayList<Vote>();
 
     public Joke() {}
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status){
+        this.status = status;
+    }
 
     public Joke(String text) {
         this.date = new Date();
         this.likes = 0;
         this.dislikes = 0;
         this.text = text;
-        this.mark = "new";
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Vote> getVotes() {
+        return votes;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User myUser) {
+        this.user = myUser;
     }
 
     public String getText() {
@@ -53,14 +71,6 @@ public class Joke implements Entity {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public Date getDate() {
@@ -85,13 +95,5 @@ public class Joke implements Entity {
 
     public void setDislikes(int dislikes) {
         this.dislikes = dislikes;
-    }
-
-    public String getMark() {
-        return mark;
-    }
-
-    public void setMark(String mark) {
-        this.mark = mark;
     }
 }

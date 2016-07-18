@@ -13,11 +13,11 @@ public interface JokeService {
 
     void addDislike(int jokeId);
 
-    void addJoke(AddJokeForm formBean);
+    void addJoke(AddJokeForm formBean, int userId);
 
     void recoverJokeFromArchive(int jokeId);
 
-    List<JokeDTO> getAllJokes();
+    List<JokeDTO> getNewJokes();
 
     List<JokeDTO> getArchivedJokes();
 }

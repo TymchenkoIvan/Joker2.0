@@ -8,8 +8,8 @@ import com.company.util.ModelName;
 import com.company.util.View;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -31,8 +31,8 @@ public class ArchiveController {
         return new ModelAndView(View.ARCHIVE_JOKES_PAGE, ModelName.ARCHIVE_PAGE_JOKE_LIST, jokeService.getArchivedJokes());
     }
 
-    @RequestMapping("/recover")
-    public ModelAndView recoverJoke(@RequestParam(value="jokeId") int jokeId, HttpSession session) {
+    @RequestMapping("{jokeId}/recover")
+    public ModelAndView recoverJoke(@PathVariable("jokeId") int jokeId, HttpSession session) {
         if(userService.isUserAdmin(((UserDTO)session.getAttribute("user")).getLogin())) {
             jokeService.recoverJokeFromArchive(jokeId);
             return new ModelAndView("redirect:/archive");
@@ -40,8 +40,8 @@ public class ArchiveController {
         return getModelAndView(Message.IS_ADMIN_ERROR);
     }
 
-    @RequestMapping("/delete")
-    public ModelAndView deleteJoke(@RequestParam(value="jokeId") int jokeId, HttpSession session) {
+    @RequestMapping("{jokeId}/delete")
+    public ModelAndView deleteJoke(@PathVariable("jokeId") int jokeId, HttpSession session) {
         if(userService.isUserAdmin(((UserDTO)session.getAttribute("user")).getLogin())) {
             jokeService.deleteJoke(jokeId);
             return new ModelAndView("redirect:/archive");

@@ -16,7 +16,7 @@ public class JokeDTO implements DTOBean{
 
     private String text;
 
-    private String mark;
+    private String status;
 
     public int getId() {
         return id;
@@ -58,11 +58,11 @@ public class JokeDTO implements DTOBean{
         this.text = text;
     }
 
-    public String getMark() {
-        return mark;
+    public String getStatus() {
+        return status;
     }
 
-    public void setMark(String mark) {
-        this.mark = mark;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

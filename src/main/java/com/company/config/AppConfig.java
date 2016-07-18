@@ -1,13 +1,14 @@
 package com.company.config;
 
-import com.company.DAO.JokeDAO;
-import com.company.DAO.MySql.MySqlJokeDAO;
-import com.company.DAO.MySql.MySqlUserDAO;
-import com.company.DAO.UserDAO;
+import com.company.DAO.*;
+import com.company.DAO.Jpa.*;
 import com.company.service.JokeService;
 import com.company.service.UserService;
+import com.company.service.VoteService;
 import com.company.service.custom.CustomJokeService;
 import com.company.service.custom.CustomUserService;
+import com.company.service.custom.CustomVoteService;
+import com.company.util.ConfigParam;
 import com.company.validator.Validator;
 import com.company.validator.formvalidator.AddJokeFormValidator;
 import com.company.validator.formvalidator.LogInFormValidator;
@@ -34,18 +35,38 @@ public class AppConfig {
 
     @Bean
     public EntityManager entityManager() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(props.getProperty("entity.manager"));
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(props.getProperty(ConfigParam.ENTITY_MANAGER));
         return emf.createEntityManager();
     }
 
     @Bean
+    public VoteDAO voteDAO() {
+        return new JpaVoteDAO();
+    }
+
+    @Bean
+    public RoleDAO roleDAO() {
+        return new JpaRoleDAO();
+    }
+
+    @Bean
+    public StatusDAO statusDAO() {
+        return new JpaStatusDAO();
+    }
+
+    @Bean
     public JokeDAO jokeDAO() {
-        return new MySqlJokeDAO();
+        return new JpaJokeDAO();
     }
 
     @Bean
     public UserDAO userDAO() {
-        return new MySqlUserDAO();
+        return new JpaUserDAO();
+    }
+
+    @Bean
+    public VoteService voteService() {
+        return new CustomVoteService();
     }
 
     @Bean

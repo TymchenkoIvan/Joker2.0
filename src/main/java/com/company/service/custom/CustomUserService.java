@@ -1,5 +1,6 @@
 package com.company.service.custom;
 
+import com.company.DAO.RoleDAO;
 import com.company.DAO.UserDAO;
 import com.company.entity.User;
 import com.company.entity.bean.dtobean.DTOBeans;
@@ -16,15 +17,13 @@ public class CustomUserService implements UserService{
     private UserDAO userDAO;
 
     @Autowired
+    private RoleDAO roleDAO;
+
+    @Autowired
     private EntityFactory entityFactory;
 
     @Autowired
     private DTOBeanFactory dtoBeanFactory;
-
-    @Override
-    public boolean isCorrectAction(int jokeId, String login) {
-        return userDAO.isCorrectAction(jokeId, login);
-    }
 
     @Override
     public boolean isUserAdmin(String login) {
@@ -49,12 +48,13 @@ public class CustomUserService implements UserService{
     @Override
     public void createUser(SignUpForm formBean) {
         User user = (User) entityFactory.create(User.class, formBean);
+        user.setRole(roleDAO.getRole("user"));
         userDAO.addUser(user);
     }
 
     @Override
     public UserDTO getUserByLogin(String login) {
-        User user = userDAO.getUser(login);
+        User user = userDAO.getUserByLogin(login);
         return (UserDTO) dtoBeanFactory.create(DTOBeans.UserDTO, user);
     }
 }

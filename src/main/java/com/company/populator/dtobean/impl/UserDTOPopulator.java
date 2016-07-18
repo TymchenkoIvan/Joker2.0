@@ -15,7 +15,7 @@ public class UserDTOPopulator implements DTOPopulator{
 
         userDTO.setId(user.getId());
         userDTO.setLogin(user.getLogin());
-        userDTO.setMark(user.getMark());
+        userDTO.setRole(user.getRole().getRole());
         userDTO.setMail(user.getMail());
 
         return userDTO;

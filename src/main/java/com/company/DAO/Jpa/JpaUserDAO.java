@@ -1,14 +1,14 @@
-package com.company.DAO.MySql;
+package com.company.DAO.Jpa;
 
 import com.company.DAO.UserDAO;
-import com.company.entity.Joke;
 import com.company.entity.User;
+import com.company.exception.JokerDBException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-public class MySqlUserDAO implements UserDAO {
+public class JpaUserDAO implements UserDAO {
 
     @Autowired
     private EntityManager entityManager;
@@ -39,33 +39,12 @@ public class MySqlUserDAO implements UserDAO {
     }
 
     @Override
-    public boolean isCorrectAction(int jokeId, String login) {
-        boolean isCorrect = false;
-        try {
-            entityManager.getTransaction().begin();
-            Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
-            query.setParameter("login", login);
-            User user = (User)query.getSingleResult();
-            Joke joke = entityManager.find(Joke.class, jokeId);
-
-            if(isCorrect = !user.getJokes().contains(joke))
-                user.addJoke(joke);
-
-            entityManager.getTransaction().commit();
-        } catch (Exception ex) {
-            entityManager.getTransaction().rollback();
-            ex.printStackTrace();
-        }
-        return isCorrect;
-    }
-
-    @Override
     public boolean isUserAdmin(String login) {
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
         query.setParameter("login", login);
         User user = (User)query.getSingleResult();
 
-        return user.getMark()!=null && user.getMark().equals("admin");
+        return user.getRole().getRole().equals("admin");
     }
 
     @Override
@@ -77,13 +56,22 @@ public class MySqlUserDAO implements UserDAO {
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
             ex.printStackTrace();
+            throw new JokerDBException(ex);
         }
     }
 
     @Override
-    public User getUser(String login) {
+    public User getUserByLogin(String login) {
         Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
         query.setParameter("login", login);
+
+        return (User)query.getSingleResult();
+    }
+
+    @Override
+    public User getUserById(int id) {
+        Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.id = :id", User.class);
+        query.setParameter("id", id);
 
         return (User)query.getSingleResult();
     }

@@ -10,11 +10,11 @@ public interface UserDAO {
 
     boolean isLoginPairCorrect(String login, String password);
 
-    boolean isCorrectAction(int jokeId, String login);
-
     boolean isUserAdmin(String login);
 
     void addUser(User user);
 
-    User getUser(String login);
+    User getUserByLogin(String login);
+
+    User getUserById(int id);
 }

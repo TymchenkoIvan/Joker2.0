@@ -18,7 +18,7 @@ public class JokeDTOPopulator implements DTOPopulator{
         jokeDTO.setDislikes(joke.getDislikes());
         jokeDTO.setDate(joke.getDate());
         jokeDTO.setText(joke.getText());
-        jokeDTO.setMark(joke.getMark());
+        jokeDTO.setStatus(joke.getStatus().getStatus());
 
         return jokeDTO;
     }
