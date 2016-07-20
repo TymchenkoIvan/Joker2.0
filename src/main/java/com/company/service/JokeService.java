@@ -1,7 +1,7 @@
 package com.company.service;
 
 import com.company.entity.bean.dtobean.impl.JokeDTO;
-import com.company.entity.bean.formbean.impl.AddJokeForm;
+import com.company.entity.bean.formbean.impl.JokeForm;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface JokeService {
 
     void addDislike(int jokeId);
 
-    void addJoke(AddJokeForm formBean, int userId);
+    void addJoke(JokeForm formBean, int userId);
 
     void recoverJokeFromArchive(int jokeId);
 

@@ -14,7 +14,6 @@ import com.company.populator.factory.DTOBeanFactory;
 import com.company.populator.factory.EntityFactory;
 import com.company.populator.factory.FormBeanFactory;
 import com.company.populator.formbean.FormBeanPopulator;
-import com.company.populator.formbean.impl.AddJokePopulator;
 import com.company.populator.formbean.impl.LogInPopulator;
 import com.company.populator.formbean.impl.SignUpPopulator;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +28,6 @@ public class PopulatorConfig {
 
     private static final Map<FormBeans, FormBeanPopulator> BEAN_FACTORY_MAP =
             Collections.unmodifiableMap(new HashMap<FormBeans, FormBeanPopulator>() {{
-                put(FormBeans.ADD_JOKE, new AddJokePopulator());
                 put(FormBeans.SIGN_UP, new SignUpPopulator());
                 put(FormBeans.LOG_IN, new LogInPopulator());
             }});

@@ -10,7 +10,6 @@ import com.company.service.custom.CustomUserService;
 import com.company.service.custom.CustomVoteService;
 import com.company.util.ConfigParam;
 import com.company.validator.Validator;
-import com.company.validator.formvalidator.AddJokeFormValidator;
 import com.company.validator.formvalidator.LogInFormValidator;
 import com.company.validator.formvalidator.SignUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,11 +86,6 @@ public class AppConfig {
     @Bean
     public SignUpFormValidator signUpFormValidator() {
         return new SignUpFormValidator();
-    }
-
-    @Bean
-    public AddJokeFormValidator addJokeFormValidator() {
-        return new AddJokeFormValidator();
     }
 
     @Bean

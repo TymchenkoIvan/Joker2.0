@@ -2,8 +2,11 @@ package com.company.entity.bean.formbean.impl;
 
 import com.company.entity.bean.formbean.FormBean;
 
-public class AddJokeForm implements FormBean {
+import javax.validation.constraints.Size;
 
+public class JokeForm implements FormBean {
+
+    @Size(min=3)
     private String text;
 
     public String getText() {

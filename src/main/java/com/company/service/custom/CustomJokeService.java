@@ -6,7 +6,7 @@ import com.company.DAO.UserDAO;
 import com.company.entity.Joke;
 import com.company.entity.bean.dtobean.DTOBeans;
 import com.company.entity.bean.dtobean.impl.JokeDTO;
-import com.company.entity.bean.formbean.impl.AddJokeForm;
+import com.company.entity.bean.formbean.impl.JokeForm;
 import com.company.populator.factory.DTOBeanFactory;
 import com.company.populator.factory.EntityFactory;
 import com.company.service.JokeService;
@@ -48,7 +48,7 @@ public class CustomJokeService implements JokeService{
     }
 
     @Override
-    public void addJoke(AddJokeForm formBean, int userId) {
+    public void addJoke(JokeForm formBean, int userId) {
         Joke joke = (Joke) entityFactory.create(Joke.class, formBean);
         joke.setStatus(statusDAO.getStatus("new"));
         joke.setUser(userDAO.getUserById(userId));
