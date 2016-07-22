@@ -24,7 +24,7 @@ public class JokeFormController {
     private JokeService jokeService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String viewLogin(Map<String, Object> model, HttpSession session) {
+    public String jokeFormPage(Map<String, Object> model, HttpSession session) {
         if(session.getAttribute("user") == null)
             return "redirect:/login";
 
@@ -33,10 +33,9 @@ public class JokeFormController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView createNewJoke(@Valid @ModelAttribute("jokeForm") JokeForm jokeForm,
+    public ModelAndView jokeForm(@Valid @ModelAttribute("jokeForm") JokeForm jokeForm,
                                       BindingResult bindingResult,
-                                      HttpSession session)
-    {
+                                      HttpSession session) {
         if(bindingResult.hasErrors())
             return new ModelAndView(View.JOKE_FORM_PAGE);
 

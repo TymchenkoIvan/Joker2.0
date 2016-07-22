@@ -10,13 +10,10 @@ import com.company.service.custom.CustomUserService;
 import com.company.service.custom.CustomVoteService;
 import com.company.util.ConfigParam;
 import com.company.validator.Validator;
-import com.company.validator.formvalidator.LogInFormValidator;
-import com.company.validator.formvalidator.SignUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 
 import javax.persistence.EntityManager;
@@ -24,9 +21,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 @Configuration
-@PropertySources({
-        @PropertySource("classpath:validator.properties"),
-        @PropertySource("classpath:config.properties")})
+@PropertySource("classpath:config.properties")
 public class AppConfig {
 
     @Autowired
@@ -79,16 +74,5 @@ public class AppConfig {
     }
 
     @Bean
-    public LogInFormValidator logInFormValidator() {
-        return new LogInFormValidator();
-    }
-
-    @Bean
-    public SignUpFormValidator signUpFormValidator() {
-        return new SignUpFormValidator();
-    }
-
-    @Bean
     public Validator validator(){ return new Validator(); }
-
 }

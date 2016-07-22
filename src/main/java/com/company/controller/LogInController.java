@@ -1,23 +1,19 @@
 package com.company.controller;
 
-import com.company.entity.bean.formbean.FormBeans;
 import com.company.entity.bean.formbean.impl.LogInForm;
-import com.company.exception.JokerValidationException;
-import com.company.populator.factory.FormBeanFactory;
 import com.company.service.UserService;
-import com.company.util.Message;
-import com.company.util.ModelName;
 import com.company.util.View;
-import com.company.validator.formvalidator.LogInFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/login")
@@ -26,30 +22,24 @@ public class LogInController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private FormBeanFactory formBeanFactory;
+    @RequestMapping(method = RequestMethod.GET)
+    public String logInPage(Map<String, Object> model, HttpSession session) {
+        if(session.getAttribute("user") != null)
+            return "redirect:/logout";
 
-    @Autowired
-    private LogInFormValidator formValidator;
-
-    @RequestMapping("")
-    public ModelAndView logInPage() {
-        return new ModelAndView(View.LOG_IN_PAGE);
+        model.put("logInForm", new LogInForm());
+        return View.LOG_IN_PAGE;
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public ModelAndView logIn(@RequestParam(value="login") String login,
-                               HttpServletRequest request,
-                               HttpSession session) {
-        try {
-            LogInForm formBean = (LogInForm) formBeanFactory.create(FormBeans.LOG_IN, request);
-            formValidator.validate(formBean);
 
-            session.setAttribute("user", userService.getUserByLogin(login));
-            return new ModelAndView("redirect:/");
-        } catch (JokerValidationException e) {
-            e.printStackTrace();
-            return new ModelAndView(View.LOG_IN_PAGE, ModelName.ALL_PAGES_ERROR_MESSAGE, Message.LOG_IN_ERROR);
-        }
+    @RequestMapping(method = RequestMethod.POST)
+    public ModelAndView logIn(@Valid @ModelAttribute("logInForm") LogInForm logInForm,
+                                      BindingResult bindingResult,
+                                      HttpSession session) {
+        if(bindingResult.hasErrors() || !userService.isLoginPairCorrect(logInForm.getLogin(), logInForm.getPassword()))
+            return new ModelAndView(View.LOG_IN_PAGE);
+
+        session.setAttribute("user", userService.getUserByLogin(logInForm.getLogin()));
+        return new ModelAndView("redirect:/");
     }
 }

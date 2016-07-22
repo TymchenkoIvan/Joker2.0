@@ -20,7 +20,7 @@
 
     <tr> <center><h3>New joke:</h3></center></tr>
     <form:form role="form" class="form-horizontal" action="jokeForm" commandName="jokeForm">
-            <div class="form-group">
+        <div class="form-group">
             <form:errors path="text" cssClass="error"/>
             <form:textarea path="text" class="form-control" rows="15" cols="50"/>
         </div>

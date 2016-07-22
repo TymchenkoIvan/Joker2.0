@@ -36,16 +36,6 @@ public class CustomUserService implements UserService{
     }
 
     @Override
-    public boolean isLoginUnique(String login) {
-        return userDAO.isLoginUnique(login);
-    }
-
-    @Override
-    public boolean isMailUnique(String mail) {
-        return userDAO.isMailUnique(mail);
-    }
-
-    @Override
     public void createUser(SignUpForm formBean) {
         User user = (User) entityFactory.create(User.class, formBean);
         user.setRole(roleDAO.getRole("user"));
@@ -56,5 +46,18 @@ public class CustomUserService implements UserService{
     public UserDTO getUserByLogin(String login) {
         User user = userDAO.getUserByLogin(login);
         return (UserDTO) dtoBeanFactory.create(DTOBeans.UserDTO, user);
+    }
+
+    @Override
+    public boolean isSignUpInfoCorrect(SignUpForm form) {
+        return form.getPassword().equals(form.getConfirm()) && (isLoginUnique(form.getLogin()) && isMailUnique(form.getMail()));
+    }
+
+    private boolean isLoginUnique(String login) {
+        return userDAO.isLoginUnique(login);
+    }
+
+    private boolean isMailUnique(String mail) {
+        return userDAO.isMailUnique(mail);
     }
 }

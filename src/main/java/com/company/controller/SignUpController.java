@@ -1,21 +1,19 @@
 package com.company.controller;
 
-import com.company.entity.bean.formbean.FormBeans;
 import com.company.entity.bean.formbean.impl.SignUpForm;
-import com.company.exception.JokerValidationException;
-import com.company.populator.factory.FormBeanFactory;
 import com.company.service.UserService;
-import com.company.util.ModelName;
 import com.company.util.View;
-import com.company.validator.formvalidator.SignUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/signup")
@@ -24,30 +22,24 @@ public class SignUpController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private FormBeanFactory formBeanFactory;
+    @RequestMapping(method = RequestMethod.GET)
+    public String signUpPage(Map<String, Object> model, HttpSession session) {
+        if(session.getAttribute("user") != null)
+            return "redirect:/logout";
 
-    @Autowired
-    private SignUpFormValidator formValidator;
-
-    @RequestMapping("")
-    public ModelAndView signUpPage() {
-        return new ModelAndView(View.SIGN_UP_PAGE);
+        model.put("signUpForm", new SignUpForm());
+        return View.SIGN_UP_PAGE;
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public ModelAndView createUser( HttpServletRequest request,HttpSession session)
-    {
-        try {
-            SignUpForm formBean = (SignUpForm) formBeanFactory.create(FormBeans.SIGN_UP, request);
-            formValidator.validate(formBean);
-            userService.createUser(formBean);
+    @RequestMapping(method = RequestMethod.POST)
+    public ModelAndView signUp(@Valid @ModelAttribute("signUpForm") SignUpForm signUpForm,
+                               BindingResult bindingResult,
+                               HttpSession session) {
+        if(bindingResult.hasErrors() || !userService.isSignUpInfoCorrect(signUpForm))
+            return new ModelAndView(View.SIGN_UP_PAGE);
 
-            session.setAttribute("user", userService.getUserByLogin(formBean.getLogin()));
-        } catch (JokerValidationException e) {
-            e.printStackTrace();
-            return new ModelAndView(View.SIGN_UP_PAGE, ModelName.ALL_PAGES_ERROR_MESSAGE, e.getMessage());
-        }
+        userService.createUser(signUpForm);
+        session.setAttribute("user", userService.getUserByLogin(signUpForm.getLogin()));
         return new ModelAndView("redirect:/");
     }
 }

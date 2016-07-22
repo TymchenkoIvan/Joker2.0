@@ -9,11 +9,9 @@ public interface UserService {
 
     boolean isLoginPairCorrect(String login, String password);
 
-    boolean isLoginUnique(String login);
-
-    boolean isMailUnique(String mail);
-
     void createUser(SignUpForm formBean);
 
     DTOBean getUserByLogin(String login);
+
+    boolean isSignUpInfoCorrect(SignUpForm form);
 }
