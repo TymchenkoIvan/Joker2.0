@@ -2,14 +2,14 @@ package com.company.DAO.Jpa;
 
 import com.company.DAO.RoleDAO;
 import com.company.entity.Role;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 public class JpaRoleDAO implements RoleDAO{
 
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override

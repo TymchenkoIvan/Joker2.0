@@ -2,14 +2,14 @@ package com.company.DAO.Jpa;
 
 import com.company.DAO.StatusDAO;
 import com.company.entity.Status;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 public class JpaStatusDAO implements StatusDAO {
 
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override

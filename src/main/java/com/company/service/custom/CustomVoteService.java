@@ -5,8 +5,10 @@ import com.company.DAO.UserDAO;
 import com.company.DAO.VoteDAO;
 import com.company.entity.Joke;
 import com.company.entity.User;
+import com.company.service.JokeService;
 import com.company.service.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 public class CustomVoteService implements VoteService{
 
@@ -19,15 +21,31 @@ public class CustomVoteService implements VoteService{
     @Autowired
     private JokeDAO jokeDAO;
 
-    @Override
-    public void addVote(int jokeId, int userId) {
-        User user = userDAO.getUserById(userId);
-        Joke joke = jokeDAO.getJoke(jokeId);
-        voteDAO.addVote(joke, user);
-    }
+    @Autowired
+    private JokeService jokeService;
 
     @Override
     public boolean isVotePossible(int jokeId, int userId) {
         return voteDAO.isVotePossible(jokeId, userId);
+    }
+
+    @Override
+    @Transactional(rollbackFor=Exception.class)
+    public void addLike(int jokeId, int userId) {
+        User user = userDAO.getUserById(userId);
+        Joke joke = jokeDAO.getJoke(jokeId);
+
+        voteDAO.addVote(joke, user);
+        jokeService.addLike(joke);
+    }
+
+    @Override
+    @Transactional(rollbackFor=Exception.class)
+    public void addDislike(int jokeId, int userId) {
+        User user = userDAO.getUserById(userId);
+        Joke joke = jokeDAO.getJoke(jokeId);
+
+        voteDAO.addVote(joke, user);
+        jokeService.addDislike(joke);
     }
 }

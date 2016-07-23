@@ -2,15 +2,14 @@ package com.company.DAO.Jpa;
 
 import com.company.DAO.UserDAO;
 import com.company.entity.User;
-import com.company.exception.JokerDBException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 public class JpaUserDAO implements UserDAO {
 
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override
@@ -49,15 +48,7 @@ public class JpaUserDAO implements UserDAO {
 
     @Override
     public void addUser(User user) {
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(user);
-            entityManager.getTransaction().commit();
-        } catch (Exception ex) {
-            entityManager.getTransaction().rollback();
-            ex.printStackTrace();
-            throw new JokerDBException(ex);
-        }
+        entityManager.persist(user);
     }
 
     @Override

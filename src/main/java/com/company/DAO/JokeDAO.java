@@ -11,13 +11,5 @@ public interface JokeDAO {
 
     List<Joke> getByStatus(Status status);
 
-    void add(Joke joke);
-
-    void delete(int id);
-
-    void recover(int id);
-
-    void like(int id);
-
-    void dislike(int id);
+    void persist(Joke joke);
 }

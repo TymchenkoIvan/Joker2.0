@@ -9,18 +9,22 @@ import com.company.service.custom.CustomJokeService;
 import com.company.service.custom.CustomUserService;
 import com.company.service.custom.CustomVoteService;
 import com.company.util.ConfigParam;
-import com.company.validator.Validator;
+import com.company.util.Convertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 @Configuration
+@EnableTransactionManagement
 @PropertySource("classpath:config.properties")
 public class AppConfig {
 
@@ -28,9 +32,23 @@ public class AppConfig {
     protected Environment props;
 
     @Bean
+    public EntityManagerFactory entityManagerFactory() {
+        return Persistence.createEntityManagerFactory(props.getProperty(ConfigParam.ENTITY_MANAGER));
+    }
+
+    @Bean
+    public Convertor convertor(){
+        return new Convertor();
+    }
+
+    @Bean
     public EntityManager entityManager() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(props.getProperty(ConfigParam.ENTITY_MANAGER));
-        return emf.createEntityManager();
+        return entityManagerFactory().createEntityManager();
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(){
+        return new JpaTransactionManager(entityManagerFactory());
     }
 
     @Bean
@@ -72,7 +90,4 @@ public class AppConfig {
     public UserService userService() {
         return new CustomUserService();
     }
-
-    @Bean
-    public Validator validator(){ return new Validator(); }
 }

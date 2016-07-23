@@ -1,8 +1,8 @@
-DROP DATABASE joker_new;
+DROP DATABASE joker;
 
-CREATE DATABASE joker_new;
+CREATE DATABASE joker;
 
-USE joker_new;
+USE joker;
 
 CREATE TABLE roles(
   id INT(10) AUTO_INCREMENT,
@@ -16,7 +16,7 @@ CREATE TABLE users (
   login VARCHAR(20) NOT NULL UNIQUE,
   mail VARCHAR(45) NOT NULL UNIQUE,
   telephone VARCHAR(45),
-  password VARCHAR(20) NOT NULL,
+  password VARCHAR(32) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (role_id) REFERENCES roles (id)
 );
@@ -57,8 +57,8 @@ INSERT INTO statuses VALUES ('1','new');
 INSERT INTO statuses VALUES ('2','archive');
 INSERT INTO statuses VALUES ('3','deleted');
 
-INSERT INTO users VALUES ('1','3','admin','tymchenkoivan@gmail.com', '0506631485', 'password');
-INSERT INTO users VALUES ('2','1','anna','anna@gmail.com', '0506631485', 'anna');
-INSERT INTO users VALUES ('3','1','ivan','ivan@gmail.com', '0506631485', 'ivan');
+INSERT INTO users VALUES ('1','3','admin','tymchenkoivan@gmail.com', '0506631485', MD5('password'));
+INSERT INTO users VALUES ('2','1','anna','anna@gmail.com', '0506631485', MD5('anna'));
+INSERT INTO users VALUES ('3','1','ivan','ivan@gmail.com', '0506631485', MD5('ivan'));
 
 commit;

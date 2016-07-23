@@ -36,8 +36,7 @@ public class IndexController {
         int userId = ((UserDTO) session.getAttribute("user")).getId();
 
         if(voteService.isVotePossible(jokeId, userId)){
-            jokeService.addLike(jokeId);
-            voteService.addVote(jokeId, userId);
+            voteService.addLike(jokeId, userId);
             return new ModelAndView("redirect:/");
         }
         return getModelAndView(Message.VOTE_ERROR);
@@ -48,8 +47,7 @@ public class IndexController {
         int userId = ((UserDTO) session.getAttribute("user")).getId();
 
         if(voteService.isVotePossible(jokeId, userId)){
-            jokeService.addDislike(jokeId);
-            voteService.addVote(jokeId, userId);
+            voteService.addDislike(jokeId, userId);
             return new ModelAndView("redirect:/");
         }
         return getModelAndView(Message.VOTE_ERROR);

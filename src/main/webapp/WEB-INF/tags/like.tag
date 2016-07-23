@@ -4,9 +4,13 @@
 
 <c:if test="${sessionScope.user != null}">
 	<td>
-		<a href="/joker.com/${jokeId}/like">Like!</a>
+		<a href="/joker.com/${jokeId}/like" >
+			<img height="27" width="20" src="<c:url value="/resources/web/like.png" />">
+		</a>
 	</td>
 	<td>
-		<a href="/joker.com/${jokeId}/dislike">Dislike</a>
+		<a href="/joker.com/${jokeId}/dislike">
+			<img height="27" width="20" src="<c:url value="/resources/web/dislike.png" />">
+		</a>
 	</td>
 </c:if>

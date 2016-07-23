@@ -34,19 +34,17 @@ public class Joke extends Entity {
 
     public Joke() {}
 
+    public Joke(Joke joke) {
+        this.text = joke.getText();
+        this.user = joke.getUser();
+    }
+
     public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status){
         this.status = status;
-    }
-
-    public Joke(String text) {
-        this.date = new Date();
-        this.likes = 0;
-        this.dislikes = 0;
-        this.text = text;
     }
 
     public List<Vote> getVotes() {

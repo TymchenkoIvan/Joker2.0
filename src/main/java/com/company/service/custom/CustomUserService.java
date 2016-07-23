@@ -9,7 +9,9 @@ import com.company.entity.bean.formbean.impl.SignUpForm;
 import com.company.populator.factory.DTOBeanFactory;
 import com.company.populator.factory.EntityFactory;
 import com.company.service.UserService;
+import com.company.util.Convertor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 public class CustomUserService implements UserService{
 
@@ -25,6 +27,9 @@ public class CustomUserService implements UserService{
     @Autowired
     private DTOBeanFactory dtoBeanFactory;
 
+    @Autowired
+    private Convertor convertor;
+
     @Override
     public boolean isUserAdmin(String login) {
         return userDAO.isUserAdmin(login);
@@ -32,13 +37,19 @@ public class CustomUserService implements UserService{
 
     @Override
     public boolean isLoginPairCorrect(String login, String password) {
-        return userDAO.isLoginPairCorrect(login, password);
+        String hash = convertor.hashString(password);
+        return userDAO.isLoginPairCorrect(login, hash);
     }
 
     @Override
+    @Transactional(rollbackFor=Exception.class)
     public void createUser(SignUpForm formBean) {
         User user = (User) entityFactory.create(User.class, formBean);
+        String hash = convertor.hashString(user.getPassword());
+
         user.setRole(roleDAO.getRole("user"));
+        user.setPassword(hash);
+
         userDAO.addUser(user);
     }
 

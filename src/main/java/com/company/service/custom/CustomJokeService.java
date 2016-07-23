@@ -10,12 +10,18 @@ import com.company.entity.bean.formbean.impl.JokeForm;
 import com.company.populator.factory.DTOBeanFactory;
 import com.company.populator.factory.EntityFactory;
 import com.company.service.JokeService;
+import com.company.util.ConfigParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CustomJokeService implements JokeService{
+
+    @Autowired
+    protected Environment props;
 
     @Autowired
     private JokeDAO jokeDAO;
@@ -33,36 +39,61 @@ public class CustomJokeService implements JokeService{
     private DTOBeanFactory dtoFactory;
 
     @Override
-    public void addLike(int jokeId) {
-        jokeDAO.like(jokeId);
+    @Transactional(rollbackFor=Exception.class)
+    public void addLike(Joke joke) {
+        joke.setLikes(joke.getLikes() + 1);
+        jokeDAO.persist(joke);
     }
 
     @Override
+    @Transactional(rollbackFor=Exception.class)
     public void deleteJoke(int jokeId) {
-        jokeDAO.delete(jokeId);
+        Joke joke = jokeDAO.getJoke(jokeId);
+        joke.setStatus(statusDAO.getStatus("deleted"));
+        jokeDAO.persist(joke);
     }
 
     @Override
-    public void addDislike(int jokeId) {
-        jokeDAO.dislike(jokeId);
+    @Transactional(rollbackFor=Exception.class)
+    public void addDislike(Joke joke) {
+        joke.setDislikes(joke.getDislikes() + 1);
+
+        if(isMustBeArchived(joke))
+            joke.setStatus(statusDAO.getStatus("archive"));
+
+        jokeDAO.persist(joke);
     }
 
     @Override
+    @Transactional(rollbackFor=Exception.class)
     public void addJoke(JokeForm formBean, int userId) {
         Joke joke = (Joke) entityFactory.create(Joke.class, formBean);
         joke.setStatus(statusDAO.getStatus("new"));
         joke.setUser(userDAO.getUserById(userId));
-        jokeDAO.add(joke);
+        jokeDAO.persist(joke);
     }
 
     @Override
+    @Transactional(rollbackFor=Exception.class)
     public void recoverJokeFromArchive(int jokeId) {
-        jokeDAO.recover(jokeId);
+        Joke oldJoke = jokeDAO.getJoke(jokeId);
+        Joke newJoke = new Joke(oldJoke);
+
+        oldJoke.setStatus(statusDAO.getStatus("deleted"));
+        newJoke.setStatus(statusDAO.getStatus("new"));
+
+        jokeDAO.persist(oldJoke);
+        jokeDAO.persist(newJoke);
     }
 
     @Override
     public List<JokeDTO> getNewJokes() {
         return retrieveDtoFromJokes(jokeDAO.getByStatus(statusDAO.getStatus("new")));
+    }
+
+    @Override
+    public List<JokeDTO> getArchivedJokes() {
+        return retrieveDtoFromJokes(jokeDAO.getByStatus(statusDAO.getStatus("archive")));
     }
 
     private List<JokeDTO> retrieveDtoFromJokes(List<Joke> jokes) {
@@ -71,8 +102,8 @@ public class CustomJokeService implements JokeService{
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<JokeDTO> getArchivedJokes() {
-        return retrieveDtoFromJokes(jokeDAO.getByStatus(statusDAO.getStatus("archive")));
+    private boolean isMustBeArchived(Joke joke){
+        int minVotes = Integer.parseInt(props.getProperty(ConfigParam.JOKE_ARCHIVE_MIN_VOTES));
+        return (joke.getLikes() + joke.getDislikes()) >= minVotes && joke.getDislikes() > joke.getLikes();
     }
 }
