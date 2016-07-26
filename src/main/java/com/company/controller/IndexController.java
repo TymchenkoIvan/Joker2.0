@@ -4,7 +4,7 @@ import com.company.entity.bean.dtobean.impl.UserDTO;
 import com.company.service.JokeService;
 import com.company.service.VoteService;
 import com.company.util.Message;
-import com.company.util.ModelName;
+import com.company.util.Model;
 import com.company.util.View;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,27 +28,27 @@ public class IndexController {
 
     @RequestMapping(value={"", " * "})
     public ModelAndView indexPage() {
-        return new ModelAndView(View.INDEX_PAGE, ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getNewJokes());
+        return new ModelAndView(View.INDEX_PAGE, Model.INDEX_PAGE_JOKE_LIST, jokeService.getNewJokes());
     }
 
     @RequestMapping("{jokeId}/like")
     public ModelAndView likeAction(@PathVariable("jokeId") int jokeId, HttpSession session) {
-        int userId = ((UserDTO) session.getAttribute("user")).getId();
+        int userId = ((UserDTO) session.getAttribute(Model.SESSION_USER)).getId();
 
         if(voteService.isVotePossible(jokeId, userId)){
             voteService.addLike(jokeId, userId);
-            return new ModelAndView("redirect:/");
+            return new ModelAndView(View.REDIRECT + View.INDEX_PAGE);
         }
         return getModelAndView(Message.VOTE_ERROR);
     }
 
     @RequestMapping("{jokeId}/dislike")
     public ModelAndView dislikeAction(@PathVariable("jokeId") int jokeId, HttpSession session) {
-        int userId = ((UserDTO) session.getAttribute("user")).getId();
+        int userId = ((UserDTO) session.getAttribute(Model.SESSION_USER)).getId();
 
         if(voteService.isVotePossible(jokeId, userId)){
             voteService.addDislike(jokeId, userId);
-            return new ModelAndView("redirect:/");
+            return new ModelAndView(View.REDIRECT + View.INDEX_PAGE);
         }
         return getModelAndView(Message.VOTE_ERROR);
     }
@@ -56,8 +56,8 @@ public class IndexController {
 
     private ModelAndView getModelAndView(String errorMessage) {
         Map<String, Object> model = new HashMap<>();
-        model.put(ModelName.INDEX_PAGE_JOKE_LIST, jokeService.getNewJokes());
-        model.put(ModelName.ALL_PAGES_ERROR_MESSAGE, errorMessage);
+        model.put(Model.INDEX_PAGE_JOKE_LIST, jokeService.getNewJokes());
+        model.put(Model.ALL_PAGES_ERROR_MESSAGE, errorMessage);
 
         return new ModelAndView(View.INDEX_PAGE, model);
     }
