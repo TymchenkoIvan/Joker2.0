@@ -10,8 +10,8 @@ import com.company.populator.factory.DTOBeanFactory;
 import com.company.populator.factory.EntityFactory;
 import com.company.service.UserService;
 import com.company.util.Convertor;
+import com.company.util.JokerTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 public class CustomUserService implements UserService{
 
@@ -42,7 +42,7 @@ public class CustomUserService implements UserService{
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @JokerTransaction
     public void createUser(SignUpForm formBean) {
         User user = (User) entityFactory.create(User.class, formBean);
         String hash = convertor.hashString(user.getPassword());

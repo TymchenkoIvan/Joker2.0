@@ -7,8 +7,8 @@ import com.company.entity.Joke;
 import com.company.entity.User;
 import com.company.service.JokeService;
 import com.company.service.VoteService;
+import com.company.util.JokerTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 public class CustomVoteService implements VoteService{
 
@@ -30,7 +30,7 @@ public class CustomVoteService implements VoteService{
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @JokerTransaction
     public void addLike(int jokeId, int userId) {
         User user = userDAO.getUserById(userId);
         Joke joke = jokeDAO.getJoke(jokeId);
@@ -40,7 +40,7 @@ public class CustomVoteService implements VoteService{
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @JokerTransaction
     public void addDislike(int jokeId, int userId) {
         User user = userDAO.getUserById(userId);
         Joke joke = jokeDAO.getJoke(jokeId);

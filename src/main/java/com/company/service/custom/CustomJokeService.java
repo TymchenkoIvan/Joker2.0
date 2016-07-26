@@ -11,9 +11,9 @@ import com.company.populator.factory.DTOBeanFactory;
 import com.company.populator.factory.EntityFactory;
 import com.company.service.JokeService;
 import com.company.util.ConfigParam;
+import com.company.util.JokerTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,14 +39,14 @@ public class CustomJokeService implements JokeService{
     private DTOBeanFactory dtoFactory;
 
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @JokerTransaction
     public void addLike(Joke joke) {
         joke.setLikes(joke.getLikes() + 1);
         jokeDAO.persist(joke);
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @JokerTransaction
     public void deleteJoke(int jokeId) {
         Joke joke = jokeDAO.getJoke(jokeId);
         joke.setStatus(statusDAO.getStatus("deleted"));
@@ -54,7 +54,7 @@ public class CustomJokeService implements JokeService{
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @JokerTransaction
     public void addDislike(Joke joke) {
         joke.setDislikes(joke.getDislikes() + 1);
 
@@ -65,7 +65,7 @@ public class CustomJokeService implements JokeService{
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @JokerTransaction
     public void addJoke(JokeForm formBean, int userId) {
         Joke joke = (Joke) entityFactory.create(Joke.class, formBean);
         joke.setStatus(statusDAO.getStatus("new"));
@@ -74,7 +74,7 @@ public class CustomJokeService implements JokeService{
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @JokerTransaction
     public void recoverJokeFromArchive(int jokeId) {
         Joke oldJoke = jokeDAO.getJoke(jokeId);
         Joke newJoke = new Joke(oldJoke);
