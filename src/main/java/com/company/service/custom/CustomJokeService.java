@@ -10,18 +10,15 @@ import com.company.entity.bean.formbean.impl.JokeForm;
 import com.company.populator.factory.DTOBeanFactory;
 import com.company.populator.factory.EntityFactory;
 import com.company.service.JokeService;
-import com.company.util.ConfigParam;
+import com.company.util.ConfigParams;
 import com.company.util.JokerTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CustomJokeService implements JokeService{
-
-    @Autowired
-    protected Environment props;
 
     @Autowired
     private JokeDAO jokeDAO;
@@ -38,6 +35,13 @@ public class CustomJokeService implements JokeService{
     @Autowired
     private DTOBeanFactory dtoFactory;
 
+    @Value(ConfigParams.JOKE_MIN_VOTES)
+    private int minVotes;
+/*
+    public CustomJokeService(int minVotes){
+        this.minVotes = minVotes;
+    }
+*/
     @Override
     @JokerTransaction
     public void addLike(Joke joke) {
@@ -103,7 +107,6 @@ public class CustomJokeService implements JokeService{
     }
 
     private boolean isMustBeArchived(Joke joke){
-        int minVotes = Integer.parseInt(props.getProperty(ConfigParam.JOKE_ARCHIVE_MIN_VOTES));
         return (joke.getLikes() + joke.getDislikes()) >= minVotes && joke.getDislikes() > joke.getLikes();
     }
 }

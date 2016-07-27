@@ -35,7 +35,6 @@ public class JpaJokeDAO implements JokeDAO {
 
     @Override
     public void persist(Joke joke) {
-        System.out.println(joke);
         entityManager.persist(joke);
     }
 }

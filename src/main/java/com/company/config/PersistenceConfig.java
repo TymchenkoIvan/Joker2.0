@@ -3,8 +3,9 @@ package com.company.config;
 
 import com.company.DAO.*;
 import com.company.DAO.Jpa.*;
-import com.company.util.ConfigParam;
+import com.company.util.ConfigParams;
 import com.company.util.Convertor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -17,9 +18,12 @@ import javax.persistence.Persistence;
 @Configuration
 public class PersistenceConfig extends AppConfig{
 
+    @Value(ConfigParams.ENTITY_MANAGER)
+    private String entityManager;
+
     @Bean
     public EntityManagerFactory entityManagerFactory() {
-        return Persistence.createEntityManagerFactory(props.getProperty(ConfigParam.ENTITY_MANAGER));
+        return Persistence.createEntityManagerFactory(entityManager);
     }
 
     @Bean
