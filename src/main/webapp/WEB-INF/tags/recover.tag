@@ -2,7 +2,7 @@
 <%@ tag pageEncoding="UTF-8"%>
 <%@ attribute name="jokeId" required="true"%>
 
-<c:if test="${sessionScope.user.status == 'admin'}">
+<c:if test="${pageContext.request.isUserInRole('admin')}">
 	<td>
 		<a href="/joker.com/archive/${jokeId}/delete">delete</a>
 	</td>

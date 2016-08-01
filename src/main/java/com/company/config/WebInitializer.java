@@ -20,7 +20,8 @@ public class WebInitializer implements WebApplicationInitializer {
                 AppConfig.class,
                 WebConfig.class, 
                 PopulatorConfig.class,
-                PersistenceConfig.class);
+                PersistenceConfig.class,
+                SecurityConfig.class);
 
         servletContext.addListener(new ContextLoaderListener(ctx));
         ctx.setServletContext(servletContext);

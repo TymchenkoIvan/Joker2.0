@@ -3,10 +3,10 @@
 		<tr align="center">
 			<td><util:greeting/></td>
 			<td><img height="100" width="150" src="<c:url value="/resources/web/header_clown.png" />"></td>
-			<td><h4><a href="index"><b>MAIN</b></a></h4></td>
-			<td><h4><a href="jokeForm"><b>JOKE</b></a></h4></td>
-			<td><h4><a href="archive"><b>ARCHIVE</b></a></h4></td>
-			<td><h4><a href="faq"><b>FAQ</b></a></h4></td>
+			<td><h4><a href="/joker.com/index"><b>MAIN</b></a></h4></td>
+			<td><h4><a href="/joker.com/jokeForm"><b>JOKE</b></a></h4></td>
+			<td><h4><a href="/joker.com/archive"><b>ARCHIVE</b></a></h4></td>
+			<td><h4><a href="/joker.com/faq"><b>FAQ</b></a></h4></td>
 		</tr>
 	</table>
 	<p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${errorMessage}</p>

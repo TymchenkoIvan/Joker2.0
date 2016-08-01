@@ -9,6 +9,4 @@ public class Model {
     public final static String JOKE_FORM = "jokeForm";
     public final static String LOG_IN_FORM = "logInForm";
     public final static String SIGN_UP_FORM = "signUpForm";
-
-    public final static String SESSION_USER = "user";
 }

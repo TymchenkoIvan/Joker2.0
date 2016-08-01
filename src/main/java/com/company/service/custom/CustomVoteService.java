@@ -25,14 +25,14 @@ public class CustomVoteService implements VoteService{
     private JokeService jokeService;
 
     @Override
-    public boolean isVotePossible(int jokeId, int userId) {
-        return voteDAO.isVotePossible(jokeId, userId);
+    public boolean isVotePossible(int jokeId, String userLogin) {
+        return voteDAO.isVotePossible(jokeId, userLogin);
     }
 
     @Override
     @JokerTransaction
-    public void addLike(int jokeId, int userId) {
-        User user = userDAO.getUserById(userId);
+    public void addLike(int jokeId, String userLogin) {
+        User user = userDAO.getUserByLogin(userLogin);
         Joke joke = jokeDAO.getJoke(jokeId);
 
         voteDAO.addVote(joke, user);
@@ -41,8 +41,8 @@ public class CustomVoteService implements VoteService{
 
     @Override
     @JokerTransaction
-    public void addDislike(int jokeId, int userId) {
-        User user = userDAO.getUserById(userId);
+    public void addDislike(int jokeId, String userLogin) {
+        User user = userDAO.getUserByLogin(userLogin);
         Joke joke = jokeDAO.getJoke(jokeId);
 
         voteDAO.addVote(joke, user);

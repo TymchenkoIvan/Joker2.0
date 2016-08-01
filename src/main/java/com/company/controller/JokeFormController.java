@@ -1,6 +1,5 @@
 package com.company.controller;
 
-import com.company.entity.bean.dtobean.impl.UserDTO;
 import com.company.entity.bean.formbean.impl.JokeForm;
 import com.company.service.JokeService;
 import com.company.util.Model;
@@ -12,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Map;
 
 @Controller
@@ -24,10 +23,7 @@ public class JokeFormController {
     private JokeService jokeService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String jokeFormPage(Map<String, Object> model, HttpSession session) {
-        if(session.getAttribute(Model.SESSION_USER) == null)
-            return View.REDIRECT + View.LOG_IN_PAGE;
-
+    public String jokeFormPage(Map<String, Object> model) {
         model.put(Model.JOKE_FORM, new JokeForm());
         return View.JOKE_FORM_PAGE;
     }
@@ -35,12 +31,12 @@ public class JokeFormController {
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView jokeForm(@Valid JokeForm jokeForm,
                                  BindingResult bindingResult,
-                                 HttpSession session) {
+                                 Principal principal) {
         if(bindingResult.hasErrors())
             return new ModelAndView(View.JOKE_FORM_PAGE);
 
-        int userId = ((UserDTO) session.getAttribute(Model.SESSION_USER)).getId();
-        jokeService.addJoke(jokeForm, userId);
+        String userLogin = principal.getName();
+        jokeService.addJoke(jokeForm, userLogin);
         return new ModelAndView(View.REDIRECT + View.INDEX_PAGE);
     }
 }

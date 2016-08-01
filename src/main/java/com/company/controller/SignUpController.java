@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -23,23 +22,18 @@ public class SignUpController {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String signUpPage(Map<String, Object> model, HttpSession session) {
-        if(session.getAttribute(Model.SESSION_USER) != null)
-            return View.REDIRECT + View.LOG_OUT_PAGE;
-
+    public String signUpPage(Map<String, Object> model) {
         model.put(Model.SIGN_UP_FORM, new SignUpForm());
         return View.SIGN_UP_PAGE;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView signUp(@Valid SignUpForm signUpForm,
-                               BindingResult bindingResult,
-                               HttpSession session) {
+                               BindingResult bindingResult) {
         if(bindingResult.hasErrors() || !userService.isSignUpInfoCorrect(signUpForm))
             return new ModelAndView(View.SIGN_UP_PAGE);
 
         userService.createUser(signUpForm);
-        session.setAttribute(Model.SESSION_USER, userService.getUserByLogin(signUpForm.getLogin()));
         return new ModelAndView(View.REDIRECT + View.INDEX_PAGE);
     }
 }

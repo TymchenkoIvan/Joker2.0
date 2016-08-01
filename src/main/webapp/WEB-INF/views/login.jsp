@@ -29,11 +29,11 @@
                     </div>
                     <div class="form-group">
                         <form:errors path="login" cssClass="error"/>
-                        <form:input path="login" type="text" class="form-control" placeholder="Login *"/>
+                        <form:input name="login" path="login" type="text" class="form-control" placeholder="Login *"/>
                     </div>
                     <div class="form-group">
                         <form:errors path="password" cssClass="error"/>
-                        <form:input path="password" type="password" class="form-control" placeholder="Password *"/>
+                        <form:input name="password" path="password" type="password" class="form-control" placeholder="Password *"/>
                     </div>
 
                     <div class="form-group"><input type="submit" class="btn btn-primary" value="Log In">

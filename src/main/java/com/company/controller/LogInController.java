@@ -23,10 +23,7 @@ public class LogInController {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String logInPage(Map<String, Object> model, HttpSession session) {
-        if(session.getAttribute(Model.SESSION_USER) != null)
-            return View.REDIRECT + View.LOG_OUT_PAGE;
-
+    public String logInPage(Map<String, Object> model) {
         model.put(Model.LOG_IN_FORM, new LogInForm());
         return View.LOG_IN_PAGE;
     }
@@ -36,10 +33,9 @@ public class LogInController {
     public ModelAndView logIn(@Valid LogInForm logInForm,
                               BindingResult bindingResult,
                               HttpSession session) {
-        if(bindingResult.hasErrors() || !userService.isLoginPairCorrect(logInForm.getLogin(), logInForm.getPassword()))
+        if(bindingResult.hasErrors())
             return new ModelAndView(View.LOG_IN_PAGE);
 
-        session.setAttribute(Model.SESSION_USER, userService.getUserByLogin(logInForm.getLogin()));
         return new ModelAndView(View.REDIRECT + View.INDEX_PAGE);
     }
 }

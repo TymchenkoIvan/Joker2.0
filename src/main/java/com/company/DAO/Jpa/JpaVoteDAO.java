@@ -24,9 +24,9 @@ public class JpaVoteDAO implements VoteDAO{
     }
 
     @Override
-    public boolean isVotePossible(int jokeId, int userId) {
-        Query query = entityManager.createQuery("SELECT v FROM Vote v WHERE v.user.id = :userId AND v.joke.id = :jokeId", Vote.class);
-        query.setParameter("userId", userId);
+    public boolean isVotePossible(int jokeId, String userLogin) {
+        Query query = entityManager.createQuery("SELECT v FROM Vote v WHERE v.user.login = :userLogin AND v.joke.id = :jokeId", Vote.class);
+        query.setParameter("userLogin", userLogin);
         query.setParameter("jokeId", jokeId);
 
         return query.getResultList().size() == 0;

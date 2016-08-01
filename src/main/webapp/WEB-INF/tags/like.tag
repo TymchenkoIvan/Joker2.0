@@ -2,7 +2,7 @@
 <%@ tag pageEncoding="UTF-8"%>
 <%@ attribute name="jokeId" required="true"%>
 
-<c:if test="${sessionScope.user != null}">
+<c:if test="${not empty pageContext.request.userPrincipal}">
 	<td>
 		<a href="/joker.com/${jokeId}/like" >
 			<img height="27" width="20" src="<c:url value="/resources/web/like.png" />">

@@ -7,5 +7,5 @@ public interface VoteDAO {
 
     void addVote(Joke joke, User user);
 
-    boolean isVotePossible(int jokeId, int userId);
+    boolean isVotePossible(int jokeId, String userLogin);
 }

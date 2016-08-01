@@ -14,7 +14,7 @@ public interface JokeService {
 
     void deleteJoke(int jokeId);
 
-    void addJoke(JokeForm formBean, int userId);
+    void addJoke(JokeForm formBean, String userLogin);
 
     void recoverJokeFromArchive(int jokeId);
 

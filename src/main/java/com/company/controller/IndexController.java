@@ -1,6 +1,5 @@
 package com.company.controller;
 
-import com.company.entity.bean.dtobean.impl.UserDTO;
 import com.company.service.JokeService;
 import com.company.service.VoteService;
 import com.company.util.Message;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,22 +31,23 @@ public class IndexController {
     }
 
     @RequestMapping("{jokeId}/like")
-    public ModelAndView likeAction(@PathVariable("jokeId") int jokeId, HttpSession session) {
-        int userId = ((UserDTO) session.getAttribute(Model.SESSION_USER)).getId();
+    public ModelAndView likeAction(@PathVariable("jokeId") int jokeId, Principal principal) {
+        String userLogin = principal.getName();
 
-        if(voteService.isVotePossible(jokeId, userId)){
-            voteService.addLike(jokeId, userId);
+        if(voteService.isVotePossible(jokeId, userLogin)){
+            voteService.addLike(jokeId, userLogin);
             return new ModelAndView(View.REDIRECT + View.INDEX_PAGE);
         }
+
         return getModelAndView(Message.VOTE_ERROR);
     }
 
     @RequestMapping("{jokeId}/dislike")
-    public ModelAndView dislikeAction(@PathVariable("jokeId") int jokeId, HttpSession session) {
-        int userId = ((UserDTO) session.getAttribute(Model.SESSION_USER)).getId();
+    public ModelAndView dislikeAction(@PathVariable("jokeId") int jokeId, Principal principal) {
+        String userLogin = principal.getName();
 
-        if(voteService.isVotePossible(jokeId, userId)){
-            voteService.addDislike(jokeId, userId);
+        if(voteService.isVotePossible(jokeId, userLogin)){
+            voteService.addDislike(jokeId, userLogin);
             return new ModelAndView(View.REDIRECT + View.INDEX_PAGE);
         }
         return getModelAndView(Message.VOTE_ERROR);

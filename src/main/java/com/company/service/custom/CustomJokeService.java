@@ -70,10 +70,10 @@ public class CustomJokeService implements JokeService{
 
     @Override
     @JokerTransaction
-    public void addJoke(JokeForm formBean, int userId) {
+    public void addJoke(JokeForm formBean, String userLogin) {
         Joke joke = (Joke) entityFactory.create(Joke.class, formBean);
         joke.setStatus(statusDAO.getStatus("new"));
-        joke.setUser(userDAO.getUserById(userId));
+        joke.setUser(userDAO.getUserByLogin(userLogin));
         jokeDAO.persist(joke);
     }
 

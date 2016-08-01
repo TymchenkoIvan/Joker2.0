@@ -1,9 +1,11 @@
 package com.company.config;
 
+import com.company.service.security.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -14,6 +16,11 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @EnableWebMvc
 @ComponentScan("com.company")
 public class WebConfig extends WebMvcConfigurerAdapter {
+
+    @Bean
+    public UserDetailsService getUserDetailsService(){
+        return new CustomUserDetailsService();
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

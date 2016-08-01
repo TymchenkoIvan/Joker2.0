@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.persistence.EntityManager;
@@ -24,6 +25,11 @@ public class PersistenceConfig extends AppConfig{
     @Bean
     public EntityManagerFactory entityManagerFactory() {
         return Persistence.createEntityManagerFactory(entityManager);
+    }
+
+    @Bean
+    public Md5PasswordEncoder getMd5PasswordEncoder(){
+        return new Md5PasswordEncoder();
     }
 
     @Bean
