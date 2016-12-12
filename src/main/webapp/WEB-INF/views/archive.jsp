@@ -1,38 +1,32 @@
 <%@ include file="jspf/directive/page.jspf"%>
 
 <html>
-<head>
-    <title>Jokes</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-</head>
-<body>
-<div class="container">
-
-    <%@ include file="jspf/header.jspf"%>
-
-    <tr> <center><h3>Archive:</h3></center></tr>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <td></td>
-            <td><center><b>Likes</b></center></td>
-            <td><center><b>Dislikes</b></center></td>
-            <td><center><b>Joke</b></center></td>
-        </tr>
-        </thead>
-        <c:forEach items="${archiveJokes}" var="joke">
-            <tr>
-                <jsp:useBean id="beanNow" class="java.util.Date" />
-                <fmt:formatDate value="${joke.date}" var="s_now" pattern="dd.MM.YYYY" />
-                <td>${s_now}</td>
-                <td><center><b>${joke.likes}</b></center></td>
-                <td><center>${joke.dislikes}</center></td>
-                <td>${joke.text}</td>
-                <util:recover jokeId="${joke.id}"/>
-            </tr>
-        </c:forEach>
-    </table>
-</div>
-</body>
+    <util:head title="Archive jokes"/>
+    <body>
+        <div class="container">
+            <%@ include file="jspf/leftPanel.jspf"%>
+            <div class="main">
+                <util:errorMessage errorMessage="${errorMessage}"/>
+                <h2>Archive</h2>
+                <table>
+                    <tbody>
+                        <c:forEach items="${archiveJokes}" var="joke">
+                            <tr>
+                                <td>
+                                    <div class="joke">
+                                        <p class="text">${joke.text}</p>
+                                        <p class="vote">likes: ${joke.likes} | dislikes: ${joke.dislikes}</p>
+                                        <util:recover jokeId="${joke.id}"/>
+                                        <jsp:useBean id="beanNow" class="java.util.Date" />
+                                        <fmt:formatDate value="${joke.date}" var="joke_date" pattern="dd.MM.YYYY" />
+                                        <p class="date">${joke_date}</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
 </html>

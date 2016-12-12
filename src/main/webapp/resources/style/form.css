@@ -1,0 +1,50 @@
+.form{
+    text-align: center;
+}
+
+img{
+    height: 200px;
+    width: 200px;
+}
+
+p{
+    margin: 4px;
+}
+
+input{
+    width: 200px;
+    border: none;
+    padding: 10px 16px;
+    text-decoration: none;
+    cursor: pointer;
+    outline-color: gray;
+}
+
+input[type=submit] {
+    background-color: #bb1919;
+    border: 2px solid #bb1919;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+input[type=button]  {
+    margin: -4px;
+    background-color: white;
+    border: 2px solid white;
+    color: #bb1919;
+    padding: 10px 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+input[type=submit]:hover  {
+    border: 2px solid white;
+}
+
+input[type=button]:hover  {
+    border: 2px solid #bb1919;
+}

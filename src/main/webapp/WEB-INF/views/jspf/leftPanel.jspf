@@ -1,0 +1,12 @@
+<div class="lPanel">
+  <td><util:greeting/></td>
+  <div class="nav">
+    <ul>
+      <li><img height="100" width="150" src="<c:url value="/resources/web/header_clown.png" />"></li>
+      <li><a href="/joker.com/index">Main</a></li>
+      <li><a href="/joker.com/jokeForm">Add joke</a></li>
+      <li><a href="/joker.com/archive">Archive</a></li>
+      <li><a href="/joker.com/faq">FAQ</a></li>
+    </ul>
+  </div>
+</div>

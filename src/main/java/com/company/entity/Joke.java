@@ -37,6 +37,7 @@ public class Joke extends Entity {
     public Joke(Joke joke) {
         this.text = joke.getText();
         this.user = joke.getUser();
+        this.date = joke.getDate();
     }
 
     public Status getStatus() {

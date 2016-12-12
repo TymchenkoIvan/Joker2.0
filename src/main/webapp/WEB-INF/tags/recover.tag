@@ -3,10 +3,6 @@
 <%@ attribute name="jokeId" required="true"%>
 
 <c:if test="${pageContext.request.isUserInRole('admin')}">
-	<td>
-		<a href="/joker.com/archive/${jokeId}/delete">delete</a>
-	</td>
-	<td>
-		<a href="/joker.com/archive/${jokeId}/recover">recover</a>
-	</td>
+	<a href="/joker.com/archive/${jokeId}/delete">delete</a> |
+	<a href="/joker.com/archive/${jokeId}/recover">recover</a>
 </c:if>

@@ -37,11 +37,7 @@ public class CustomJokeService implements JokeService{
 
     @Value(ConfigParams.JOKE_MIN_VOTES)
     private int minVotes;
-/*
-    public CustomJokeService(int minVotes){
-        this.minVotes = minVotes;
-    }
-*/
+
     @Override
     @JokerTransaction
     public void addLike(Joke joke) {

@@ -10,6 +10,32 @@
 		<path>/WEB-INF/tags/greeting.tag</path>
 		<body-content>empty</body-content>
 	</tag-file>
+
+	<tag-file>
+		<name>formImage</name>
+		<path>/WEB-INF/tags/formImage.tag</path>
+		<body-content>empty</body-content>
+	</tag-file>
+
+	<tag-file>
+		<name>errorMessage</name>
+		<path>/WEB-INF/tags/errorMessage.tag</path>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>errorMessage</name>
+			<required>true</required>
+		</attribute>
+	</tag-file>
+
+	<tag-file>
+		<name>head</name>
+		<path>/WEB-INF/tags/head.tag</path>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>title</name>
+			<required>true</required>
+		</attribute>
+	</tag-file>
 	
 	<tag-file>
 		<name>like</name>

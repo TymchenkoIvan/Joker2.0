@@ -2,19 +2,36 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <html>
-<head>
-    <title>Sign in</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <style>
-        .error {
-            color: red; font-weight: bold;
-        }
-    </style>
-</head>
-
-<body>
-
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/style/form.css" />">
+        <title>Sign in</title>
+    </head>
+    <body>
+        <section class="container">
+            <util:errorMessage errorMessage="${errorMessage}"/>
+            <div class="form">
+                <util:formImage/>
+                <h1>Log in</h1>
+                <form:form commandName="logInForm" action="login">
+                    <p>
+                        <form:errors path="login" cssClass="errorSpringMVC"/>
+                        <form:input name="login" path="login" type="text" class="form-control" placeholder="Login *"/>
+                    </p>
+                    <p class="form-group">
+                        <form:errors path="password" cssClass="errorSpringMVC"/>
+                        <form:input path="password" name="password" placeholder="Password *" type="password" class="form-control"/>
+                    </p>
+                    <p>
+                        <input type="submit" value="Login">
+                    </p>
+                    <p><input type="button" onclick="location.href='/joker.com/signup';" value="Create user" /></p>
+                </form:form>
+            </div>
+        </section>
+    </body>
+</html>
+<!--
 <div class="container">
     <table border="0" align="center">
         <td align="center">
@@ -28,11 +45,11 @@
                         <p align="center" style="color:rgba(134, 3, 1, 0.73); font-size:15px">${errorMessage}</p>
                     </div>
                     <div class="form-group">
-                        <form:errors path="login" cssClass="error"/>
+                        <form:errors path="login" cssClass="errorSpringMVC"/>
                         <form:input name="login" path="login" type="text" class="form-control" placeholder="Login *"/>
                     </div>
                     <div class="form-group">
-                        <form:errors path="password" cssClass="error"/>
+                        <form:errors path="password" cssClass="errorSpringMVC"/>
                         <form:input name="password" path="password" type="password" class="form-control" placeholder="Password *"/>
                     </div>
 
@@ -44,5 +61,4 @@
         </td>
     </table>
 </div>
-</body>
-</html>
+</body> -->
