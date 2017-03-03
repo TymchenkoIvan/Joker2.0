@@ -9,17 +9,16 @@
                 <util:errorMessage errorMessage="${errorMessage}"/>
                 <h2>Jokes</h2>
                 <table>
-                    <tbody>
                     <c:forEach items="${jokes}" var="joke">
                         <tr>
                             <td>
                                 <div class="joke">
-                                    <p class="text">${joke.text}</p>
                                     <p class="vote">likes: ${joke.likes} | dislikes: ${joke.dislikes}</p>
                                     <util:like jokeId="${joke.id}"/>
+                                    <p class="text">${joke.text}</p>
                                     <jsp:useBean id="beanNow" class="java.util.Date" />
                                     <fmt:formatDate value="${joke.date}" var="joke_date" pattern="dd.MM.YYYY" />
-                                    <p class="date">${joke_date}</p>
+                                    <p class="date">${joke_date}, added by ${joke.userLogin}</p>
                                 </div>
                             </td>
                         </tr>

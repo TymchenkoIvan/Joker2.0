@@ -18,6 +18,8 @@ public class JokeDTO implements DTOBean{
 
     private String status;
 
+    private String userLogin;
+
     public int getId() {
         return id;
     }
@@ -64,5 +66,13 @@ public class JokeDTO implements DTOBean{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 }
