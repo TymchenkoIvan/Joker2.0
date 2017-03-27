@@ -89,11 +89,6 @@ p.date{
     font-size: 15px;
 }
 
-.errorSpringMVC{
-    color: red;
-    font-weight: bold;
-}
-
 .lPanel{
     background: url(http://images.all-free-download.com/images/graphiclarge/simple_and_elegant_pattern_wallpaper_highdefinition_picture_2_169822.jpg);
     min-width: 160px;
@@ -167,4 +162,9 @@ input[type=button], input[type=submit], input[type=reset] {
     text-decoration: none;
     margin-top: 12px;
     cursor: pointer;
+}
+
+.validationError{
+    color: red;
+    font-weight: bold;
 }

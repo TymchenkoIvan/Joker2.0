@@ -26,6 +26,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/web/**").addResourceLocations("/resources/web/");
         registry.addResourceHandler("/resources/style/**").addResourceLocations("/resources/style/");
+        registry.addResourceHandler("/resources/js/**").addResourceLocations("/resources/js/");
     }
 
     @Bean

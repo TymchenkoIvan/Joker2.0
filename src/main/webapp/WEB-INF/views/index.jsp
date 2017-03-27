@@ -24,6 +24,20 @@
                         </tr>
                     </c:forEach>
                 </table>
+                <div align="center">
+                    <ul class="pagination">
+                        <c:forEach begin="1" end="7" var="i">
+                            <c:choose>
+                                <c:when test="4">
+                                    <li class="active"><a href="../paging?page=${i}">${i}</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li><a href="../paging?page=${i}&sort=${sort}">${i}</a></li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </ul>
+                </div>
             </div>
         </div>
     </body>

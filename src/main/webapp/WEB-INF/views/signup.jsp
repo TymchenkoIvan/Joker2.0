@@ -3,8 +3,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/style/form.css" />">
         <title>Create new user</title>
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/style/form.css" />">
+        <script src="<c:url value="/resources/js/jquery.min.js" />"></script>
+        <script src="<c:url value="/resources/js/jquery.signup.validator.js" />"></script>
     </head>
     <body>
         <section class="container">
@@ -14,29 +16,29 @@
                 <h1>Sign Up</h1>
                 <form:form action="signup" commandName="signUpForm">
                     <p>
-                        <form:errors path="login" cssClass="errorSpringMVC"/>
+                        <form:errors path="login" cssClass="validationError"/>
                         <form:input name="login" path="login" type="text" class="form-control" placeholder="Login *"/>
                     </p>
                     <p>
-                        <form:errors path="mail" cssClass="errorSpringMVC"/>
+                        <form:errors path="mail" cssClass="validationError"/>
                         <form:input path="mail" type="text" class="form-control" placeholder="E-mail *"/>
                     </p>
                     <p>
-                        <form:errors path="telephone" cssClass="errorSpringMVC"/>
+                        <form:errors path="telephone" cssClass="validationError"/>
                         <form:input path="telephone" type="text" class="form-control" placeholder="Telephone"/>
                     </p>
                     <p>
-                        <form:errors path="password" cssClass="errorSpringMVC"/>
+                        <form:errors path="password" cssClass="validationError"/>
                         <form:input path="password" type="text" class="form-control" placeholder="Password *"/>
                     </p>
                     <p>
-                        <form:errors path="confirm" cssClass="errorSpringMVC"/>
+                        <form:errors path="confirm" cssClass="validationError"/>
                         <form:input path="confirm" type="text" class="form-control" placeholder="Confirm password *"/>
                     </p>
                     <p>
-                        <input type="submit" value="Create user">
+                        <input type="submit" class="submit" value="Create user">
                     </p>
-                    <p><input type="button" onclick="location.href='/joker.com/login';" value="Create" /></p>
+                    <p><input type="button" onclick="location.href='/joker.com/login';" value="Login" /></p>
                 </form:form>
             </div>
         </section>

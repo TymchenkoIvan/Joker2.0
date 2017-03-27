@@ -48,3 +48,8 @@ input[type=submit]:hover  {
 input[type=button]:hover  {
     border: 2px solid #bb1919;
 }
+
+.validationError{
+    color: red;
+    font-weight: bold;
+}
