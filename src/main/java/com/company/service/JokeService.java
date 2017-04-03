@@ -18,6 +18,8 @@ public interface JokeService {
 
     void recoverJokeFromArchive(int jokeId);
 
+    JokeDTO getJokeById(int jokeId);
+
     List<JokeDTO> getNewJokes();
 
     List<JokeDTO> getArchivedJokes();

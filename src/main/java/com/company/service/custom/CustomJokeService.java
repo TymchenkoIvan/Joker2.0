@@ -7,6 +7,7 @@ import com.company.entity.Joke;
 import com.company.entity.bean.dtobean.DTOBeans;
 import com.company.entity.bean.dtobean.impl.JokeDTO;
 import com.company.entity.bean.formbean.impl.JokeForm;
+import com.company.enums.Statuses;
 import com.company.populator.factory.DTOBeanFactory;
 import com.company.populator.factory.EntityFactory;
 import com.company.service.JokeService;
@@ -49,7 +50,7 @@ public class CustomJokeService implements JokeService{
     @JokerTransaction
     public void deleteJoke(int jokeId) {
         Joke joke = jokeDAO.getJoke(jokeId);
-        joke.setStatus(statusDAO.getStatus("deleted"));
+        joke.setStatus(statusDAO.getStatus(Statuses.DELETED.getStatus()));
         jokeDAO.persist(joke);
     }
 
@@ -59,7 +60,7 @@ public class CustomJokeService implements JokeService{
         joke.setDislikes(joke.getDislikes() + 1);
 
         if(isMustBeArchived(joke))
-            joke.setStatus(statusDAO.getStatus("archive"));
+            joke.setStatus(statusDAO.getStatus(Statuses.ARCHIVE.getStatus()));
 
         jokeDAO.persist(joke);
     }
@@ -68,7 +69,7 @@ public class CustomJokeService implements JokeService{
     @JokerTransaction
     public void addJoke(JokeForm formBean, String userLogin) {
         Joke joke = (Joke) entityFactory.create(Joke.class, formBean);
-        joke.setStatus(statusDAO.getStatus("new"));
+        joke.setStatus(statusDAO.getStatus(Statuses.NEW.getStatus()));
         joke.setUser(userDAO.getUserByLogin(userLogin));
         jokeDAO.persist(joke);
     }
@@ -79,11 +80,16 @@ public class CustomJokeService implements JokeService{
         Joke oldJoke = jokeDAO.getJoke(jokeId);
         Joke newJoke = new Joke(oldJoke);
 
-        oldJoke.setStatus(statusDAO.getStatus("deleted"));
-        newJoke.setStatus(statusDAO.getStatus("new"));
+        oldJoke.setStatus(statusDAO.getStatus(Statuses.DELETED.getStatus()));
+        newJoke.setStatus(statusDAO.getStatus(Statuses.NEW.getStatus()));
 
         jokeDAO.persist(oldJoke);
         jokeDAO.persist(newJoke);
+    }
+
+    @Override
+    public JokeDTO getJokeById(int jokeId) {
+        return (JokeDTO) dtoFactory.create(DTOBeans.JokeDTO, jokeDAO.getJoke(jokeId));
     }
 
     @Override
@@ -93,7 +99,7 @@ public class CustomJokeService implements JokeService{
 
     @Override
     public List<JokeDTO> getArchivedJokes() {
-        return retrieveDtoFromJokes(jokeDAO.getByStatus(statusDAO.getStatus("archive")));
+        return retrieveDtoFromJokes(jokeDAO.getByStatus(statusDAO.getStatus(Statuses.ARCHIVE.getStatus())));
     }
 
     private List<JokeDTO> retrieveDtoFromJokes(List<Joke> jokes) {
