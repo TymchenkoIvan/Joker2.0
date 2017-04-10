@@ -11,15 +11,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserDTOPopulatorTest {
 
-    public static final String USER_LOGIN = "userLogin";
-    public static final String USER_MAIL = "userMail";
-    private User testUser;
-    private Role userRole;
+    private static final String USER_LOGIN = "userLogin";
+    private static final String USER_MAIL = "userMail";
+    private static final int ID = 1;
 
-    public static final int ID = 1;
+    private User testUser;
+
 
     {
-        userRole = new Role();
+        Role userRole = new Role();
         userRole.setRole(Roles.USER.getRole());
 
         testUser = new User(USER_LOGIN, USER_MAIL, "userPassword");
