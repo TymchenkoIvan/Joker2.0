@@ -11,19 +11,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserDTOPopulatorTest {
 
-    private static final String USER_LOGIN = "userLogin";
-    private static final String USER_MAIL = "userMail";
-    private static final int ID = 1;
-
     private User testUser;
-
 
     {
         Role userRole = new Role();
         userRole.setRole(Roles.USER.getRole());
 
-        testUser = new User(USER_LOGIN, USER_MAIL, "userPassword");
-        testUser.setId(ID);
+        testUser = new User("userLogin", "userMail", "userPassword");
+        testUser.setId(1);
         testUser.setRole(userRole);
     }
 
@@ -34,9 +29,9 @@ public class UserDTOPopulatorTest {
         assertThat(populator.populate(testUser))
                 .isNotNull()
                 .isInstanceOf(UserDTO.class)
-                .hasFieldOrPropertyWithValue("login", USER_LOGIN)
-                .hasFieldOrPropertyWithValue("mail", USER_MAIL)
-                .hasFieldOrPropertyWithValue("role", Roles.USER.getRole())
-                .hasFieldOrPropertyWithValue("id", ID);
+                .hasFieldOrPropertyWithValue("login", testUser.getLogin())
+                .hasFieldOrPropertyWithValue("mail", testUser.getMail())
+                .hasFieldOrPropertyWithValue("role", testUser.getRole().getRole())
+                .hasFieldOrPropertyWithValue("id", testUser.getId());
     }
 }
