@@ -94,7 +94,7 @@ public class CustomJokeService implements JokeService{
 
     @Override
     public List<JokeDTO> getNewJokes() {
-        return retrieveDtoFromJokes(jokeDAO.getByStatus(statusDAO.getStatus("new")));
+        return retrieveDtoFromJokes(jokeDAO.getByStatus(statusDAO.getStatus(Statuses.NEW.getStatus())));
     }
 
     @Override
