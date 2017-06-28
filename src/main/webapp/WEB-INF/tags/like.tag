@@ -3,10 +3,6 @@
 <%@ attribute name="jokeId" required="true"%>
 
 <c:if test="${not empty pageContext.request.userPrincipal}">
-	<a href="/joker.com/${jokeId}/like">
-		<img height="20" width="20" src="<c:url value="/resources/web/like.png" />">
-	</a>
-	<a href="/joker.com/${jokeId}/dislike">
-		<img height="20" width="20" src="<c:url value="/resources/web/dislike.png" />">
-	</a>
+	<img onclick="sendVote('${jokeId}', 'like')" height="20" width="20" src="<c:url value="/resources/web/like.png" />">
+	<img onclick="sendVote('${jokeId}', 'dislike')"height="20" width="20" src="<c:url value="/resources/web/dislike.png" />">
 </c:if>
