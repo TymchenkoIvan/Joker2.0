@@ -12,8 +12,8 @@
                     <c:forEach items="${jokes}" var="joke">
                         <tr>
                             <td>
-                                <div class="joke">
-                                    <p class="vote">likes: ${joke.likes} | dislikes: ${joke.dislikes}</p>
+                                <div class="joke" id="joke_${joke.id}">
+                                    <p class="vote" id="joke_vote_${joke.id}">likes: ${joke.likes} | dislikes: ${joke.dislikes}</p>
                                     <util:like jokeId="${joke.id}"/>
                                     <p class="text">${joke.text}</p>
                                     <jsp:useBean id="beanNow" class="java.util.Date" />

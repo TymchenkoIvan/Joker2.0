@@ -7,5 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/style/main.css" />">
 	<script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
 	<script>tinymce.init({ selector:'textarea' });</script>
+	<script src="<c:url value="/resources/js/jquery.min.js" />"></script>
+	<script src="<c:url value="/resources/js/jquery.joke.vote.js" />"></script>
 	<title>${title}</title>
 </head>
